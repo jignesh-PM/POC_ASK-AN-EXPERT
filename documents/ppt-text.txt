@@ -1,0 +1,32 @@
+﻿--- Slide 1 ---
+ConfidentialÂ Information -Â Morgan Advanced Materials | 06 March 2023 | 1 | Ask the Expert | Dummy Prototype
+--- Slide 10 ---
+Insulating Fire Bricks  - Classification according to ASTM C 155
+--- Slide 11 ---
+
+--- Slide 12 ---
+Insulating Grades: | Firelite | Kaolite | Medium & Low Cement Castables | : | Vibrotek | Morflo /  | Hicast | Alcast |  /  | Albond | Higun | Dense Grades: | Firecrete | Guncrete | Kaocrete | Mortars & Cements: | Blakite & JM | Hot Bond | â€œAsk the Expertâ€ portal model â€“  | Product Information -  | Castables | Different features for different applications: | Insulation | Strength | Chemical resistance | Chemical purity | Fast heating up |  & Fast dry out | Thermal shock resistance | Erosion resistance
+--- Slide 13 ---
+Light Weight | Chemically Stable | Thermally stable over time, no aging effects | H&S |  compliant (TiO | 2 |  free) | The lowest available thermal conductivity in the widest temperature spectrum | Panels | Flexible Stitched panels | Curved segments (Shells) | Boards & Blocks | â€œAsk the Expertâ€ portal model â€“  | Product Information -  | Microporous | Discover our full range of  | WDS |  Microporous products
+--- Slide 14 ---
+â€œAsk the Expertâ€ portal model â€“  | Product Information |  - PFP | Â© Morgan Advanced Materials | 19 November 2026 | 14 | Discover our full range of solutions for PFP
+--- Slide 15 ---
+â€œAsk the Expertâ€ portal model â€“  | Product Installation | ConfidentialÂ Information -Â Morgan Advanced Materials | 06 March 2023 | 15 | Fibre materials | Insulating  | FireBricks |  ( | IFBs | ) | Monolithics / Castables | Microporous  | WDB | Blankets â€“ Wallpaper lining manual | Modules â€“ Pyro-Bloc fibre modules manual | Modules â€“ Folded fibre modules manual | Modules â€“ Stacked fibre modules manual | IFB |  installation manual | Mortar installation manual | Castable installation manual | Dry out instructions | WDS |  board installation manual | Storage instructions
+--- Slide 16 ---
+What we want | 1 | Complete project plan | Scope, building blocks, milestones, dependencies, owners and estimated costs | 2 | Build-vs-buy decision | Define what Morgan builds internally, what is contracted out and what can be reused. | 3 | Customer access model | Make useful content easy to explore, then introduce fast registration for deeper advice and tools. | 4 | Data and technical design | Specify hosting, firewall access, customer-data capture, storage, security and governance. | 5 | External validation | Run a small alpha test, correct issues, then progress to wider beta testing. | 16 | Open and restricted contents are indicated in slide 4 | Provide Morgan-generated IDs to selected clients for Alpha access, eliminating client registration while maintaining user-level tracking | INTERNAL | Domain, Content, client IDs for Alpha version | EXTERNAL | Registration/authentication, Landing page, Chat Threads screen, GDPR compliant portal, User & Usage Tracking/analytics
+--- Slide 2 ---
+ConfidentialÂ Information -Â Morgan Advanced Materials | 2 | For any questions or feedback please contact:  | Askthe | Expert@morganplc.com |  | During testing phase post launch â€“ possible to have free access to selected  | users with |  | Email  | id +  | full name | How do we track analytics during free access period? | And post testing phase we need login/sign up option
+--- Slide 3 ---
+ConfidentialÂ Information -Â Morgan Advanced Materials | 3
+--- Slide 4 ---
+â€œAsk the Expertâ€ portal â€“ |  Dummy Model |  - Landing Page | ConfidentialÂ Information -Â Morgan Advanced Materials | 06 March 2023 | 4 | Product Information | Product Installation | Engineering and Design | Lining Assessment & IR Inspection | Supervision Service | Passive Fire Protection | (PFP) | MAIN AREAS | CO | 2 |  Emission Reduction Estimation | Heat Flow Calculation | TOOLS | PFP Certificate Finder | PFP Solution Finder | Open access | Authentication required more info â€“  | fullname | , email, company, country, and downloadable | Main areas blocks should have a landing page within the portal, and then the page takes them to the relevant web links | Ask a question to our expert â€“ chat thread | Heat flow link â€“ we will share. PFP is from web | Yellow blocks: Needs manual feed of data on portal and needs to have restricted, how do we manage that | Product installation:  | Sharepoint |  morgan as host and link to portal
+--- Slide 5 ---
+ConfidentialÂ Information -Â Morgan Advanced Materials | 5
+--- Slide 6 ---
+ConfidentialÂ Information -Â Morgan Advanced Materials | 06 March 2023 | 6 | APPENDIX
+--- Slide 7 ---
+â€œAsk the Expertâ€ portal model â€“  | Product Information | ConfidentialÂ Information -Â Morgan Advanced Materials | 06 March 2023 | 7 | Fibre materials | Insulating  | FireBricks |  ( | IFBs | ) | Monolithics / Castables | Microporous  | WDB | Aerogel | Fired Shapes | Papers | Blankets | Modules | Boards and Shapes | EES System |  for electrification | Bulk Fibres | Coatings and Mastics | Felts | JM Insulating Firebricks | (Manufactured in Italy) | K and Insalcor Insulating Firebricks | (Manufactured in USA) | TJM Insulating Firebricks | (Manufactured in China) | TJM Bubble Alumina Insulating Firebricks | (Manufactured in China)
+--- Slide 8 ---
+.. available in many chemistries | High Temperature Insulating fibre | Cerafibre | Â® | Kaowool | Â® | Cerachem | Â® | Denka | Â® | Bulk | Maftec | Â® | Blanket | Paper | Modules | Superwool | Â® |  Plus | Superwool | Â® |  Prime | Boards & Felts | Coating & Mastics | Vacuum Formed | Textile | Alphawool | â„¢ | Superwool | Â® |  XTRA | Same chemistry, different forms with different featuresâ€¦
+--- Slide 9 ---
+Wet Process  | Dry Process  | Paper | Boards & Felts | Vacuum Formed | Blanket | Modules | Bulk | High Temperature Insulating Fibre - From Bulk  | T | o Finished  | P | roducts |  | Coating & Mastics

@@ -1,0 +1,819 @@
+﻿Ask the Expert Portal â€“ Requirements Document
+URL: https://www.morganthermalceramics.com/en-gb/
+Client: Morgan Advanced Materials (Thermal Ceramics â€“ CPI end users)  |  Delivery partner: Addact Technologies
+Version 0.4 (Draft)  |  Date: 21 November 2026  |  Status: For review
+1. Purpose and Background
+Morgan Advanced Materials wants a gated customer support portal where website visitors and existing customers (CPI end users) can, once verified, get help with documentation for all Thermal Ceramics product lines (datasheets, safety datasheets, installation manuals, certificates, brochures and technical papers), use technical tools, and ask Morgan's experts questions. This document explains what the portal must do, using plain language and user journeys so business and technical teams share the same picture before coding starts.
+The requirements come from the â€œAsk the Expert â€“ Dummy Prototype v1â€ deck (March 2023), which sets out the landing page, the main content areas, the tools, the open versus restricted access model, and Morgan's expectations for the project.
+Goals
+Keep all content gated: users verify their email address with a one-time passcode (OTP) before seeing any documentation, which limits bot views and tells Morgan who is using the portal. Sign-up stays quick; profile details are asked for afterwards.
+Give customers fast answers: an AI assistant answers first, and a real product-line expert is one click away.
+Track who uses the portal and how, including during the free alpha period.
+Let Morgan manage content, restricted tools and users without developer help.
+Be GDPR-compliant and secure from day one.
+2. Scope and Release Phases
+In scope
+Gated portal: only the landing page, sign-in and legal pages are public; the 6 Main Areas, 4 Tools (as per deck slide 4) and all documentation open after email + OTP verification.
+Main Area landing pages within the portal that link to the relevant Morgan web pages, SharePoint files or downloads.
+Ask the Expert: AI first answer, saved question threads, and escalation to live chat with a designated product-line expert.
+User access: email + OTP verification for customers, a profile-completion step (region, company, products of interest / in use), Morgan-issued IDs for alpha users, and bot protection.
+Admin panel for users, content, restricted tools, experts and analytics.
+User and usage analytics, GDPR consent and data handling.
+Out of scope (for now)
+Rebuilding the existing calculators (Heat Flow, PFP Solution Finder) â€“ the portal links to them unless agreed otherwise.
+E-commerce, quoting or ordering.
+Native mobile apps (the portal will be mobile-responsive).
+Release phases
+The scope of the first release is still to be confirmed (see Open Questions). The proposed phasing is:
+Phase 0 â€“ Clickable prototype: screens and journeys with dummy data for Morgan sign-off.
+Phase 1 â€“ Alpha: Morgan-issued IDs for selected clients, no self sign-up, full user-level tracking, small external test group.
+Phase 2 â€“ Beta: open self-registration with email + OTP, profile completion, GDPR consent, wider test group.
+Phase 3 â€“ Go-live: production domain, refined AI content, performance and security hardening.
+3. Users and Roles
+Apart from the Super Admin, the portal has two types of signed-in users: Morgan Users (product-line experts who sign in with their Morgan Microsoft account) and Customers (website visitors and existing Morgan customers who verify their email address with an OTP). Unverified visitors see only the public landing page.
+Role
+Who they are
+What they can do
+Visitor
+Anyone on the internet, not logged in (no account)
+See the public landing page (what the portal offers, with every block locked), sign in / sign up, and read legal pages. No documents, links or tools.
+Customer (verified visitor / existing customer)
+Website visitor or existing Morgan customer who has verified their email address with an OTP (self-signed-up, or invited with a Morgan-issued ID during Alpha)
+Access documentation for all product lines, Main Areas, tools and downloads; use the AI assistant, question threads and live chat; complete and edit their profile (region, company, products of interest / in use).
+Morgan User (Product-line Expert)
+Morgan employee who signs in with their Morgan Microsoft account; assigned to one or more product lines (e.g. Fibre, IFB, Castables, Microporous, PFP)
+See only the chats for their product line(s); get notified when a chat is started or updated; reply in threads and take live chats; view each customer's chat history, activity log and journey (searches, products viewed); mark questions resolved.
+Super Admin
+Morgan portal owner / Addact support (Microsoft account sign-in)
+Everything: manage customers and alpha IDs, Morgan Users and their product lines, content and access levels, restricted tool data, AI knowledge content, regions/languages, settings and analytics.
+4. Content Access Model
+All content is gated to limit bot views. Unverified visitors see only the public landing page, where every block shows a padlock. Everything below needs the user to verify their email address with an OTP. The deck's open/restricted split (slide 4) is replaced by two levels: Verified (email + OTP) and Verified + profile complete.
+Block
+Type
+Access
+Where content lives
+Product Information
+Main Area
+Verified
+Portal landing page â†’ product pages on the Thermal Ceramics official site (morganthermalceramics.com), opened in the user's selected region and language (Fibre, IFB, Castables, Microporous, Aerogel, Fired Shapes, EES, PFP)
+Product Installation
+Main Area
+Verified
+Morgan SharePoint hosts manuals; portal shows the list and links after login
+Engineering and Design
+Main Area
+Verified
+Portal landing page â†’ relevant web links
+Lining Assessment & IR Inspection
+Main Area
+Verified
+Portal landing page â†’ relevant web links
+Supervision Service
+Main Area
+Verified
+Portal landing page â†’ relevant web links
+Passive Fire Protection (PFP)
+Main Area
+Verified
+Portal landing page â†’ PFP pages on the Thermal Ceramics official site
+CO2 Emission Reduction Estimation
+Tool
+Verified + profile complete
+Managed in portal (data fed manually by Morgan admins)
+Heat Flow Calculation
+Tool
+Verified (link)
+External link to be provided by Morgan
+PFP Certificate Finder
+Tool
+Verified + profile complete
+Managed in portal (certificate data and files uploaded by admins)
+PFP Solution Finder
+Tool
+Verified (link)
+Existing Morgan web tool
+Note: an admin can change the access level of any block or file, but nothing can be made public without verification except the landing page, sign-in and legal pages.
+Product lines (from the Thermal Ceramics official site)
+Product lines and families follow the Products & Systems menu on morganthermalceramics.com, so the portal, the official site and the expert routing use the same names. For each family the portal offers support documentation; product details themselves redirect to the official site.
+Product line
+Product families
+Support documentation in the portal
+Fibres
+Papers, Battery Safety Papers, Blankets, Modules, EES System, Boards and Shapes, Bulk Fibres, Coatings and Mastics, Felts, Heat Shields
+Product and safety datasheets, installation manuals (blankets, Pyro-Bloc / folded / stacked modules), storage instructions, brochures
+Superwool low bio-persistent fibres
+Superwool Plus and Prime, Superwool XTRA
+Datasheets, safety datasheets, Superwool resources, technical papers
+Refractories
+Insulating Firebricks, Firebricks and Mortars; Monolithics (castables); Refractory Fired Shapes
+Datasheets, IFB and mortar installation manuals, castable installation and dry-out instructions
+Microporous
+Microporous (WDS), Vacuum Insulation Panels (VIP)
+Datasheets, WDS board installation manual, brochures
+FireMaster Passive Fire Protection
+Fire Protection Solutions, FireMaster Fire Rated Duct Wraps
+FireMaster certificates (PFP Certificate Finder), FireMaster resources, datasheets
+Fire Assay Equipment
+Crucible Fusion, Cupellation, Calcine/Ashing/Roasting furnaces, Sample Drying Oven and Laboratory Kiln
+Datasheets, operating manuals, brochures
+Engineering capabilities on the official site (Engineering Design and Collaboration; Thermal Management Simulation and Assessment; Installation Supervision and Services) map to the portal Main Areas Engineering and Design, Lining Assessment & IR Inspection, and Supervision Service. Aerogel (in the deck) is not listed on the official site and needs Morgan confirmation.
+Product categories and expert routing
+The portal groups everything into the categories below. They combine the product groups in the deck (slide 7) with the Products & Systems and Engineering Capabilities menus on the official site. Every category has a responding team (a product manager plus experts) who answer the customer questions and live chats raised for that category. Names are placeholders until Morgan nominates the team.
+Portal category
+Covers (deck + official site)
+Responding team (primary)
+Backup / escalation
+Fibres
+Papers, Battery Safety Papers, Blankets, Modules, Boards and Shapes, Bulk Fibres, Coatings and Mastics, Felts, Vacuum Formed, Textiles, Heat Shields; brands Cerafibre, Kaowool, Cerachem, Denka, Maftec
+Product Manager â€“ Fibres + Fibre technical team (TBC)
+Regional fibre expert (TBC)
+Superwool low bio-persistent fibres
+Superwool Plus, Superwool Prime, Superwool XTRA, Alphawool
+Product Manager â€“ Superwool + technical team (TBC)
+Product Manager â€“ Fibres
+Insulating Firebricks (IFBs)
+JM, K, Insalcor, TJM and TJM Bubble Alumina IFBs; Firebricks and Mortars
+Product Manager â€“ Refractories (IFB) + team (TBC)
+Refractories technical lead (TBC)
+Monolithics / Castables
+Insulating (Firelite, Kaolite), medium/low cement (Vibrotek, Morflo/Hicast, Alcast/Albond, Higun), dense (Firecrete, Guncrete, Kaocrete), mortars and cements (Blakite, JM, Hot Bond)
+Product Manager â€“ Monolithics + team (TBC)
+Refractories technical lead (TBC)
+Refractory Fired Shapes
+Fired shapes (deck) / Refractory Fired Shapes (site)
+Product Manager â€“ Fired Shapes (TBC)
+Refractories technical lead (TBC)
+Microporous
+WDS microporous panels, flexible stitched panels, curved shells, boards and blocks; Vacuum Insulation Panels (VIP)
+Product Manager â€“ Microporous + team (TBC)
+Regional microporous expert (TBC)
+Aerogel
+Aerogel products (deck only â€“ not on the official site; Morgan to confirm)
+Product Manager â€“ Aerogel (TBC)
+Product Manager â€“ Microporous
+EES System for electrification
+EES System (deck and site)
+Product Manager â€“ EES (TBC)
+Product Manager â€“ Fibres
+FireMaster Passive Fire Protection (PFP)
+Fire Protection Solutions, FireMaster Fire Rated Duct Wraps, FireMaster certificates
+Product Manager â€“ PFP + PFP team (TBC)
+PFP certification lead (TBC)
+Fire Assay Equipment
+Crucible Fusion, Cupellation, Calcine/Ashing/Roasting furnaces, Sample Drying Oven and Laboratory Kiln (site only)
+Product Manager â€“ Fire Assay Equipment (TBC)
+Regional sales engineer (TBC)
+Engineering and Design
+Engineering Design and Collaboration; Heat Flow Calculation; CO2 Emission Reduction Estimation
+Engineering team lead (TBC)
+Regional engineering manager (TBC)
+Lining Assessment and IR Inspection
+Thermal Management Simulation and Assessment
+Assessment / inspection team (TBC)
+Engineering team lead
+Installation and Supervision
+Product Installation manuals; Installation Supervision and Services
+Installation / supervision team (TBC)
+Engineering team lead
+General / Not sure
+Questions that do not fit a category or where the customer is unsure
+Ask the Expert coordinator (AsktheExpert@morganplc.com)
+Super Admin
+How routing works
+The customer picks a category from the home screen or the chat; if they donâ€™t, the AI suggests one from the question and the customer confirms it.
+The AI answers first. When the customer clicks â€œTalk to an expertâ€, the chat goes to every Morgan User mapped to that category and they are notified; the first to accept owns the chat.
+If no one accepts within the set time (e.g. 15 minutes during working hours), it goes to the backup, then to the General / Not sure coordinator.
+If regional routing is switched on, chats go to the category team for the customerâ€™s region first (EMEA, Americas, Asia and Australia).
+The Super Admin maps Morgan Users to categories in the admin panel. One person can cover several categories, and a category can have several people with one marked as product manager.
+Morgan Users can transfer a chat to another category or person; the customer sees who is handling it.
+5. User Journeys
+Each journey describes what the user does, step by step, and what the portal does in response.
+Journey 1 â€“ Visitor arrives at the gated portal
+Visitor arrives at the portal homepage (e.g. from a Morgan email or website).
+Chooses their region and language from the header (pre-selected from the browser and location; can be changed at any time). The whole portal, and all links to the Thermal Ceramics site, follow this choice.
+Sees a public landing page that explains what the portal offers (product lines, 6 Main Areas, 4 Tools, Ask the Expert), with a padlock on every block. No documents, links or tools are visible, and gated pages are hidden from search engines.
+Clicks any block (e.g. â€œProduct Informationâ€) and is asked to verify their email address with a one-time passcode to continue (see Journey 3).
+Once verified, opens a product line (e.g. Fibres, Refractories, Microporous), sees its support documents, and can click a product family to go to the product page on the Thermal Ceramics official site (morganthermalceramics.com) for their selected region and language. The click is recorded as a â€œproduct viewedâ€ event.
+Once verified, uses site search (e.g. â€œSuperwool blanket 1260Â°Câ€); search terms and results clicked are recorded against the customer's journey.
+Journey 2 â€“ Alpha user logs in with a Morgan-issued ID
+Morgan admin creates the user in the admin panel (full name, email, company, country, product interest).
+The portal emails the user an invitation; the user enters their email on the portal and receives a one-time passcode (no password to remember).
+User enters the code, accepts the privacy notice and terms, and is signed in. Profile details already entered by the admin are pre-filled.
+From now on all page views, downloads, tool use and questions are recorded against this user.
+Journey 3 â€“ Visitor or existing customer verifies with email + OTP
+User clicks â€œSign in / Sign upâ€ or any locked block. New and returning users use the same screen.
+Enters their email address (and, for new users, full name and GDPR consent tick boxes). An invisible bot check runs in the background.
+Receives a 6-digit one-time passcode by email (valid for 10 minutes) and enters it. Too many wrong codes or requests temporarily block the email/IP.
+Is signed in and returned to the content they wanted, now unlocked. The session stays active for 30 days on that device (configurable), after which a new OTP is needed.
+Journey 4 â€“ Customer completes their profile
+After the first sign-in, the customer sees a short â€œComplete your profileâ€ form (about 1 minute). They can skip it and are reminded later.
+Answers the profile questions: region and country, company name, job role, industry, product lines / products they are interested in, and products they already use (multi-select from the official product lines).
+Portal personalises the home page: their product lines' documents first, region and language pre-set, relevant tools highlighted.
+Profile completion is needed before using restricted tools and talking to a human expert, so the expert has context (configurable by admin).
+Answers are saved on the customer profile, shown to Morgan Users in the Customer panel, and used in analytics (e.g. interest by region and product line).
+Journey 5 â€“ Customer asks the expert (AI first, then human)
+From the home screen (or the floating chat button), the customer types into the Ask AI box and picks a product category (or lets the AI suggest one).
+Types the question and can attach a photo or drawing.
+The AI assistant replies within seconds, using only Morgan-approved content, and shows the sources it used (e.g. a datasheet or manual).
+The question and answer are saved as a thread in â€œMy Questionsâ€, so the user can come back to it later.
+If the answer is not enough, the user clicks â€œTalk to an expertâ€.
+If the designated product-line expert is online, a live chat opens in the same thread. If no one is online, the request is queued, the expert is notified by email, and the user is told when to expect a reply.
+The expert replies; the user is notified by email and in the portal. The thread is marked â€œResolvedâ€ when done, and the user can rate the answer.
+Journey 6 â€“ Morgan User (expert) handles customer chats
+Morgan User signs in with their Morgan Microsoft account (single sign-on, no separate password) and sees only the chats for their product line(s).
+Gets an instant notification (in-portal bell, browser notification and email) whenever a customer starts a new chat or updates an existing chat in their product line.
+Opens the chat and sees the full thread (including the AI answer and attachments) next to a Customer panel: profile (name, company, country, region, language), all previous chats with this customer, and the activity log and journey (what they searched, which products they viewed, downloads and tools used, in date order).
+Takes the live chat or replies in the thread; can reassign to another expert or product line.
+Marks the thread resolved. Optionally flags the answer so admins can add it to the AI knowledge base.
+Journey 7 â€“ Customer uses a tool
+Logged-in user opens â€œPFP Certificate Finderâ€ or â€œCO2 Emission Reduction Estimationâ€.
+Enters search filters or input values.
+Gets results and can download files (e.g. certificates) where allowed.
+The portal logs the tool use and downloads for analytics.
+Journey 8 â€“ Admin manages the portal
+Admin logs in to the admin panel.
+Adds or edits Main Area pages, links, files and the access level (open / restricted).
+Updates restricted tool data (e.g. uploads new PFP certificates, updates CO2 factors).
+Creates alpha user IDs, assigns experts to product lines, and uploads documents for the AI knowledge base.
+Views the analytics dashboard and exports reports.
+6. Functional Requirements
+Priority key: Must = needed for the first usable release; Should = important, can follow shortly after; Could = nice to have.
+6.1 Home Screen and Navigation
+After verification, the home screen is the starting point for everything. It has three zones on one screen so the customer can either browse or ask straight away:
+Navigate â€“ product category tiles (see Section 4), the 6 Main Areas and 4 Tools, document search, and the customerâ€™s recently viewed documents.
+Ask AI â€“ a chat box at the top of the page (â€œAsk anything about our products, installation or certificatesâ€¦â€) with an optional category picker; the answer opens in a chat panel with sources.
+Talk to an Expert â€“ a button that opens a chat with the responding team for the chosen category, showing whether an expert is online now or the expected reply time.
+Below the three zones, a â€œMy chatsâ€ strip shows the customerâ€™s open and recent threads with status, so they can continue a conversation in one click.
+ID
+Requirement
+Priority
+LP-01
+Home screen with three zones â€“ Navigate (product category tiles, 6 Main Areas, 4 Tools, document search), Ask AI (chat box) and Talk to an Expert (button) â€“ as described above.
+Must
+LP-02
+For unverified visitors, show a padlock and â€œVerify your email to accessâ€ label on every block; after verification, blocks open.
+Must
+LP-03
+A floating chat button on every page opens the same chat panel (Ask AI, with â€œTalk to an expertâ€ inside), so customers never lose the chat while browsing.
+Must
+LP-04
+Show contact email AsktheExpert@morganplc.com in the footer for questions and feedback.
+Must
+LP-05
+Site search across portal pages, product families and documents.
+Should
+LP-06
+Follows Morgan brand guidelines (logo, colours, typography, imagery, tone of voice); responsive design for desktop, tablet and mobile.
+Must
+LP-07
+Product category tiles follow the categories in Section 4; each tile opens a category page with its documents, related tools and an â€œAsk about this categoryâ€ chat shortcut that pre-selects the category.
+Must
+LP-08
+â€œTalk to an Expertâ€ shows live availability of the categoryâ€™s responding team (online / reply within X hours) before the customer starts.
+Must
+LP-09
+â€œMy chatsâ€ strip on the home screen with open and recent threads and their status.
+Should
+6.2 Main Area Pages
+ID
+Requirement
+Priority
+MA-01
+Each Main Area has its own landing page in the portal with a short intro and a list of sub-items.
+Must
+MA-02
+Product Information lists the product lines and families exactly as on the official site (Fibres, Superwool, Refractories, Microporous, FireMaster Passive Fire Protection, Fire Assay Equipment â€“ see Section 4), each with its support documents â€“ product details are not duplicated in the portal; each item redirects to the matching product page on the Thermal Ceramics official site (morganthermalceramics.com) in the user's selected region and language.
+Must
+MA-03
+Product Installation lists manuals by product family (e.g. Pyro-Bloc modules, IFB, Mortar, Castable, Dry-out, WDS board, Storage); files are hosted on Morgan SharePoint and opened after login.
+Must
+MA-04
+Every link and file can be marked open or restricted by an admin.
+Must
+MA-05
+External links open in a new tab and are tracked as click events.
+Should
+6.3 User Access and Accounts
+ID
+Requirement
+Priority
+UA-01
+Admin can create user IDs for alpha users (full name, email, company, country) and send a welcome email with a secure sign-in link.
+Must
+UA-02
+Customer sign-in with email address + one-time passcode (OTP): 6-digit code by email, valid 10 minutes, single use, maximum 5 attempts; no passwords. Same flow for sign-up and sign-in.
+Must
+UA-03
+Self sign-up for website visitors and existing customers: email + OTP, full name and GDPR consent only (other details collected later in the profile). Can be switched on/off by admin (off during Alpha).
+Should
+UA-04
+No content, documents, links or tools are available until the email address is verified with an OTP.
+Must
+UA-05
+User profile page: edit details, view consents, request data download or account deletion.
+Must
+UA-06
+Role-based access: Visitor (no account), Customer, Morgan User (expert, scoped to product lines), Super Admin.
+Must
+UA-07
+Morgan Users and Super Admins sign in with their Morgan Microsoft account (Microsoft Entra ID single sign-on). Only Morgan accounts approved by the Super Admin and mapped to product line(s) get access.
+Must
+UA-08
+Complete your profile: after the first sign-in, ask region and country, company name, job role, industry, product lines / products of interest, and products already in use (multi-select from the official product lines). Skippable, with reminders.
+Must
+UA-09
+Profile completion required before restricted tools and human-expert chat (configurable by admin).
+Should
+UA-10
+Customers can update their profile and product interests at any time; changes are kept in history.
+Should
+6.4 Ask the Expert â€“ AI Assistant
+ID
+Requirement
+Priority
+AI-01
+Logged-in user can ask a question, choose a product line and attach images/PDFs.
+Must
+AI-02
+AI replies using only Morgan-approved content (datasheets, manuals, FAQs) and shows the source documents used.
+Must
+AI-03
+AI clearly states it is an AI and shows a disclaimer that technical decisions should be confirmed with an expert.
+Must
+AI-04
+If the AI is not confident or the topic is safety-critical, it suggests talking to an expert instead of guessing.
+Must
+AI-05
+User can rate each AI answer (helpful / not helpful).
+Should
+AI-06
+Admin can upload, update and remove documents in the AI knowledge base, per product line.
+Must
+6.5 Question Threads
+ID
+Requirement
+Priority
+TH-01
+Every question creates a thread saved under â€œMy Questionsâ€ with status: Open, Waiting for expert, In live chat, Resolved.
+Must
+TH-02
+User can reopen a thread, add follow-up messages and attachments.
+Must
+TH-03
+Email and in-portal notifications when an expert replies.
+Must
+TH-04
+User can search and filter their own threads.
+Should
+TH-05
+Optional public FAQ: admins can publish anonymised resolved threads.
+Could
+6.6 Live Chat with Human Expert
+ID
+Requirement
+Priority
+LC-01
+â€œTalk to an expertâ€ button inside every thread.
+Must
+LC-02
+Request is routed to the designated expert(s) for the product line; a backup expert can be set.
+Must
+LC-03
+If an expert is online, live chat opens in real time in the same thread (typing indicator, read receipts).
+Must
+LC-04
+If no expert is online, the request is queued, the expert is emailed, and the user sees the expected response time.
+Must
+LC-05
+Expert availability status (online / away / offline) and working hours per expert.
+Should
+LC-06
+Expert can transfer the chat to another expert or product line.
+Should
+LC-07
+Response-time targets (SLA) per product line, configurable by admin.
+Could
+6.7 Expert Workspace
+ID
+Requirement
+Priority
+EX-01
+Expert Inbox showing escalated threads for their product line, with full history including the AI answer.
+Must
+EX-02
+Reply, take live chat, add internal notes (not visible to customer), mark resolved.
+Must
+EX-03
+Flag a good answer to be added to the AI knowledge base.
+Should
+EX-04
+Saved reply templates.
+Could
+EX-05
+Real-time notifications to the Morgan Users of a product line when a chat is started or updated: in-portal bell with unread count, browser notification and email (Microsoft Teams notification optional).
+Must
+EX-06
+Product-line scoping: Morgan Users see only chats for their assigned product line(s); Super Admin sees all.
+Must
+EX-07
+Customer view: for any customer, see their profile answers (region, company, role, industry, products of interest and in use), all their chats (open and past) and the full activity log.
+Must
+EX-08
+Customer journey timeline: what the customer searched, which products and pages they viewed, downloads, tools used and AI questions â€“ shown next to the chat, in date order, filtered by product line.
+Must
+6.8 Tools
+ID
+Requirement
+Priority
+TL-01
+Heat Flow Calculation and PFP Solution Finder: open links to existing tools (URLs to be provided by Morgan).
+Must
+TL-02
+PFP Certificate Finder: search certificates by product, standard, rating and region; download certificate files (login required).
+Must
+TL-03
+CO2 Emission Reduction Estimation: user enters inputs and receives an estimate; data/factors maintained by admins (login required). Calculation logic to be supplied by Morgan.
+Must
+TL-04
+Every tool use and download is logged against the user.
+Must
+6.9 Admin Panel
+ID
+Requirement
+Priority
+AD-01
+Manage Main Area pages, blocks, links, files and access levels (open / restricted).
+Must
+AD-02
+Manage restricted tool data (upload certificates, edit CO2 factors).
+Must
+AD-03
+Manage users: create alpha IDs (single or bulk CSV), deactivate, change roles.
+Must
+AD-04
+Manage product categories and map Morgan Users to them (product manager, team members, backup), plus working hours, response-time targets and optional regional routing (see Section 4).
+Must
+AD-05
+Manage AI knowledge base documents.
+Must
+AD-06
+Audit log of admin actions.
+Should
+6.10 Analytics and Reporting
+ID
+Requirement
+Priority
+AN-01
+Track per user: logins, page views, site searches (search terms), products viewed (including redirects to the Thermal Ceramics site), link clicks, downloads, tool usage, questions asked, escalations â€“ including during the free alpha period.
+Must
+AN-02
+Dashboard: active users, top content, top questions by product line, AI-resolved vs expert-resolved, average expert response time, satisfaction ratings.
+Must
+AN-03
+Filter by date, company, country, region, language and product line; export to CSV/Excel.
+Must
+AN-04
+Anonymous visitor analytics only after cookie consent.
+Must
+AN-05
+Every event is tagged with the user's selected region and language; dashboards can be viewed per region and per language.
+Must
+AN-06
+Search analytics: top search terms, searches with no results, and products viewed â€“ per region, language and product line.
+Must
+AN-07
+Customer journey data is kept against the customer profile and visible to Morgan Users (see EX-08), following GDPR consent rules.
+Must
+AN-08
+Sign-up funnel: visitors â†’ OTP requested â†’ verified â†’ profile completed; plus interest by product line, products in use, industry and region from profile answers.
+Must
+6.11 Region and Language
+ID
+Requirement
+Priority
+RL-01
+Region and language selector in the header for every user (visitors included); pre-selected from browser language and location; remembered in the profile for signed-in users.
+Must
+RL-02
+All portal text (menus, pages, emails, notifications) available in each supported language; content admins can manage translations.
+Must
+RL-03
+Product links redirect to the matching region/language version of the Thermal Ceramics official site (e.g. morganthermalceramics.com/en-gb/â€¦); falls back to English if a page is not available in that language.
+Must
+RL-04
+The AI assistant answers in the customer's selected language; Morgan Users see the customer's language and region on every chat.
+Must
+RL-05
+Region-specific content: admins can show or hide Main Area items, documents and tools per region.
+Should
+RL-06
+Optional routing of chats to regional Morgan Users (EMEA, Americas, Asia and Australia â€“ as on the official site) within a product line.
+Should
+RL-07
+Local date, number and unit formats per region (e.g. metric/imperial).
+Could
+6.12 Content Gating and Bot Protection
+ID
+Requirement
+Priority
+GT-01
+Only the landing page, sign-in, privacy, terms and contact pages are public. All documents, links, Main Area pages and tools need a verified session (checked on the server for every request).
+Must
+GT-02
+Gated pages and files are excluded from search engines (noindex, robots.txt) and never shown in page source to unverified users.
+Must
+GT-03
+Invisible bot check (e.g. Cloudflare Turnstile) on sign-in / sign-up; rate limits on OTP requests per email and per IP; temporary block after repeated failures.
+Must
+GT-04
+Files are served only through short-lived signed links; no permanent public file URLs.
+Must
+GT-05
+Block disposable email domains; flag (or block, per admin setting) free email domains.
+Should
+GT-06
+Session lasts 30 days per device (configurable); re-verification by OTP after expiry or on a new device.
+Must
+GT-07
+Admin security view: OTPs sent, verified, failed, blocked IPs/emails and suspected bot traffic.
+Should
+6.13 Official Site Content and Indexing
+Decision: the portal indexes the official site (morganthermalceramics.com) but does not copy or re-publish its pages. The index holds titles, summaries, links, categories and document text so the portal can offer navigation, search and AI answers; the customer is always sent to the official site to read product details. The portal itself is not indexed by search engines because it is gated (see GT rules).
+What is indexed and how it is shown
+Content
+Index it?
+How it is fetched
+How it is shown in the portal
+Product line and family pages
+Yes â€“ metadata index + page text for AI
+Scheduled sync from the site (CMS API or sitemap + crawler)
+Category tiles and product cards (title, short summary, image, link); â€œView on official siteâ€ opens the page in the user's region/language
+Product datasheets and safety datasheets (PDF)
+Yes â€“ metadata + full text for AI
+Same sync; PDF text extracted
+Document list per category; download/open from the official site URL; cited as sources in AI answers
+Brochures, case studies, technical papers, videos
+Yes â€“ metadata; text for AI where available
+Same sync
+Resource lists per category with links out
+FireMaster certificates
+Yes â€“ structured data
+Sync from the site's certificate pages, or import file from Morgan
+PFP Certificate Finder search results with link/download
+Installation manuals (gated)
+Yes â€“ for AI and search, visible only to verified users
+Morgan SharePoint via Microsoft Graph, or upload in admin
+Shown inside the portal through short-lived signed links
+News, careers, investor and other corporate pages
+No
+â€“
+Not shown
+How data is fetched and kept up to date
+Source (preferred order): (1) the official site's CMS content API or a Morgan-provided export/feed â€“ the site's /media/ file paths suggest an Umbraco CMS, to be confirmed by Morgan; (2) if no API, the site's sitemap plus a polite crawler limited to morganthermalceramics.com, run with Morgan's permission; (3) manual upload in the admin panel for anything not on the site.
+Sync job: runs nightly (Vercel Cron or Supabase Edge Function), per locale (e.g. /en-gb/, /de-de/). It reads each page or PDF, extracts title, summary, category, document type, language and last-modified date, and stores it in the Site Resource index in Supabase.
+Change detection: only new or changed pages are processed (last-modified date / content hash); removed pages are hidden automatically and broken links are reported to the Super Admin.
+AI knowledge: text from approved pages and PDFs is split into passages and stored in pgvector; every passage keeps its official URL so AI answers cite and link back to the official site.
+Admin control: the Super Admin reviews newly found items, maps them to portal categories, hides anything not wanted, and can trigger â€œRe-sync nowâ€.
+Click-through tracking: every â€œView on official siteâ€ link goes through a portal redirect (e.g. /go/{id}) that records a â€œproduct viewedâ€ event against the customer, then forwards to the official page.
+How the index is stored and refreshed
+The index lives in our own Supabase (PostgreSQL) database. We store only what the portal needs to list, search and answer â€“ not copies of the pages or PDFs. Files stay on the official site and are opened from there.
+Table
+What it stores
+site_pages
+One row per official-site page or document: URL, locale (e.g. en-gb), title, short summary, image URL, document type (product page / datasheet / SDS / brochure / certificate â€¦), portal category, last-modified date on the site, content hash, last checked date, status (new / active / hidden / removed).
+site_chunks
+Extracted text split into short passages, each with its AI embedding (pgvector) and a link back to its site_pages row and URL. Used by AI answers and full-text search.
+sync_runs
+Log of every scheduled run: start/end time, pages checked, added, updated, removed, errors. Shown to the Super Admin.
+sync_queue
+Work list for the current run (URLs waiting to be processed), so large runs are done in small batches and can resume after a failure.
+What the scheduler does on each run
+Trigger: a schedule (Supabase pg_cron, nightly by default; frequency set by the Super Admin) or the â€œRe-sync nowâ€ button starts a run.
+Discover: read the list of pages for each locale from the CMS API, or from the sitemap if there is no API, and add every URL to sync_queue.
+Compare: for each URL, check the siteâ€™s last-modified date (or a quick content hash) against site_pages. Unchanged pages are skipped â€“ this keeps runs fast.
+Process new or changed pages: fetch the page or PDF, extract title, summary, image and text, suggest a category from the site menu, update site_pages, and rebuild that pageâ€™s passages and embeddings in site_chunks.
+Handle removals: URLs no longer on the site are marked â€œremovedâ€ and disappear from the portal and from AI answers.
+Review: new items appear in the admin panel as â€œNew â€“ awaiting reviewâ€; the Super Admin confirms the category or hides the item (auto-approve can be switched on per category).
+Log and alert: results are written to sync_runs; the Super Admin is emailed if the run fails or finds broken links.
+The work runs in a Supabase Edge Function that takes a batch of URLs from sync_queue at a time (e.g. 25), so it stays within hosting time limits and does not overload the official site. A first full index of the site may take a few runs; after that, nightly runs only touch the pages that changed.
+Requirements
+ID
+Requirement
+Priority
+CI-01
+Index official-site product pages, datasheets and resources (metadata + text) per locale; do not copy or re-host product pages.
+Must
+CI-02
+Automatic nightly sync with change detection; manual â€œRe-sync nowâ€ in the admin panel.
+Must
+CI-03
+Every indexed item is mapped to a portal category (auto-suggested from the site menu, confirmed by admin).
+Must
+CI-04
+Product details open on the official site via a tracked redirect, in the customer's region and language with English fallback.
+Must
+CI-05
+AI answers use the indexed content and show source links to the official site.
+Must
+CI-06
+Broken-link and removed-page report for the Super Admin.
+Should
+CI-07
+Prototype uses a static snapshot (JSON) of about 50 official-site links instead of the live sync.
+Must
+7. Non-Functional Requirements
+Area
+Requirement
+GDPR and privacy
+Data hosted in the EU; privacy notice and cookie banner; explicit consent captured and stored with date; users can download or delete their data; data retention rules agreed with Morgan.
+Security
+HTTPS only; role-based access enforced in the database (row-level security); restricted files served through short-lived signed links; admin actions logged; OWASP Top 10 checks before go-live. Customer sign-in by email OTP only; bot protection and rate limits on sign-up/OTP; gated pages excluded from search engines.
+AI safety
+AI answers limited to Morgan-approved content; no customer data used to train public models; prompts and answers logged for quality review.
+Performance
+Pages load in under 2.5 seconds on a standard connection; AI first response starts in under 5 seconds; live chat messages delivered in under 1 second.
+Availability
+99.5% uptime target; daily database backups.
+Accessibility
+WCAG 2.1 AA (keyboard navigation, contrast, screen-reader labels).
+Browsers and devices
+Latest Chrome, Edge, Safari and Firefox; responsive on mobile and tablet.
+Language
+Users can select their region and language; the portal is built multilingual from day one (all text in translation files). Languages at launch to be confirmed by Morgan.
+Morgan guidelines
+The portal follows Morgan Advanced Materials guidelines: brand and visual identity, IT security and acceptable-use policies, privacy/GDPR and cookie policy, accessibility and AI usage policy. Morgan to share the guideline documents; compliance reviewed before Alpha.
+8. Tech Stack and Architecture
+The portal will be built as one Next.js web application stored in GitHub, with Supabase as the back end and Vercel for hosting. Every change pushed to GitHub is automatically tested and deployed.
+Layer
+Technology
+Why
+Front end
+Next.js 15 (React, TypeScript, App Router), Tailwind CSS, shadcn/ui
+Fast, SEO-friendly pages; one codebase for portal, expert workspace and admin panel.
+Back end and database
+Supabase â€“ PostgreSQL with row-level security
+Managed database; access rules enforced at data level.
+Login
+Supabase Auth â€“ Microsoft Entra ID (Azure AD) SSO for Morgan Users and Super Admins; email + one-time passcode (OTP) for customers
+Morgan staff use their existing Microsoft accounts; supports Morgan-issued customer IDs and self-registration.
+File storage
+Supabase Storage (portal files); Microsoft Graph API for SharePoint-hosted manuals
+Signed links for restricted downloads; SharePoint stays Morgan's master for installation manuals.
+Live chat and notifications
+Supabase Realtime + Web Push + email (Microsoft Teams optional)
+Real-time messaging, expert presence, and instant alerts to Morgan Users for new or updated chats.
+AI assistant
+LLM via Vercel AI SDK (provider to be confirmed, e.g. Azure OpenAI / OpenAI / Anthropic) with retrieval from Morgan documents stored in pgvector
+Answers grounded in Morgan content with source references.
+Email
+Resend (or Morgan's SMTP / Microsoft 365)
+Welcome, sign-in, reply and escalation emails.
+Analytics
+Own events table in Supabase + PostHog (EU cloud)
+User-level tracking for alpha; dashboards and funnels.
+Hosting and CI/CD
+Vercel (EU region) + GitHub Actions
+Preview link for every change; one-click production deploys.
+Monitoring
+Sentry + Vercel logs
+Error alerts and performance tracking.
+Region and language
+next-intl with locale-based URLs (e.g. /en-gb, /de-de), aligned with the Thermal Ceramics site locales
+Region/language choice drives UI text, product redirects and analytics tags.
+Bot protection and gating
+Cloudflare Turnstile (invisible CAPTCHA), Vercel Firewall / rate limiting, Next.js middleware gate, noindex + robots.txt
+Limits bot views; only verified users reach content.
+Official-site content sync
+Scheduled job (Vercel Cron / Supabase Edge Function) reading the site's CMS API or sitemap; PDF text extraction; pgvector for AI
+Keeps the portal index, search and AI in step with morganthermalceramics.com without copying pages (see 6.13).
+How the pieces fit together
+The user's browser talks to the Next.js app on Vercel.
+Next.js reads and writes data in Supabase (database, login, files, real-time chat).
+For AI answers, Next.js searches Morgan documents in pgvector and sends the relevant passages to the AI model, which writes the reply.
+Installation manuals are fetched from Morgan SharePoint via Microsoft Graph and shown only to logged-in users.
+Events (page views, downloads, questions) are written to the analytics store for the admin dashboard.
+9. Data Model (Key Entities)
+Entity
+Key fields
+User / Profile
+id, user type (customer / Morgan User / super admin), full name, email, company, country, region, language, product lines (Morgan Users) or product interests (customers), sign-in method (Microsoft / email), source (Morgan-issued / self-registered), status, consent date; email verified date; profile: company, job role, industry, products of interest, products in use, profile completed date
+Product Line
+id, name (14 categories in Section 4), product families covered, official-site URL, product manager, team members (Morgan Users), backup, region, response-time target
+Content Block / Page
+id, title, type (main area / tool), access level (open / restricted), parent, order
+Resource
+id, block, title, type (web link / portal file / SharePoint file), URL or file path, access level
+Thread
+id, user, product line, subject, status, assigned expert, created / resolved dates, rating
+Message
+id, thread, sender type (user / AI / expert), body, attachments, sources, timestamp, internal-note flag
+Knowledge Document
+id, product line, title, file, embedding status, last updated
+PFP Certificate
+id, product, standard, rating, region, file, valid until
+CO2 Factor
+id, parameter, value, unit, source, last updated
+Event (Analytics)
+id, user, session, event type (page view, search, product viewed, download, tool use, question, chat), target, search term, product line, region, language, metadata, timestamp
+Consent Record
+id, user, consent type, version, granted / withdrawn date
+Notification
+id, recipient (Morgan User), thread, type (new chat / chat updated / escalation), channel (portal / browser / email / Teams), read status, timestamp
+Verification / Security Log
+id, email, IP, event (OTP sent / verified / failed / blocked), bot-check result, timestamp
+Site Resource (index)
+id, official URL, locale, title, summary, image, document type (page / datasheet / SDS / brochure / certificate / video), portal category, last modified, content hash, status (active / hidden / removed)
+10. GitHub and Deployment Workflow
+Repository: one private GitHub repository (e.g. ask-the-expert-portal) owned by Addact for now (may transfer to Morgan later).
+Branches: main = production; develop = staging; short-lived feature branches for each change.
+Every pull request runs automatic checks (lint, type check, tests) and creates a Vercel preview link for review.
+Merging to develop deploys to the staging site for Morgan testing; merging to main deploys to production.
+Database changes are versioned as Supabase migrations in the repository.
+Secrets (API keys) are stored in Vercel/Supabase settings, never in the code.
+Environments: Development, Staging (alpha testers), Production (portal domain, e.g. asktheexpert.morganplc.com).
+11. Open Questions and Decisions
+#
+Question
+Owner
+1
+DECIDED: First build is the clickable prototype (dummy data). Scope of the first live release (Alpha only, or Alpha + Beta) to be confirmed after prototype review.
+Morgan / Addact
+2
+DECIDED (interim): AI layer will be built pluggable so the provider can be switched by configuration. Final provider (Azure OpenAI, OpenAI, Anthropic) to be approved by Morgan IT.
+Morgan IT
+3
+Please nominate the product manager, team members and backup for each product category in Section 4 (â€œProduct categories and expert routingâ€), with working hours and target response times.
+Morgan
+4
+Access to Morgan SharePoint for installation manuals (Microsoft Graph app registration and permissions).
+Morgan IT
+5
+Heat Flow tool URL and PFP Solution Finder URL.
+Morgan
+6
+CO2 Emission Reduction calculation method and input data.
+Morgan
+7
+PFP certificate data source and format for the initial upload.
+Morgan
+8
+DECIDED (interim): GitHub, Vercel and Supabase accounts owned by Addact for now; may transfer to Morgan later. Still open: portal domain and any firewall / network requirements.
+Morgan IT
+9
+GDPR: data retention period, privacy notice text and DPO sign-off.
+Morgan Legal
+10
+Which documents can be used to train/ground the AI assistant?
+Morgan
+11
+Morgan guidelines to follow: brand guidelines, IT security, privacy, accessibility and AI usage policies â€“ please share the documents.
+Morgan
+12
+Which regions and languages are needed at launch, and should chats be routed to regional experts?
+Morgan
+13
+Microsoft Entra ID app registration for Morgan staff sign-in, and whether Microsoft Teams notifications are wanted.
+Morgan IT
+14
+Should profile completion be mandatory before tools and expert chat, and which profile questions are required vs optional?
+Morgan
+15
+Allow free email domains (e.g. Gmail) or business emails only? Block disposable emails?
+Morgan
+16
+Confirm product lines and documents per line (Aerogel is in the deck but not on the official site) and who owns each document set.
+Morgan
+17
+Official-site access: does the site have a CMS content API (Umbraco?) or export we can use, and does Morgan approve indexing/crawling the site for the portal and AI?
+Morgan IT / Digital
+12. Next Steps
+Morgan and Addact review this document and answer the open questions.
+Agree release scope and sign off the requirements.
+Addact sets up the GitHub repository, Supabase and Vercel environments.
+Build the clickable prototype of the landing page, journeys and chat screens for Morgan review.
+Build and release Alpha to selected clients with Morgan-issued IDs, then iterate towards Beta.
+13. Prototype Build Plan (Phase 0)
+The first build is a clickable prototype: real screens and navigation built in the final tech stack (Next.js + Tailwind + shadcn/ui), using dummy data and mock services. Nothing is lost when moving to Alpha â€“ the mock data layer is swapped for Supabase.
+Screens to build
+Public: Region and language selector, gated landing page (every block locked), Sign in / Sign up with email + OTP (mocked code), bot-check placeholder. Customer (after verification): Complete your profile form, Home screen with Navigate / Ask AI / Talk to an Expert zones and â€œMy chatsâ€ strip, floating chat button, category pages, Main Area landing pages, product line pages with support documents (official-site product lines), Product Installation manuals list.
+User: My Questions (thread list), Ask a Question (AI answer with sources), Thread view with â€œTalk to an expertâ€ and live chat (simulated), Restricted tools (PFP Certificate Finder search, CO2 estimate form), Profile and consents.
+Morgan User: Expert Inbox filtered by product line, notification bell (new / updated chats), thread view with internal notes, Customer panel (chat history, activity log, search and products-viewed journey), availability toggle. Microsoft sign-in screen (mocked).
+Admin: Dashboard (sample analytics charts), Users (create alpha ID), Content and access levels, Product categories and team mapping (product manager, team, backup), Knowledge base documents.
+How the prototype behaves
+A role switcher (Visitor / Customer / Morgan User / Super Admin) in the header lets reviewers walk every journey without real logins.
+AI replies come from a mock provider behind the same interface the real AI will use, so the provider can be plugged in later by configuration.
+Live chat is simulated (scripted expert replies) to show the real-time experience.
+All content, users, threads and certificates are JSON seed data based on the deckâ€™s product families and manuals.
+Repository structure (proposed)
+app/(public) â€“ homepage, main areas, tools, auth screens
+app/(portal) â€“ my questions, thread, profile
+app/expert â€“ expert inbox
+app/admin â€“ dashboard, users, content, experts, knowledge base
+lib/ai â€“ provider interface + mock provider (pluggable)
+lib/data â€“ mock data layer (later replaced by Supabase)
+data/seed â€“ JSON dummy data
+components â€“ shared UI (blocks, chat, tables)
+Prototype done when
+All 8 user journeys in Section 5 can be clicked through end-to-end.
+Deployed to a Vercel preview URL from the Addact GitHub repository and shared with Morgan.
+Morgan feedback captured and the first live release scope confirmed.
