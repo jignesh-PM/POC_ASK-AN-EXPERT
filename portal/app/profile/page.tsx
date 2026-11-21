@@ -1,10 +1,12 @@
 import Link from "next/link";
+import BrandedSelect from "../components/BrandedSelect";
+import PasswordSettings from "../components/PasswordSettings";
 
 export default function ProfilePage() {
   return (
     <main className="simple-page">
       <div className="simple-head">
-        <Link href="/">← Back to portal</Link>
+
         <p className="eyebrow">CUSTOMER PROFILE</p>
         <h1>Your profile</h1>
       </div>
@@ -20,20 +22,11 @@ export default function ProfilePage() {
           </label>
           <label>
             Region
-            <select defaultValue="EMEA">
-              <option>EMEA</option>
-              <option>Americas</option>
-              <option>Asia Pacific</option>
-            </select>
+            <BrandedSelect ariaLabel="Region" defaultValue="EMEA" options={[{ value: "EMEA", label: "EMEA" }, { value: "Americas", label: "Americas" }, { value: "Asia Pacific", label: "Asia Pacific" }]} />
           </label>
           <label>
             Product interest
-            <select defaultValue="Microporous">
-              <option>Microporous</option>
-              <option>Fibres</option>
-              <option>Refractories</option>
-              <option>PFP</option>
-            </select>
+            <BrandedSelect ariaLabel="Product interest" defaultValue="Microporous" options={[{ value: "Microporous", label: "Microporous" }, { value: "Fibres", label: "Fibres" }, { value: "Refractories", label: "Refractories" }, { value: "PFP", label: "PFP" }]} />
           </label>
         </div>
         <aside>
@@ -45,6 +38,7 @@ export default function ProfilePage() {
             Request account deletion
           </button>
         </aside>
+        <PasswordSettings />
       </section>
     </main>
   );

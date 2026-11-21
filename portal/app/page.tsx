@@ -4,9 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { mainAreas } from "./lib/mock-data";
 import { officialSiteIndex, searchIndexedResources, getMockAiAnswer } from "./lib/site-index";
+import HomeMotion from "./components/HomeMotion";
+import ThreeBackdrop from "./components/ThreeBackdrop";
+import ProfileCompletionPrompt from "./components/ProfileCompletionPrompt";
 
 export default function Home() {
-  const [chatOpen, setChatOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
   const [aiOpen, setAiOpen] = useState(false);
@@ -24,6 +26,8 @@ export default function Home() {
   return (
     <>
       <main className="morgan-home">
+        <HomeMotion />
+        <ProfileCompletionPrompt />
         <section className="morgan-hero">
           <div className="engineering-nav">
             <p>ENGINEERING SUPPORT</p>
@@ -34,6 +38,8 @@ export default function Home() {
             <Link href="/main-area/supervision-service"><span>05</span><b>Installation support & QA/QC</b></Link>
             <Link href="/questions"><span>06</span><b>Ongoing technical support</b></Link>
           </div>
+
+          <ThreeBackdrop />
 
           <div className="search-focus">
             <div className="hero-kicker"><span /> ASK THE EXPERT</div>
@@ -61,7 +67,7 @@ export default function Home() {
               <div className="ai-answer-head"><span>AI</span><div><p>Morgan AI assistant</p><h2>Answer from the official-site index</h2></div></div>
               <p className="ai-answer-text">{aiResult.answer}</p>
               <div className="ai-actions">
-                <button type="button" onClick={() => setChatOpen(true)}>Talk to an expert</button>
+                <Link className="ai-contact-action" href="/questions">Talk to an expert</Link>
                 <button type="button" onClick={() => setSubmittedQuery("")}>Clear answer</button>
               </div>
               <small>This is a prototype. Technical decisions should be confirmed with a Morgan expert.</small>
@@ -83,14 +89,6 @@ export default function Home() {
         </section>
       </main>
 
-      <button id="chat-float" className="chat-float" type="button" onClick={() => setChatOpen(!chatOpen)} aria-label="Open Ask the Expert chat">Ask the Expert</button>
-      {chatOpen && (
-        <aside className="chat-widget">
-          <div className="chat-header"><div><span>AI</span><b>Ask the Expert</b></div><button type="button" onClick={() => setChatOpen(false)}>×</button></div>
-          <div className="chat-body"><div className="chat-message ai"><b>Morgan AI</b><p>{submittedQuery ? aiResult.answer : "Hello Alex. I can help with products, installation or certificates. What would you like to know?"}</p></div></div>
-          <div className="chat-input"><input placeholder="Type your question…" /><button type="button">→</button></div>
-        </aside>
-      )}
     </>
   );
 }

@@ -5,7 +5,7 @@ export default function CategoriesPage() {
   return (
     <main className="simple-page">
       <div className="simple-head">
-        <Link href="/">← Back to portal</Link>
+
         <p className="eyebrow">EXPLORE</p>
         <h1>Product categories</h1>
       </div>

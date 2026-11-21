@@ -5,7 +5,7 @@ export default function DocumentsPage() {
   return (
     <main className="simple-page">
       <div className="simple-head">
-        <Link href="/">← Back to portal</Link>
+
         <p className="eyebrow">DOCUMENTS</p>
         <h1>Technical documents</h1>
       </div>

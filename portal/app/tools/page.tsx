@@ -5,7 +5,7 @@ export default function ToolsPage() {
   return (
     <main className="simple-page">
       <div className="simple-head">
-        <Link href="/">← Back to portal</Link>
+
         <p className="eyebrow">TECHNICAL SUPPORT</p>
         <h1>Tools</h1>
       </div>

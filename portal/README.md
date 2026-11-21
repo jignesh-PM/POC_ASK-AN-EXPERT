@@ -1,34 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Morgan Ask the Expert portal
 
-## Getting Started
+A Next.js prototype for product discovery, technical resources, support tools, and expert requests.
 
-First, run the development server:
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` to the site’s canonical URL before deployment. Integration variables are placeholders until their services are connected.
+
+## Project structure
+
+```text
+app/
+  components/      Shared chrome, controls, motion, documentation, and error UI
+  lib/             Portal content, route map, and documentation records
+  categories/      Product category index
+  category/[slug]/ Category detail
+  documents/       Customer-facing technical resource library
+  technical-documents/ Portal design and implementation handbook
+  sitemap/         Visual route and product direction board
+  sitemap.ts       XML sitemap route
+  error.tsx        Route-segment 500 recovery UI
+  global-error.tsx Root-level error recovery UI
+  not-found.tsx    Branded 404 UI
+```
+
+## Technical Documents
+
+The handbook at `/technical-documents` documents the brand system, Roboto type scale, technology stack, portal features, functionality tracker, and prototype release history. Tracker statuses are saved in browser local storage for the demo. The visual sitemap at `/sitemap` uses the same route data and provides a local direction note.
+
+## UI and motion
+
+- Morgan Blue `#002F5F`, Morgan Orange `#EF6400`, white, and black form the core palette.
+- Roboto is loaded through `next/font` and used as the portal interface family.
+- Radix UI provides accessible select and menu behavior; Lucide React provides icons.
+- GSAP powers intentional 2D interface motion. Three.js is isolated to the home hero background.
+- Motion respects `prefers-reduced-motion` where animation is used.
+
+## Main routes
+
+| Route | Purpose |
+| --- | --- |
+| `/` | Portal overview and search |
+| `/categories` | Product category index |
+| `/documents` | Customer-facing technical documents |
+| `/tools` | Support tools |
+| `/questions` | Ask the Expert flow |
+| `/profile` | Prototype profile |
+| `/technical-documents` | Product and implementation handbook |
+| `/sitemap` | Visual portal map and direction board |
+| `/sitemap.xml` | Search-engine sitemap |
+
+## Useful commands
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm run build
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The account-role selector and local direction/tracker storage are prototype features. Connect them to approved identity, content, and project services before production use.
