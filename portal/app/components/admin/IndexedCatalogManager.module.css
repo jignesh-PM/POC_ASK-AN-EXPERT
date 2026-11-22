@@ -1,0 +1,21 @@
+.inlineLink {
+  color: var(--color-brand);
+  font-weight: var(--weight-bold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.panel {
+  border-radius: var(--radius-md);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.teamField {
+  flex: 1 1 260px;
+  max-width: 420px;
+}

@@ -1,153 +1,250 @@
-import type { SVGProps } from "react";
+import type { ReactNode, SVGProps } from "react";
 
-type IconProps = SVGProps<SVGSVGElement> & { size?: number | string };
+export type IconProps = Omit<SVGProps<SVGSVGElement>, "name"> & { size?: number | string };
 
-function IconBase({ children, size = 18, ...props }: IconProps & { children: React.ReactNode }) {
+/** 24×24 outline glyphs, 1.8px stroke. Add new icons here, never inline SVG in components. */
+const glyphs = {
+  "arrow-right": <path d="M5 12h14M13 6l6 6-6 6" />,
+  "arrow-left": <path d="M19 12H5M11 6l-6 6 6 6" />,
+  "arrow-up": <path d="M12 19V5M6 11l6-6 6 6" />,
+  "arrow-down": <path d="M12 5v14M6 13l6 6 6-6" />,
+  "arrow-up-right": <path d="M7 17 17 7M8 7h9v9" />,
+  download: <path d="M12 3v12M7 10l5 5 5-5M5 21h14" />,
+  upload: <path d="M12 15V3M7 8l5-5 5 5M5 21h14" />,
+  search: (
+    <>
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="m16 16 4.5 4.5" />
+    </>
+  ),
+  check: <path d="m5 12.5 4.5 4.5L19 7" />,
+  "badge-check": (
+    <>
+      <path d="M12 2.5 14.6 4l3 .2.9 2.9 2 2.3-1 2.8 1 2.8-2 2.3-.9 2.9-3 .2L12 21.5 9.4 20l-3-.2-.9-2.9-2-2.3 1-2.8-1-2.8 2-2.3.9-2.9 3-.2Z" />
+      <path d="m8.5 12 2.5 2.5 4.5-5" />
+    </>
+  ),
+  "chevron-right": <path d="m9 18 6-6-6-6" />,
+  "chevron-down": <path d="m6 9 6 6 6-6" />,
+  "chevron-up": <path d="m6 15 6-6 6 6" />,
+  user: (
+    <>
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4.5 21a7.5 7.5 0 0 1 15 0" />
+    </>
+  ),
+  users: (
+    <>
+      <circle cx="9" cy="8" r="3.5" />
+      <path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.3a3.5 3.5 0 0 1 0 7.4M18 14.5a6.5 6.5 0 0 1 3.5 5.5" />
+    </>
+  ),
+  building: <path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M16 9h2a2 2 0 0 1 2 2v10M2 21h20M8 7h4M8 11h4M8 15h4" />,
+  "map-pin": (
+    <>
+      <path d="M20 10c0 5.5-8 12-8 12S4 15.5 4 10a8 8 0 1 1 16 0Z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </>
+  ),
+  message: <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z" />,
+  "message-text": <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2ZM7 8h10M7 12h7" />,
+  phone: <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z" />,
+  mail: (
+    <>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m3.5 7 8.5 6 8.5-6" />
+    </>
+  ),
+  file: (
+    <>
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+      <path d="M14 2v6h6M8 13h8M8 17h5" />
+    </>
+  ),
+  "file-question": (
+    <>
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+      <path d="M14 2v6h6M10 12.5a2 2 0 1 1 2.8 1.8c-.5.3-.8.7-.8 1.2M12 18h.01" />
+    </>
+  ),
+  book: <path d="M4 19.5V5a2 2 0 0 1 2-2h14v15H6.5A2.5 2.5 0 0 0 4 20.5 2.5 2.5 0 0 0 6.5 23H20M8 7h8M8 11h6" />,
+  clipboard: (
+    <>
+      <rect x="8" y="2" width="8" height="4" rx="1" />
+      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M9 12h6M9 16h6" />
+    </>
+  ),
+  trash: <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M6 6l1 14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-14M10 11v6M14 11v6" />,
+  eye: (
+    <>
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
+      <circle cx="12" cy="12" r="3" />
+    </>
+  ),
+  "eye-off": <path d="m3 3 18 18M10.6 5.1A10 10 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-2.9 3.8M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7a9.7 9.7 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2" />,
+  menu: <path d="M4 6h16M4 12h16M4 18h16" />,
+  x: <path d="M18 6 6 18M6 6l12 12" />,
+  globe: (
+    <>
+      <circle cx="12" cy="12" r="9.5" />
+      <path d="M2.5 12h19M12 2.5a14.5 14.5 0 0 1 0 19M12 2.5a14.5 14.5 0 0 0 0 19" />
+    </>
+  ),
+  language: <path d="m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6" />,
+  bell: <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0" />,
+  shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />,
+  "shield-check": <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10ZM9 12l2 2 4-4" />,
+  key: (
+    <>
+      <circle cx="7.5" cy="15.5" r="4.5" />
+      <path d="m10.7 12.3 9.8-9.8M16 7l3 3M18.5 4.5l2 2" />
+    </>
+  ),
+  grid: (
+    <>
+      <rect x="3" y="3" width="7" height="7" rx="1.5" />
+      <rect x="14" y="3" width="7" height="7" rx="1.5" />
+      <rect x="3" y="14" width="7" height="7" rx="1.5" />
+      <rect x="14" y="14" width="7" height="7" rx="1.5" />
+    </>
+  ),
+  calculator: (
+    <>
+      <rect x="4" y="2" width="16" height="20" rx="2" />
+      <path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15v3M8 18h.01M12 18h.01" />
+    </>
+  ),
+  headset: <path d="M3 14v-2a9 9 0 0 1 18 0v2M3 14h3a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2ZM21 14h-3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1a2 2 0 0 0 2-2Z" />,
+  send: <path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z" />,
+  sparkles: <path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9ZM19 3v4M21 5h-4M5 17v4M7 19H3" />,
+  package: <path d="m21 8-9-5-9 5 9 5 9-5ZM3 8v8l9 5 9-5V8M12 13v8" />,
+  refresh: <path d="M21 12a9 9 0 0 1-15.5 6.2L3 16M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M3 21v-5h5" />,
+  "rotate-ccw": <path d="M3 12a9 9 0 1 0 2.6-6.4L3 8M3 3v5h5" />,
+  plus: <path d="M12 5v14M5 12h14" />,
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="9.5" />
+      <path d="M12 7v5l3 2" />
+    </>
+  ),
+  activity: <path d="M22 12h-4l-3 9L9 3l-3 9H2" />,
+  info: (
+    <>
+      <circle cx="12" cy="12" r="9.5" />
+      <path d="M12 16v-5M12 8h.01" />
+    </>
+  ),
+  alert: <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0ZM12 9v4M12 17h.01" />,
+  external: <path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />,
+  login: <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3" />,
+  logout: <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />,
+  compass: (
+    <>
+      <circle cx="12" cy="12" r="9.5" />
+      <path d="m16 8-2 6-6 2 2-6Z" />
+    </>
+  ),
+  save: <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2ZM17 21v-8H7v8M7 3v5h8" />,
+  palette: (
+    <>
+      <path d="M12 22a10 10 0 1 1 10-10c0 2.8-2.2 4-4 4h-2a2 2 0 0 0-1.5 3.3c.4.5.5 1 .5 1.5 0 .7-.6 1.2-3 1.2Z" />
+      <circle cx="7.5" cy="10.5" r="1" />
+      <circle cx="10.5" cy="6.5" r="1" />
+      <circle cx="15.5" cy="7.5" r="1" />
+    </>
+  ),
+  type: <path d="M4 7V4h16v3M9 20h6M12 4v16" />,
+  workflow: (
+    <>
+      <rect x="3" y="3" width="8" height="8" rx="2" />
+      <rect x="13" y="13" width="8" height="8" rx="2" />
+      <path d="M7 11v4a2 2 0 0 0 2 2h4" />
+    </>
+  ),
+  zap: <path d="M13 2 3 14h9l-1 8 10-12h-9Z" />,
+  settings: (
+    <>
+      <path d="M12.2 2h-.4a2 2 0 0 0-2 2v.2a2 2 0 0 1-1 1.7l-.4.3a2 2 0 0 1-2 0l-.2-.1a2 2 0 0 0-2.7.7l-.2.4a2 2 0 0 0 .7 2.7l.2.1a2 2 0 0 1 1 1.7v.5a2 2 0 0 1-1 1.7l-.2.1a2 2 0 0 0-.7 2.7l.2.4a2 2 0 0 0 2.7.7l.2-.1a2 2 0 0 1 2 0l.4.3a2 2 0 0 1 1 1.7v.2a2 2 0 0 0 2 2h.4a2 2 0 0 0 2-2v-.2a2 2 0 0 1 1-1.7l.4-.3a2 2 0 0 1 2 0l.2.1a2 2 0 0 0 2.7-.7l.2-.4a2 2 0 0 0-.7-2.7l-.2-.1a2 2 0 0 1-1-1.7v-.5a2 2 0 0 1 1-1.7l.2-.1a2 2 0 0 0 .7-2.7l-.2-.4a2 2 0 0 0-2.7-.7l-.2.1a2 2 0 0 1-2 0l-.4-.3a2 2 0 0 1-1-1.7V4a2 2 0 0 0-2-2Z" />
+      <circle cx="12" cy="12" r="3" />
+    </>
+  ),
+} satisfies Record<string, ReactNode>;
+
+export type IconName = keyof typeof glyphs;
+
+export function Icon({ name, size = 18, strokeWidth = 1.8, ...props }: IconProps & { name: IconName }) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      {children}
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      {glyphs[name]}
     </svg>
   );
 }
 
-const line = (name: string, props: IconProps) => {
-  const common = { ...props };
-  switch (name) {
-    case "search": return <IconBase {...common}><circle cx="11" cy="11" r="6" /><path d="m16 16 4 4" /></IconBase>;
-    case "check": return <IconBase {...common}><path d="m5 12 4 4L19 7" /></IconBase>;
-    case "chevron-right": return <IconBase {...common}><path d="m9 18 6-6-6-6" /></IconBase>;
-    case "chevron-down": return <IconBase {...common}><path d="m6 9 6 6 6-6" /></IconBase>;
-    case "chevron-up": return <IconBase {...common}><path d="m6 15 6-6 6 6" /></IconBase>;
-    case "arrow-right": return <IconBase {...common}><path d="M5 12h14M13 6l6 6-6 6" /></IconBase>;
-    case "arrow-left": return <IconBase {...common}><path d="M19 12H5M11 6l-6 6 6 6" /></IconBase>;
-    case "arrow-up": return <IconBase {...common}><path d="M12 19V5M6 11l6-6 6 6" /></IconBase>;
-    case "arrow-down": return <IconBase {...common}><path d="M12 5v14M6 13l6 6 6-6" /></IconBase>;
-    case "arrow-up-right": return <IconBase {...common}><path d="M7 17 17 7M7 7h10v10" /></IconBase>;
-    case "download":
-    case "arrow-down-to-line": return <IconBase {...common}><path d="M12 3v12M7 10l5 5 5-5M5 21h14" /></IconBase>;
-    case "user":
-    case "circle-user":
-    case "building": return <IconBase {...common}><circle cx="12" cy="8" r="3" /><path d="M5 21a7 7 0 0 1 14 0" /></IconBase>;
-    case "users": return <IconBase {...common}><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="10" cy="7" r="4" /><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></IconBase>;
-    case "map-pin": return <IconBase {...common}><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></IconBase>;
-    case "message": return <IconBase {...common}><path d="M21 15a3 3 0 0 1-3 3H8l-5 3V7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3Z" /></IconBase>;
-    case "phone": return <IconBase {...common}><path d="M7 3H4a1 1 0 0 0-1 1c0 9 7 16 16 16a1 1 0 0 0 1-1v-3l-5-2-2 2c-3-1-5-3-6-6l2-2Z" /></IconBase>;
-    case "mail": return <IconBase {...common}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></IconBase>;
-    case "file":
-    case "file-question":
-    case "clipboard":
-    case "book": return <IconBase {...common}><path d="M6 2h9l3 3v17H6Z" /><path d="M15 2v4h4M9 11h6M9 15h6" /></IconBase>;
-    case "trash": return <IconBase {...common}><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6M14 11v6" /></IconBase>;
-    case "eye": return <IconBase {...common}><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" /><circle cx="12" cy="12" r="2.5" /></IconBase>;
-    case "eye-off": return <IconBase {...common}><path d="m3 3 18 18M10.5 6.3A10 10 0 0 1 12 6c6.5 0 10 6 10 6a16 16 0 0 1-3 3.5M6.2 6.2C3.5 8 2 12 2 12s3.5 6 10 6c1.1 0 2.1-.2 3-.5" /></IconBase>;
-    case "menu": return <IconBase {...common}><path d="M4 6h16M4 12h16M4 18h16" /></IconBase>;
-    case "x": return <IconBase {...common}><path d="m6 6 12 12M18 6 6 18" /></IconBase>;
-    case "globe": return <IconBase {...common}><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" /></IconBase>;
-    case "language": return <IconBase {...common}><path d="M5 5h7M8.5 5v14M5 9h7M14 12h7M17.5 12v7M14 19h7" /></IconBase>;
-    case "bell": return <IconBase {...common}><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" /></IconBase>;
-    case "shield": return <IconBase {...common}><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" /><path d="m9 12 2 2 4-4" /></IconBase>;
-    case "key": return <IconBase {...common}><circle cx="8" cy="15" r="4" /><path d="m11 12 8-8M15 8l3 3M17 6l3 3" /></IconBase>;
-    case "calculator":
-    case "grid": return <IconBase {...common}><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M9 3v18M15 3v18" /></IconBase>;
-    case "headset": return <IconBase {...common}><path d="M4 14v-2a8 8 0 0 1 16 0v2M4 14h3v6H5a1 1 0 0 1-1-1ZM20 14h-3v6h2a1 1 0 0 0 1-1Z" /></IconBase>;
-    case "send": return <IconBase {...common}><path d="m3 3 18 9-18 9 4-9Z" /><path d="M7 12h14" /></IconBase>;
-    case "sparkles": return <IconBase {...common}><path d="m12 3 1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5ZM19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7Z" /></IconBase>;
-    case "package": return <IconBase {...common}><path d="m12 2 9 5-9 5-9-5ZM3 7v10l9 5 9-5V7M12 12v10" /></IconBase>;
-    case "refresh": return <IconBase {...common}><path d="M20 6v5h-5M4 18v-5h5" /><path d="A14 14 0 0 1 18 7l2 4M6 17l-2-4" /></IconBase>;
-    case "rotate-ccw": return <IconBase {...common}><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8" /><path d="M3 3v5h5M12 7v5l3 2" /></IconBase>;
-    case "plus": return <IconBase {...common}><path d="M12 5v14M5 12h14" /></IconBase>;
-    case "clock": return <IconBase {...common}><circle cx="12" cy="12" r="9" /><path d="M12 7v5l4 2" /></IconBase>;
-    case "activity": return <IconBase {...common}><path d="M3 12h4l2-5 4 10 2-5h6" /></IconBase>;
-    case "info":
-    case "alert": return <IconBase {...common}><circle cx="12" cy="12" r="9" /><path d="M12 11v6M12 7h.01" /></IconBase>;
-    case "external": return <IconBase {...common}><path d="M14 3h7v7M10 14 21 3M21 14v7H3V3h7" /></IconBase>;
-    case "login": return <IconBase {...common}><path d="M10 17l5-5-5-5M15 12H3M14 3h7v18h-7" /></IconBase>;
-    case "logout": return <IconBase {...common}><path d="M14 17l-5-5 5-5M9 12h12M10 3H3v18h7" /></IconBase>;
-    case "upload": return <IconBase {...common}><path d="M12 21V9M7 14l5-5 5 5M5 21h14" /></IconBase>;
-    case "compass": return <IconBase {...common}><circle cx="12" cy="12" r="9" /><path d="m15 9-2 4-4 2 2-4Z" /></IconBase>;
-    case "save": return <IconBase {...common}><path d="M4 3h13l3 3v15H4Z" /><path d="M8 3v6h8V3M8 21v-7h8v7" /></IconBase>;
-    case "palette": return <IconBase {...common}><path d="M12 3a9 9 0 0 0 0 18h1a2 2 0 0 0 0-4h-1a2 2 0 0 1 0-4h3a6 6 0 0 0 0-12Z" /><circle cx="7.5" cy="10.5" r=".5" /><circle cx="9.5" cy="7" r=".5" /><circle cx="14" cy="7" r=".5" /></IconBase>;
-    case "type": return <IconBase {...common}><path d="M5 5h14M12 5v14M8 19h8" /></IconBase>;
-    case "workflow": return <IconBase {...common}><circle cx="5" cy="5" r="2" /><circle cx="19" cy="5" r="2" /><circle cx="12" cy="19" r="2" /><path d="M7 5h10M5 7v5h7v5M19 7v5h-7" /></IconBase>;
-    case "zap": return <IconBase {...common}><path d="M13 2 4 14h7l-1 8 9-12h-7Z" /></IconBase>;
-    default: return <IconBase {...common}><circle cx="12" cy="12" r="8" /></IconBase>;
+const make = (name: IconName) => {
+  function NamedIcon(props: IconProps) {
+    return <Icon name={name} {...props} />;
   }
+  NamedIcon.displayName = name;
+  return NamedIcon;
 };
 
-const makeIcon = (name: string) => function LocalIcon(props: IconProps) {
-  return line(name, props);
-};
-
-export const ArrowRight = makeIcon("arrow-right");
-export const ArrowLeft = makeIcon("arrow-left");
-export const ArrowUp = makeIcon("arrow-up");
-export const ArrowDown = makeIcon("arrow-down");
-export const ArrowUpRight = makeIcon("arrow-up-right");
-export const ArrowDownToLine = makeIcon("download");
-export const Search = makeIcon("search");
-export const Check = makeIcon("check");
-export const ChevronRight = makeIcon("chevron-right");
-export const ChevronDown = makeIcon("chevron-down");
-export const ChevronUp = makeIcon("chevron-up");
-export const UserRound = makeIcon("user");
-export const CircleUserRound = makeIcon("circle-user");
-export const Users = makeIcon("users");
-export const MapPin = makeIcon("map-pin");
-export const Building2 = makeIcon("building");
-export const Phone = makeIcon("phone");
-export const Mail = makeIcon("mail");
-export const FileText = makeIcon("file");
-export const FileQuestion = makeIcon("file-question");
-export const Trash2 = makeIcon("trash");
-export const Eye = makeIcon("eye");
-export const EyeOff = makeIcon("eye-off");
-export const Menu = makeIcon("menu");
-export const X = makeIcon("x");
-export const Globe = makeIcon("globe");
-export const Globe2 = makeIcon("globe");
-export const Languages = makeIcon("language");
-export const Bell = makeIcon("bell");
-export const Shield = makeIcon("shield");
-export const ShieldCheck = makeIcon("shield");
-export const BadgeCheck = makeIcon("check");
-export const KeyRound = makeIcon("key");
-export const Grid2X2 = makeIcon("grid");
-export const Calculator = makeIcon("calculator");
-export const Headset = makeIcon("headset");
-export const Send = makeIcon("send");
-export const MessageCircle = makeIcon("message");
-export const MessageSquareText = makeIcon("message");
-export const Sparkles = makeIcon("sparkles");
-export const PackageSearch = makeIcon("package");
-export const RefreshCw = makeIcon("refresh");
-export const RotateCcw = makeIcon("rotate-ccw");
-export const Plus = makeIcon("plus");
-export const Clock3 = makeIcon("clock");
-export const Activity = makeIcon("activity");
-export const Info = makeIcon("info");
-export const AlertTriangle = makeIcon("alert");
-export const ExternalLink = makeIcon("external");
-export const LogIn = makeIcon("login");
-export const LogOut = makeIcon("logout");
-export const FileUp = makeIcon("upload");
-export const Download = makeIcon("download");
-export const Compass = makeIcon("compass");
-export const Save = makeIcon("save");
-export const Palette = makeIcon("palette");
-export const Type = makeIcon("type");
-export const Workflow = makeIcon("workflow");
-export const Zap = makeIcon("zap");
-export const ClipboardList = makeIcon("clipboard");
-export const BookOpenText = makeIcon("book");
-export const Boxes = makeIcon("package");
-export const Settings = makeIcon("gear");
+export const Activity = make("activity");
+export const AlertTriangle = make("alert");
+export const ArrowDown = make("arrow-down");
+export const ArrowLeft = make("arrow-left");
+export const ArrowRight = make("arrow-right");
+export const ArrowUp = make("arrow-up");
+export const ArrowUpRight = make("arrow-up-right");
+export const BadgeCheck = make("badge-check");
+export const Bell = make("bell");
+export const BookOpenText = make("book");
+export const Boxes = make("package");
+export const Building2 = make("building");
+export const Calculator = make("calculator");
+export const Check = make("check");
+export const ChevronDown = make("chevron-down");
+export const ChevronRight = make("chevron-right");
+export const ChevronUp = make("chevron-up");
+export const ClipboardList = make("clipboard");
+export const Clock3 = make("clock");
+export const Compass = make("compass");
+export const Download = make("download");
+export const ExternalLink = make("external");
+export const Eye = make("eye");
+export const EyeOff = make("eye-off");
+export const FileQuestion = make("file-question");
+export const FileText = make("file");
+export const FileUp = make("upload");
+export const Globe = make("globe");
+export const Grid2X2 = make("grid");
+export const Headset = make("headset");
+export const Info = make("info");
+export const KeyRound = make("key");
+export const Languages = make("language");
+export const LogIn = make("login");
+export const LogOut = make("logout");
+export const Mail = make("mail");
+export const MapPin = make("map-pin");
+export const Menu = make("menu");
+export const MessageCircle = make("message");
+export const MessageSquareText = make("message-text");
+export const PackageSearch = make("package");
+export const Palette = make("palette");
+export const Phone = make("phone");
+export const Plus = make("plus");
+export const RefreshCw = make("refresh");
+export const RotateCcw = make("rotate-ccw");
+export const Save = make("save");
+export const Search = make("search");
+export const Send = make("send");
+export const Settings = make("settings");
+export const Shield = make("shield");
+export const ShieldCheck = make("shield-check");
+export const Sparkles = make("sparkles");
+export const Trash2 = make("trash");
+export const Type = make("type");
+export const UserRound = make("user");
+export const Users = make("users");
+export const Workflow = make("workflow");
+export const X = make("x");
+export const Zap = make("zap");

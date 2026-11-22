@@ -1,0 +1,135 @@
+/* Profile page layout and shared account card pieces. */
+.profileLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.sideColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-width: 0;
+}
+
+@media (max-width: 1000px) {
+  .profileLayout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.cardHead {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.cardHeadCopy {
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+}
+
+.percent {
+  color: var(--color-brand);
+  font-size: var(--text-2xl);
+  line-height: 1;
+}
+
+.meter {
+  height: 8px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand-soft);
+}
+
+.meterFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-accent);
+  transition: width var(--duration-slow) var(--ease-out);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+  margin: 0;
+  padding: var(--space-5) 0 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  float: left;
+  width: 100%;
+  margin-bottom: var(--space-4);
+  padding: 0;
+  color: var(--color-brand);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+}
+
+.legendIcon {
+  display: inline-flex;
+  color: var(--color-accent-text);
+}
+
+.fields {
+  clear: both;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: var(--space-4);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.formFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.note,
+.saved {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  flex: 1 1 240px;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.note svg {
+  margin-top: 2px;
+  color: var(--color-success);
+}
+
+.saved {
+  color: var(--color-success);
+  font-weight: var(--weight-medium);
+}
+
+.inlineLink {
+  align-self: flex-start;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}

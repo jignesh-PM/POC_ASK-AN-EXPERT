@@ -1,16 +1,10 @@
+"use client";
+
 import { categories, industries, products } from "./mock-data";
 import { readCatalogSettings } from "./catalog-settings";
+import { STORAGE_KEYS, createId, readJSON, useStoredJSON, writeJSON } from "./storage";
 
-export const expertRoutingStorageKey = "morgan-search-routing-requests";
-
-const expertTeams: Record<string, string> = {
-  fibres: "Fibre Products team",
-  refractories: "Refractories team",
-  microporous: "Microporous team",
-  pfp: "Passive Fire Protection team",
-  "fire-assay": "Fire Assay team",
-  engineering: "Engineering Services team",
-};
+const FALLBACK_TEAM = "Morgan technical support";
 
 export function getSearchContext(industryId: string, productId: string) {
   const industry = industries.find((item) => item.id === industryId);
@@ -23,75 +17,99 @@ export function getSearchContext(industryId: string, productId: string) {
     productId: product?.id ?? "",
     product: product?.name ?? "",
     category: category?.name ?? "",
-    expertTeam: product ? assignedTeams[product.id] ?? assignedTeams[product.category] ?? expertTeams[product.category] ?? "Morgan technical support" : "Morgan technical support",
+    expertTeam: product ? assignedTeams[product.id] ?? assignedTeams[product.category] ?? product.expertTeam : FALLBACK_TEAM,
   };
 }
+
+export type RequestStatus = "Open" | "Expert follow-up requested" | "In live chat" | "Resolved";
 
 export type SearchRoutingRequest = ReturnType<typeof getSearchContext> & {
   id: string;
   query: string;
   createdAt: string;
-  status?: "Open" | "Search activity" | "Expert follow-up requested" | "In live chat" | "Resolved";
-  publicFaq?: boolean;
+  status?: RequestStatus;
   details?: string;
 };
 
+export type ChatMessage = { id: string; sender: "customer" | "expert"; text: string; createdAt: string };
+
+const EMPTY_REQUESTS: SearchRoutingRequest[] = [];
+const EMPTY_MESSAGES: Record<string, ChatMessage[]> = {};
+
+/** True once a human expert conversation exists for the request. */
+export function isExpertThread(request: Pick<SearchRoutingRequest, "status">) {
+  return request.status === "Expert follow-up requested" || request.status === "In live chat" || request.status === "Resolved";
+}
+
+export function threadHref(request: SearchRoutingRequest) {
+  if (isExpertThread(request)) return `/expert?request=${encodeURIComponent(request.id)}`;
+  return `/search?${new URLSearchParams({ q: request.query, industry: request.industryId, product: request.productId, team: request.expertTeam })}`;
+}
+
+export function useRoutingRequests(): SearchRoutingRequest[] {
+  return useStoredJSON(STORAGE_KEYS.routingRequests, EMPTY_REQUESTS);
+}
+
+export function useConversationMessages(): Record<string, ChatMessage[]> {
+  return useStoredJSON(STORAGE_KEYS.conversationMessages, EMPTY_MESSAGES);
+}
+
+function readRequests() {
+  return readJSON(STORAGE_KEYS.routingRequests, EMPTY_REQUESTS);
+}
+
+function writeRequests(requests: SearchRoutingRequest[]) {
+  writeJSON(STORAGE_KEYS.routingRequests, requests.slice(0, 50));
+}
+
+/** Records a Morgan AI question and returns its id. */
 export function saveSearchRoutingRequest(query: string, industryId: string, productId: string): string {
-  if (typeof window === "undefined") return "";
   const request: SearchRoutingRequest = {
     ...getSearchContext(industryId, productId),
-    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    id: createId("q"),
     query: query.trim(),
     createdAt: new Date().toISOString(),
     status: "Open",
   };
-  try {
-    const existing = JSON.parse(window.localStorage.getItem(expertRoutingStorageKey) || "[]") as SearchRoutingRequest[];
-    window.localStorage.setItem(expertRoutingStorageKey, JSON.stringify([request, ...existing].slice(0, 50)));
-  } catch {
-    window.localStorage.setItem(expertRoutingStorageKey, JSON.stringify([request]));
-  }
-  window.dispatchEvent(new Event("morgan-search-routing-updated"));
+  writeRequests([request, ...readRequests()]);
   return request.id;
 }
 
+/** Escalates a question to the product's expert team, creating it if needed. */
 export function submitExpertFollowUp(query: string, industryId: string, productId: string, details: string): string {
-  if (typeof window === "undefined") return "";
-  let requests: SearchRoutingRequest[] = [];
-  try { requests = JSON.parse(window.localStorage.getItem(expertRoutingStorageKey) || "[]") as SearchRoutingRequest[]; } catch { requests = []; }
+  const requests = readRequests();
   const match = requests.find((request) => request.query === query.trim() && request.industryId === industryId && request.productId === productId);
-  let requestId = match?.id ?? "";
   if (match) {
-    match.status = "Expert follow-up requested";
-    match.details = details.trim();
-  } else {
-    requestId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    requests.unshift({ ...getSearchContext(industryId, productId), id: requestId, query: query.trim(), createdAt: new Date().toISOString(), status: "Expert follow-up requested", details: details.trim() });
+    writeRequests(requests.map((request) => (request.id === match.id ? { ...request, status: "Expert follow-up requested", details: details.trim() } : request)));
+    return match.id;
   }
-  window.localStorage.setItem(expertRoutingStorageKey, JSON.stringify(requests.slice(0, 50)));
-  window.dispatchEvent(new Event("morgan-search-routing-updated"));
-  return requestId;
+  const id = createId("q");
+  writeRequests([
+    { ...getSearchContext(industryId, productId), id, query: query.trim(), createdAt: new Date().toISOString(), status: "Expert follow-up requested", details: details.trim() },
+    ...requests,
+  ]);
+  return id;
 }
 
-export function appendConversationMessage(requestId: string, text: string, sender: "customer" | "expert"): boolean {
-  if (typeof window === "undefined" || !text.trim()) return false;
-  let requests: SearchRoutingRequest[] = [];
-  let conversations: Record<string, { id: string; sender: "customer" | "expert"; text: string; createdAt: string }[]> = {};
-  try { requests = JSON.parse(window.localStorage.getItem(expertRoutingStorageKey) || "[]") as SearchRoutingRequest[]; } catch { return false; }
-  const request = requests.find((item) => item.id === requestId);
-  if (!request) return false;
-  try { conversations = JSON.parse(window.localStorage.getItem("morgan-expert-conversation-messages") || "{}"); } catch { conversations = {}; }
-  const initialMessages = [
-    { id: `${request.id}-question`, sender: "customer" as const, text: request.query, createdAt: request.createdAt },
+export function setRequestStatus(requestId: string, status: RequestStatus) {
+  writeRequests(readRequests().map((request) => (request.id === requestId ? { ...request, status } : request)));
+}
+
+/** The opening messages of a thread before anyone replies. */
+export function initialMessages(request: Pick<SearchRoutingRequest, "id" | "query" | "details" | "createdAt">): ChatMessage[] {
+  return [
+    { id: `${request.id}-question`, sender: "customer", text: request.query, createdAt: request.createdAt },
     ...(request.details ? [{ id: `${request.id}-details`, sender: "customer" as const, text: request.details, createdAt: request.createdAt }] : []),
   ];
-  const previous = conversations[requestId] ?? initialMessages;
-  const message = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, sender, text: text.trim(), createdAt: new Date().toISOString() };
-  conversations[requestId] = [...previous, message];
-  window.localStorage.setItem("morgan-expert-conversation-messages", JSON.stringify(conversations));
-  if (sender === "customer" && request.status !== "Resolved") request.status = "In live chat";
-  window.localStorage.setItem(expertRoutingStorageKey, JSON.stringify(requests));
-  window.dispatchEvent(new Event("morgan-chat-message-updated"));
-  window.dispatchEvent(new Event("morgan-search-routing-updated"));
+}
+
+export function appendConversationMessage(requestId: string, text: string, sender: ChatMessage["sender"]): boolean {
+  const request = readRequests().find((item) => item.id === requestId);
+  if (!request || !text.trim()) return false;
+  const conversations = readJSON(STORAGE_KEYS.conversationMessages, EMPTY_MESSAGES);
+  const previous = conversations[requestId] ?? initialMessages(request);
+  const message: ChatMessage = { id: createId("m"), sender, text: text.trim(), createdAt: new Date().toISOString() };
+  writeJSON(STORAGE_KEYS.conversationMessages, { ...conversations, [requestId]: [...previous, message] });
+  if (request.status !== "Resolved") setRequestStatus(requestId, sender === "customer" ? "Expert follow-up requested" : "In live chat");
   return true;
 }

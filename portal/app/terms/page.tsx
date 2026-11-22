@@ -1,1 +1,20 @@
-export default function TermsPage(){return <main className="simple-page"><div className="simple-head"><p className="eyebrow">LEGAL</p><h1>Terms of use</h1></div><article className="legal-copy"><h2>Using this portal</h2><p>Information in the Ask the Expert portal supports product selection and technical enquiries. Always confirm safety-critical decisions with an approved Morgan expert or product documentation.</p><h2>Prototype</h2><p>This environment uses dummy content and mock AI responses for review.</p></article></main>}
+import type { Metadata } from "next";
+import { LegalArticle } from "@/app/components/catalog/LegalArticle";
+
+export const metadata: Metadata = { title: "Terms of Use" };
+
+export default function TermsPage() {
+  return (
+    <LegalArticle
+      title="Terms of Use"
+      description="The terms that apply to product information, technical content and expert support in this portal."
+      sections={[
+        {
+          heading: "Using this portal",
+          body: "Information in the Ask the Expert portal supports product selection and technical enquiries. Always confirm safety-critical decisions with an approved Morgan expert or product documentation.",
+        },
+        { heading: "Prototype", body: "This environment uses dummy content and mock AI responses for review." },
+      ]}
+    />
+  );
+}

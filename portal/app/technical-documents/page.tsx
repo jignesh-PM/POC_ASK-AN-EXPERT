@@ -1,11 +1,21 @@
 import type { Metadata } from "next";
-import TechnicalDocumentation from "../components/TechnicalDocumentation";
+import TechnicalDocumentation from "../components/docs/TechnicalDocumentation";
+import { Page, PageHeader } from "../components/ui";
 
 export const metadata: Metadata = {
-  title: "Technical Documents | Morgan Ask the Expert",
-  description: "Design system, technology stack, portal features, functionality tracker, and version history.",
+  title: "Technical documents",
+  description: "Design system, technology stack, portal features, functionality tracker and version history.",
 };
 
 export default function TechnicalDocumentsPage() {
-  return <TechnicalDocumentation />;
+  return (
+    <Page>
+      <PageHeader
+        eyebrow="Portal handbook"
+        title="Technical documents"
+        description="A working reference for the portal's design language, technology, capabilities and delivery direction. It separates what works in this prototype from what production delivery still needs."
+      />
+      <TechnicalDocumentation />
+    </Page>
+  );
 }

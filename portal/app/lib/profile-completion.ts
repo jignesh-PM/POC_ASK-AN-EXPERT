@@ -1,3 +1,7 @@
+"use client";
+
+import { STORAGE_KEYS, readJSON, readString, useStoredJSON, useStoredString, writeJSON, writeString } from "./storage";
+
 export type ProfileDetails = {
   name: string;
   designation: string;
@@ -11,10 +15,6 @@ export type ProfileDetails = {
   alternativeNumber: string;
   emailAddress: string;
 };
-
-export const profileStorageKey = "morgan-profile-details";
-export const profileEmailStorageKey = "morgan-profile-email";
-export const profileUpdatedEvent = "morgan-profile-updated";
 
 export const profileRequiredFields: { key: keyof ProfileDetails; label: string }[] = [
   { key: "name", label: "Name" },
@@ -43,24 +43,42 @@ export const emptyProfileDetails: ProfileDetails = {
   emailAddress: "",
 };
 
+const EMPTY: Partial<ProfileDetails> = {};
+
 export function getProfileCompletion(profile: Partial<ProfileDetails>) {
-  const completed = profileRequiredFields.filter(({ key }) => Boolean(profile[key]?.trim())).length;
+  const missing = profileRequiredFields.filter(({ key }) => !profile[key]?.trim());
+  const completed = profileRequiredFields.length - missing.length;
   return {
     completed,
     total: profileRequiredFields.length,
     percent: Math.round((completed / profileRequiredFields.length) * 100),
-    missing: profileRequiredFields.filter(({ key }) => !profile[key]?.trim()),
+    missing,
   };
 }
 
+function merge(saved: Partial<ProfileDetails>, loginEmail: string | null): ProfileDetails {
+  return { ...emptyProfileDetails, ...saved, emailAddress: saved.emailAddress || loginEmail || "" };
+}
+
+export function useProfileDetails(): ProfileDetails {
+  const saved = useStoredJSON(STORAGE_KEYS.profile, EMPTY);
+  const loginEmail = useStoredString(STORAGE_KEYS.profileEmail);
+  return merge(saved, loginEmail);
+}
+
 export function readProfileDetails(): ProfileDetails {
-  if (typeof window === "undefined") return emptyProfileDetails;
-  try {
-    const stored = window.localStorage.getItem(profileStorageKey);
-    const parsed = stored ? JSON.parse(stored) as Partial<ProfileDetails> : {};
-    const loginEmail = window.localStorage.getItem(profileEmailStorageKey) ?? "";
-    return { ...emptyProfileDetails, ...parsed, emailAddress: parsed.emailAddress || loginEmail };
-  } catch {
-    return { ...emptyProfileDetails, emailAddress: window.localStorage.getItem(profileEmailStorageKey) ?? "" };
-  }
+  return merge(readJSON(STORAGE_KEYS.profile, EMPTY), readString(STORAGE_KEYS.profileEmail));
+}
+
+export function useProfileCompletion() {
+  return getProfileCompletion(useProfileDetails());
+}
+
+export function saveProfileDetails(details: ProfileDetails) {
+  writeJSON(STORAGE_KEYS.profile, details);
+  writeString(STORAGE_KEYS.profileEmail, details.emailAddress.trim());
+}
+
+export function setLoginEmail(email: string) {
+  if (email.trim()) writeString(STORAGE_KEYS.profileEmail, email.trim());
 }

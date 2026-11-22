@@ -1,9 +1,9 @@
 export const categories = [
-  { name: "Fibres", slug: "fibres", description: "Blankets, modules, boards, papers and high-temperature fibre systems", count: 10 },
-  { name: "Refractories", slug: "refractories", description: "IFB, monolithics and refractory fired shapes", count: 3 },
-  { name: "Microporous", slug: "microporous", description: "WDS products and vacuum insulation panels", count: 2 },
-  { name: "FireMaster Passive Fire Protection", slug: "pfp", description: "FireMaster fire protection systems", count: 2 },
-  { name: "Fire Assay", slug: "fire-assay", description: "Furnaces and equipment for laboratory workflows", count: 4 },
+  { name: "Fibres", slug: "fibres", description: "Blankets, modules, boards, papers and high-temperature fibre systems" },
+  { name: "Refractories", slug: "refractories", description: "IFB, monolithics and refractory fired shapes" },
+  { name: "Microporous", slug: "microporous", description: "WDS products and vacuum insulation panels" },
+  { name: "FireMaster Passive Fire Protection", slug: "pfp", description: "FireMaster fire protection systems" },
+  { name: "Fire Assay", slug: "fire-assay", description: "Furnaces and equipment for laboratory workflows" },
 ];
 
 export const industries = [
@@ -60,24 +60,20 @@ export const products = productMasters.flatMap((master) => master.subcategories.
 })));
 
 export const mainAreas = [
-  { slug:"product-information", title: "Product Information", description: "Product lines, datasheets and technical papers", count: "6 product lines" },
-  { slug:"product-installation", title: "Product Installation", description: "Installation, storage and dry-out manuals", count: "32 manuals" },
-  { slug:"engineering-design", title: "Engineering & Design", description: "Thermal management and design support", count: "8 resources" },
-  { slug:"lining-assessment", title: "Lining Assessment", description: "Inspection and IR assessment services", count: "5 services" },
-  { slug:"supervision-service", title: "Supervision Service", description: "Expert installation and commissioning support", count: "4 options" },
-  { slug:"pfp", title: "Passive Fire Protection", description: "PFP certificates, resources and systems", count: "16 resources" },
+  { slug: "product-information", title: "Product Information", description: "Product lines, datasheets and technical papers" },
+  { slug: "product-installation", title: "Product Installation", description: "Installation, storage and dry-out manuals" },
+  { slug: "engineering-design", title: "Engineering & Design", description: "Thermal management and design support" },
+  { slug: "lining-assessment", title: "Lining Assessment", description: "Inspection and IR assessment services" },
+  { slug: "supervision-service", title: "Supervision Service", description: "Expert installation and commissioning support" },
+  { slug: "pfp", title: "Passive Fire Protection", description: "PFP certificates, resources and systems" },
 ];
 
-export const tools = [
-  { slug:"heat-flow", title: "Heat Flow Calculation", description: "Estimate heat flow through refractory systems", type: "External tool" },
-  { slug:"pfp-solution", title: "PFP Solution Finder", description: "Find the right passive fire protection solution", type: "External tool" },
-  { slug:"pfp-certificates", title: "PFP Certificate Finder", description: "Search certificates by product, standard and region", type: "Portal tool", restricted: true },
-  { slug:"co2-estimation", title: "CO₂ Emission Estimation", description: "Estimate potential carbon emissions reduction", type: "Portal tool", restricted: true },
+export type Tool = { slug: string; title: string; description: string; type: "External tool" | "Portal tool"; restricted?: boolean };
+
+export const tools: Tool[] = [
+  { slug: "heat-flow", title: "Heat Flow Calculation", description: "Estimate heat flow through refractory systems", type: "External tool" },
+  { slug: "pfp-solution", title: "PFP Solution Finder", description: "Find the right passive fire protection solution", type: "External tool" },
+  { slug: "pfp-certificates", title: "PFP Certificate Finder", description: "Search certificates by product, standard and region", type: "Portal tool", restricted: true },
+  { slug: "co2-estimation", title: "CO₂ Emission Estimation", description: "Estimate potential carbon emissions reduction", type: "Portal tool", restricted: true },
 ];
 
-export const documents = [
-  { title: "Superwool® Plus Blanket datasheet", type: "Datasheet", line: "Fibres", updated: "Nov 2026" },
-  { title: "Superwool XTRA 607 installation manual", type: "Installation manual", line: "Fibres", updated: "Oct 2026" },
-  { title: "Microporous board WDS technical guide", type: "Technical paper", line: "Microporous", updated: "Sep 2026" },
-  { title: "FireMaster duct wrap certificate", type: "Certificate", line: "PFP", updated: "Nov 2026" },
-];

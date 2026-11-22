@@ -1,0 +1,49 @@
+.muted {
+  color: var(--color-text-muted);
+}
+
+.small {
+  font-size: var(--text-sm);
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: var(--space-3);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.record {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.recordCopy {
+  display: flex;
+  flex: 1 1 200px;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.recordTitle {
+  color: var(--color-brand);
+  overflow-wrap: anywhere;
+}
+
+.calcHeading {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.calcTitle {
+  font-size: var(--text-lg);
+}

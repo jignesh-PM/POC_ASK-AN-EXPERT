@@ -1,18 +1,21 @@
-import type { IndexedResource } from "./site-index";
+"use client";
 
-export const adminKnowledgeBaseStorageKey = "morgan-admin-knowledge-base";
-export const adminKnowledgeBaseUpdatedEvent = "morgan-admin-knowledge-base-updated";
+import type { IndexedResource } from "./site-index";
+import { STORAGE_KEYS, useStoredJSON, writeJSON } from "./storage";
 
 export type AdminKnowledgeResource = IndexedResource & { visible: boolean; uploadedAt: string };
 
-export function readAdminKnowledgeBase(): AdminKnowledgeResource[] {
-  if (typeof window === "undefined") return [];
-  try { return JSON.parse(window.localStorage.getItem(adminKnowledgeBaseStorageKey) || "[]") as AdminKnowledgeResource[]; }
-  catch { return []; }
+const EMPTY: AdminKnowledgeResource[] = [];
+
+export function useAdminKnowledgeBase(): AdminKnowledgeResource[] {
+  return useStoredJSON(STORAGE_KEYS.knowledgeBase, EMPTY);
+}
+
+/** Admin-added sources that are published to customers. */
+export function usePublishedKnowledge(): AdminKnowledgeResource[] {
+  return useAdminKnowledgeBase().filter((resource) => resource.visible);
 }
 
 export function writeAdminKnowledgeBase(resources: AdminKnowledgeResource[]) {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(adminKnowledgeBaseStorageKey, JSON.stringify(resources));
-  window.dispatchEvent(new Event(adminKnowledgeBaseUpdatedEvent));
+  writeJSON(STORAGE_KEYS.knowledgeBase, resources);
 }

@@ -12,33 +12,48 @@ export type PortalFeature = {
   detail: string;
   deliveryNote: string;
 };
-
+/** Mirrors `app/styles/tokens.css`. `token` is the CSS custom property; `inverse` marks swatches that need light text. */
 export const designTokens = {
   colors: [
-    { name: "Morgan Blue", value: "#002F5F", use: "Primary navigation, headings, primary actions" },
-    { name: "Morgan Orange", value: "#EF6400", use: "Focus, highlights, active states" },
-    { name: "White", value: "#FFFFFF", use: "Page and card surfaces" },
-    { name: "Black", value: "#111820", use: "High contrast text and footer details" },
+    { name: "Morgan Blue", token: "--color-brand", value: "#002F5F", inverse: true, use: "Headings, navigation, primary actions" },
+    { name: "Brand soft", token: "--color-brand-soft", value: "#E9F0F7", inverse: false, use: "Selected states, tinted surfaces, chart tracks" },
+    { name: "Morgan Orange", token: "--color-accent", value: "#EF6400", inverse: true, use: "Single clear accent, focus ring, active indicators" },
+    { name: "Accent text", token: "--color-accent-text", value: "#B84D00", inverse: true, use: "Orange text that meets AA contrast on white" },
+    { name: "Text", token: "--color-text", value: "#132231", inverse: true, use: "Body copy and high-contrast labels" },
+    { name: "Muted text", token: "--color-text-muted", value: "#4F6273", inverse: true, use: "Descriptions and secondary copy" },
+    { name: "Page background", token: "--color-bg", value: "#F4F6F9", inverse: false, use: "Behind cards and sections" },
+    { name: "Surface", token: "--color-surface", value: "#FFFFFF", inverse: false, use: "Cards, panels and controls" },
+    { name: "Border", token: "--color-border", value: "#DFE6EC", inverse: false, use: "Dividers and card outlines" },
+    { name: "Success", token: "--color-success", value: "#1D7A4B", inverse: true, use: "Saved, published and resolved states" },
+    { name: "Warning", token: "--color-warning", value: "#9A5B00", inverse: true, use: "Pending or unsaved states" },
+    { name: "Danger", token: "--color-danger", value: "#B42318", inverse: true, use: "Errors and destructive actions" },
   ],
-  spacing: ["4px", "8px", "12px", "16px", "24px", "32px", "48px"],
-  radii: ["6px control", "10px card", "14px panel", "999px pill"],
+  spacing: ["--space-1 · 4px", "--space-2 · 8px", "--space-3 · 12px", "--space-4 · 16px", "--space-5 · 20px", "--space-6 · 24px", "--space-8 · 32px", "--space-10 · 40px", "--space-12 · 48px", "--space-16 · 64px"],
+  radii: ["--radius-sm · 6px controls", "--radius-md · 10px inputs, buttons", "--radius-lg · 14px cards", "--radius-xl · 20px hero panels", "--radius-pill · badges"],
+  elevation: ["--shadow-xs resting cards", "--shadow-sm menus", "--shadow-md hover lift", "--shadow-lg overlays", "--focus-ring keyboard focus"],
 };
 
+/** Mirrors the `--text-*` and `--weight-*` tokens. Nothing in the portal is smaller than `--text-xs`. */
 export const typographyScale = [
-  { name: "Display", size: "36–48px", weight: "700", use: "Landing page hero" },
-  { name: "Page title", size: "24–32px", weight: "700", use: "Primary page headings" },
-  { name: "Section title", size: "18–22px", weight: "700", use: "Cards and content groups" },
-  { name: "Body", size: "14–16px", weight: "400 / 500", use: "Reading and form content" },
-  { name: "Utility", size: "12–13px", weight: "500 / 700", use: "Tables, breadcrumbs, labels" },
+  { name: "Page title", token: "--text-3xl", size: "30–40px (fluid)", weight: "700", use: "The single h1 in PageHeader" },
+  { name: "Heading", token: "--text-2xl", size: "28px", weight: "700", use: "Stat values and large figures" },
+  { name: "Section title", token: "--text-xl", size: "22px", weight: "700", use: "SectionHeader h2" },
+  { name: "Subsection title", token: "--text-lg", size: "18px", weight: "700", use: "SectionHeader h3, card titles" },
+  { name: "Body large", token: "--text-base", size: "16px", weight: "400", use: "Lead paragraphs and large buttons" },
+  { name: "Body", token: "--text-md", size: "14px", weight: "400 / 500", use: "Default body copy, controls, tables" },
+  { name: "Small", token: "--text-sm", size: "13px", weight: "400 / 700", use: "Labels, hints, secondary lines" },
+  { name: "Caption", token: "--text-xs", size: "12px", weight: "500 / 700", use: "Badges, eyebrows, table headers (minimum size)" },
 ];
 
 export const technologyStack = [
-  { layer: "Framework", technology: "Next.js 16 App Router", role: "Routing, layouts, metadata, loading and error boundaries" },
-  { layer: "UI runtime", technology: "React 19 + TypeScript", role: "Typed, component-based portal interface" },
-  { layer: "Motion", technology: "CSS transitions", role: "Subtle interaction feedback with reduced-motion support" },
-  { layer: "Accessible controls", technology: "Radix UI", role: "Dropdown menus and select controls with keyboard support" },
-  { layer: "Icons", technology: "Lucide React", role: "Consistent interface icon set" },
-  { layer: "Styling", technology: "CSS", role: "Morgan design tokens, responsive layouts, and motion states" },
+  { layer: "Framework", technology: "Next.js 16 App Router", role: "Routing, layouts, metadata, loading and error boundaries, with Cache Components and partial prefetching enabled" },
+  { layer: "UI runtime", technology: "React 19 + TypeScript", role: "Typed Server and Client Components" },
+  { layer: "Component library", technology: "In-house (app/components/ui)", role: "Page, headers, Card, Button, Badge, Stat, Tabs, form fields, Alert and EmptyState shared by every route" },
+  { layer: "Styling", technology: "CSS Modules + design tokens", role: "Co-located modules that reference only the custom properties in app/styles/tokens.css" },
+  { layer: "Icons", technology: "In-house SVG icon set (app/components/Icon.tsx)", role: "One consistent stroke icon table; no third-party icon package" },
+  { layer: "Typography", technology: "next/font (Roboto)", role: "Self-hosted Roboto 400/500/700 exposed as --font-roboto" },
+  { layer: "Motion", technology: "CSS transitions and keyframes", role: "Short entrance and hover feedback; disabled under prefers-reduced-motion" },
+  { layer: "Persistence", technology: "Browser localStorage via useSyncExternalStore", role: "Prototype-only state (roles, admin settings, questions) without hydration mismatches; production needs real services" },
 ];
 
 export const portalFeatures: PortalFeature[] = [
@@ -51,11 +66,13 @@ export const portalFeatures: PortalFeature[] = [
   { id: "navigation", name: "Responsive portal navigation", area: "Experience", route: "All pages", behavior: "Dynamic", usp: false, detail: "Keep routes, profile tools, and support actions available across screen sizes.", deliveryNote: "Connect final access rules and approved information architecture." },
   { id: "brand-content", name: "Brand, policies, and reference content", area: "Foundation", route: "/legal", behavior: "Static", usp: false, detail: "Provide consistent brand styling and clear, stable reference pages.", deliveryNote: "Content ownership, review, and localization need defined owners." },
   { id: "direction-board", name: "Visual sitemap and direction board", area: "Governance", route: "/sitemap", behavior: "Dynamic", usp: false, detail: "See how the portal is organized and capture local planning notes.", deliveryNote: "Current note is browser-local; team collaboration needs shared storage." },
+  { id: "admin", name: "Super Admin workspace", area: "Governance", route: "/admin", behavior: "Dynamic", usp: false, detail: "Manage users, expert routing, content visibility, analytics and portal settings with an audit trail.", deliveryNote: "Prototype state is browser-local; production needs identity, role-based access and a shared database." },
 ];
 
 export const releaseHistory = [
   { version: "0.1.0", date: "Current package baseline", title: "Portal foundation", detail: "App Router structure, shared navigation, Morgan brand colors, and initial product areas." },
-  { version: "Current", date: "Prototype iteration", title: "Account and responsive experience", detail: "Profile preferences, responsive navigation, accessible menus, notifications, and loading states." },
+  { version: "0.1.1", date: "Prototype iteration", title: "Account and responsive experience", detail: "Profile preferences, responsive navigation, accessible menus, notifications, and loading states." },
+  { version: "0.2.0", date: "November 2026", title: "Design-system refactor", detail: "Replaced global CSS classes with an in-house component library (app/components/ui), CSS Modules and design tokens; moved persistence behind useSyncExternalStore hooks; split the admin workspace into per-view components; raised minimum text size to 12px and added visible focus states." },
   { version: "Next", date: "Production direction", title: "Connect portal services", detail: "Integrate identity, product and document search, expert case routing, notifications, and shared preference storage." },
 ];
 
@@ -96,9 +113,10 @@ export const portalMap = [
   {
     id: "governance",
     name: "Governance",
-    description: "Product direction and published policies.",
+    description: "Product direction, administration and published policies.",
     nodes: [
       { title: "Direction board", href: "/sitemap", type: "Board" },
+      { title: "Admin workspace", href: "/admin", type: "Workspace" },
       { title: "Legal", href: "/legal", type: "Information" },
       { title: "Privacy policy", href: "/privacy", type: "Policy" },
       { title: "Terms of use", href: "/terms", type: "Policy" },

@@ -1,0 +1,22 @@
+/* Search takes the extra width; selects wrap underneath on narrow screens. */
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+.bar > * {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.bar > :first-child {
+  flex: 2 1 280px;
+}
+
+.count {
+  color: var(--color-text-muted);
+  font-size: var(--text-md);
+  font-weight: var(--weight-medium);
+}

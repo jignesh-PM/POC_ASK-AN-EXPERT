@@ -1,0 +1,19 @@
+.question {
+  min-width: 260px;
+  max-width: 420px;
+  color: var(--color-text);
+  font-weight: var(--weight-medium);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.path {
+  padding: 2px var(--space-1);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-muted);
+  color: var(--color-brand);
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}

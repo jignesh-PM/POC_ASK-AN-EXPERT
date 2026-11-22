@@ -1,12 +1,44 @@
-import ToolRunner from "../../components/ToolRunner";
-import { tools } from "../../lib/mock-data";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { ArrowLeft } from "@/app/components/Icon";
+import { Badge, Button, Page, PageHeader } from "@/app/components/ui";
+import { ToolRunner } from "@/app/components/catalog/ToolRunner";
+import { tools } from "@/app/lib/mock-data";
+
+type Props = { params: Promise<{ slug: string }> };
+
+function findTool(slug: string) {
+  return tools.find((item) => item.slug === slug);
+}
 
 export function generateStaticParams() {
   return tools.map((tool) => ({ slug: tool.slug }));
 }
 
-export default async function ToolPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const tool = tools.find((item) => item.slug === slug) || tools[0];
-  return <main className="simple-page"><div className="simple-head"><p className="eyebrow">{tool.type.toUpperCase()}</p><h1>{tool.title}</h1><p>{tool.description}</p></div><ToolRunner slug={tool.slug} title={tool.title} description={tool.description} restricted={Boolean(tool.restricted)} /></main>;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const tool = findTool((await params).slug);
+  return tool ? { title: tool.title, description: tool.description } : {};
+}
+
+export default async function ToolPage({ params }: Props) {
+  const tool = findTool((await params).slug);
+  if (!tool) notFound();
+
+  return (
+    <Page width="narrow">
+      <PageHeader
+        eyebrow={tool.type}
+        title={tool.title}
+        description={tool.description}
+        actions={
+          <Button href="/tools" variant="ghost" size="sm" leading={<ArrowLeft size={15} aria-hidden="true" />}>
+            All tools
+          </Button>
+        }
+      >
+        {tool.restricted && <Badge tone="warning">Profile required</Badge>}
+      </PageHeader>
+      <ToolRunner slug={tool.slug} restricted={Boolean(tool.restricted)} />
+    </Page>
+  );
 }

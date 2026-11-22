@@ -1,42 +1,43 @@
-import { productMasters } from "./mock-data";
+"use client";
 
-export const catalogSettingsStorageKey = "morgan-catalog-settings";
-export const catalogSettingsUpdatedEvent = "morgan-catalog-settings-updated";
+import { productMasters } from "./mock-data";
+import { STORAGE_KEYS, readJSON, useStoredJSON, writeJSON } from "./storage";
 
 export type CatalogSettings = {
   hiddenProductIds: string[];
   hiddenDocumentIds: string[];
   hiddenCertificationIds: string[];
+  /** Expert team by product master id or product id. */
   expertTeams: Record<string, string>;
 };
 
-export function getDefaultCatalogSettings(): CatalogSettings {
+const DEFAULT_TEAMS = Object.fromEntries(productMasters.map((master) => [master.id, master.expertTeam]));
+const EMPTY: Partial<CatalogSettings> = {};
+
+function normalize(saved: Partial<CatalogSettings>): CatalogSettings {
   return {
-    hiddenProductIds: [],
-    hiddenDocumentIds: [],
-    hiddenCertificationIds: [],
-    expertTeams: Object.fromEntries(productMasters.map((master) => [master.id, master.expertTeam])),
+    hiddenProductIds: Array.isArray(saved.hiddenProductIds) ? saved.hiddenProductIds : [],
+    hiddenDocumentIds: Array.isArray(saved.hiddenDocumentIds) ? saved.hiddenDocumentIds : [],
+    hiddenCertificationIds: Array.isArray(saved.hiddenCertificationIds) ? saved.hiddenCertificationIds : [],
+    expertTeams: { ...DEFAULT_TEAMS, ...(saved.expertTeams ?? {}) },
   };
 }
 
 export function readCatalogSettings(): CatalogSettings {
-  const defaults = getDefaultCatalogSettings();
-  if (typeof window === "undefined") return defaults;
-  try {
-    const saved = JSON.parse(window.localStorage.getItem(catalogSettingsStorageKey) || "{}") as Partial<CatalogSettings>;
-    return {
-      hiddenProductIds: Array.isArray(saved.hiddenProductIds) ? saved.hiddenProductIds : defaults.hiddenProductIds,
-      hiddenDocumentIds: Array.isArray(saved.hiddenDocumentIds) ? saved.hiddenDocumentIds : defaults.hiddenDocumentIds,
-      hiddenCertificationIds: Array.isArray(saved.hiddenCertificationIds) ? saved.hiddenCertificationIds : defaults.hiddenCertificationIds,
-      expertTeams: { ...defaults.expertTeams, ...(saved.expertTeams ?? {}) },
-    };
-  } catch {
-    return defaults;
-  }
+  return normalize(readJSON(STORAGE_KEYS.catalogSettings, EMPTY));
 }
 
 export function writeCatalogSettings(settings: CatalogSettings) {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(catalogSettingsStorageKey, JSON.stringify(settings));
-  window.dispatchEvent(new Event(catalogSettingsUpdatedEvent));
+  writeJSON(STORAGE_KEYS.catalogSettings, settings);
+}
+
+export function useCatalogSettings(): CatalogSettings {
+  return normalize(useStoredJSON(STORAGE_KEYS.catalogSettings, EMPTY));
+}
+
+/** Toggles `id` in one of the hidden-id lists and persists the result. */
+export function toggleHidden(list: "hiddenProductIds" | "hiddenDocumentIds" | "hiddenCertificationIds", id: string) {
+  const settings = readCatalogSettings();
+  const current = settings[list];
+  writeCatalogSettings({ ...settings, [list]: current.includes(id) ? current.filter((item) => item !== id) : [...current, id] });
 }

@@ -9,58 +9,53 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` to the site’s canonical URL before deployment. Integration variables are placeholders until their services are connected.
+Open [http://localhost:3000](http://localhost:3000). Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` to the site’s canonical URL before deployment.
+
+## Support journey
+
+1. **Ask.** The search bar in the header takes a question plus an industry and product.
+2. **Answer with sources.** `/search` returns a Morgan AI answer citing its sources: matching products and documents from Morgan’s official site.
+3. **Continue with an expert.** If the answer isn’t enough, “Continue with an expert” hands the question, industry and product to the responsible team (`/questions` → `/expert`).
 
 ## Project structure
 
 ```text
 app/
-  components/      Shared chrome, controls, motion, documentation, and error UI
-  lib/             Portal content, route map, and documentation records
-  categories/      Product category index
-  category/[slug]/ Category detail
-  documents/       Customer-facing technical resource library
-  technical-documents/ Portal design and implementation handbook
-  sitemap/         Visual route and product direction board
-  sitemap.ts       XML sitemap route
-  error.tsx        Route-segment 500 recovery UI
-  global-error.tsx Root-level error recovery UI
-  not-found.tsx    Branded 404 UI
+  styles/
+    tokens.css        Design tokens: colour, type, spacing, radius, shadow, motion
+    base.css          Element defaults, focus ring, entrance animation
+  components/
+    ui/               Component library (Button, Card, Field, PageHeader, Tabs, Popover…) — see ui/README.md
+    Icon.tsx          In-house SVG icon set
+    shell/            Header, navigation drawer, search bar, breadcrumbs, error/404 UI
+    catalog/          Home, products, categories, documents, tools, legal
+    support/          Morgan AI answers, question hub, expert chat
+    account/          Profile, password, sign-in
+    admin/            Super Admin workspace (one file per view)
+    docs/             Technical documents handbook and site-map board
+  lib/
+    storage.ts        localStorage access via useSyncExternalStore (prototype persistence)
+    session.ts        Role, region, language, admin settings, audit log, analytics
+    catalog-settings.ts, expert-routing.ts, profile-completion.ts, admin-knowledge-base.ts
+    mock-data.ts, site-index.ts, compliance-data.ts, project-documentation.ts
+  <route>/page.tsx    Server Components exporting metadata; client islands only where needed
 ```
 
-## Technical Documents
+## Conventions
 
-The handbook at `/technical-documents` documents the brand system, Roboto type scale, technology stack, portal features, functionality tracker, and prototype release history. Tracker statuses are saved in browser local storage for the demo. The visual sitemap at `/sitemap` uses the same route data and provides a local direction note.
-
-## UI and motion
-
-- Morgan Blue `#002F5F`, Morgan Orange `#EF6400`, white, and black form the core palette.
-- Roboto is loaded through `next/font` and used as the portal interface family.
-- Native HTML controls provide accessible select and menu behavior.
-- Icons use a local SVG component; no icon or UI package is required.
-- Lightweight CSS/IntersectionObserver motion replaces animation packages and respects `prefers-reduced-motion`.
-
-## Main routes
-
-| Route | Purpose |
-| --- | --- |
-| `/` | Portal overview and search |
-| `/categories` | Product category index |
-| `/documents` | Customer-facing technical documents |
-| `/tools` | Support tools |
-| `/questions` | Ask the Expert flow |
-| `/profile` | Prototype profile |
-| `/technical-documents` | Product and implementation handbook |
-| `/sitemap` | Visual portal map and direction board |
-| `/sitemap.xml` | Search-engine sitemap |
+- Build UI from `app/components/ui` and style feature components with co-located CSS Modules that use tokens only. There is no global stylesheet of component classes.
+- Components never touch `window.localStorage` directly; read through the hooks in `app/lib`, write through its functions.
+- Every route renders one `<PageHeader>` (the only `<h1>`). Page titles use the root `%s | Morgan Ask the Expert` template.
+- Unknown slugs call `notFound()` (Cache Components is enabled, so `dynamicParams` is unavailable).
 
 ## Useful commands
 
 ```bash
-npm run dev
-npm run lint
-npm run build
-npm run start
+npm run dev        # development server
+npm run lint       # ESLint
+npm run typecheck  # TypeScript
+npm run build      # production build
+npm run start      # serve the production build
 ```
 
-The account-role selector and local direction/tracker storage are prototype features. Connect them to approved identity, content, and project services before production use.
+The role preview selector and browser-stored data are prototype features. Connect them to approved identity, content, and expert-routing services before production use.

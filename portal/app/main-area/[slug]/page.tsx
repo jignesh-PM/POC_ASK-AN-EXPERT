@@ -1,9 +1,54 @@
-import Link from "next/link";
-import { mainAreas } from "../../lib/mock-data";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { FileText, MessageSquareText } from "@/app/components/Icon";
+import { Grid, Page, PageHeader } from "@/app/components/ui";
+import { CatalogCard } from "@/app/components/catalog/CatalogCard";
+import { mainAreas } from "@/app/lib/mock-data";
 
-export function generateStaticParams(){return mainAreas.map((area)=>({slug:area.slug}));}
+type Props = { params: Promise<{ slug: string }> };
 
-export default async function MainAreaPage({params}:{params:Promise<{slug:string}>}){
- const {slug}=await params; const area=mainAreas.find((item)=>item.slug===slug)||mainAreas[0];
- return <main className="simple-page"><div className="simple-head"><p className="eyebrow">MAIN AREA</p><h1>{area.title}</h1><p>{area.description}</p></div><section className="main-area-list"><Link href="/documents"><span>01</span><div><h2>Technical resources</h2><p>Browse documents and downloads for this area.</p></div><b>View resources →</b></Link><Link href="/questions"><span>02</span><div><h2>Ask an expert</h2><p>Start an AI-assisted question or talk to the responding team.</p></div><b>Ask now →</b></Link></section></main>;
+function findArea(slug: string) {
+  return mainAreas.find((item) => item.slug === slug);
+}
+
+export function generateStaticParams() {
+  return mainAreas.map((area) => ({ slug: area.slug }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const area = findArea((await params).slug);
+  return area ? { title: area.title, description: area.description } : {};
+}
+
+export default async function MainAreaPage({ params }: Props) {
+  const area = findArea((await params).slug);
+  if (!area) notFound();
+
+  return (
+    <Page>
+      <PageHeader eyebrow="Support area" title={area.title} description={area.description} />
+      <Grid as="ul" min={280} aria-label={`${area.title} next steps`}>
+        <li>
+          <CatalogCard
+            href="/documents"
+            headingLevel="h2"
+            icon={<FileText size={20} aria-hidden="true" />}
+            title="Technical resources"
+            description="Browse documents and downloads for this area."
+            cta="Browse technical documents"
+          />
+        </li>
+        <li>
+          <CatalogCard
+            href="/questions"
+            headingLevel="h2"
+            icon={<MessageSquareText size={20} aria-hidden="true" />}
+            title="Ask an expert"
+            description="Start an AI-assisted question or talk to the responding team."
+            cta="Ask a question"
+          />
+        </li>
+      </Grid>
+    </Page>
+  );
 }
