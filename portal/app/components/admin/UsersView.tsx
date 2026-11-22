@@ -51,7 +51,7 @@ export function UsersView() {
     const name = draft.name.trim();
     const email = draft.email.trim();
     if (!name || !email) return setCreateError("Name and email are required.");
-    if (emailTaken(email)) return setCreateError("An account already uses that email address.");
+    if (emailTaken(email)) return setCreateError("That email is already in use.");
     save([newAccount({ ...draft, name, email, company: draft.company.trim(), country: draft.country.trim() }), ...users], `Created ${name} (${draft.role})`);
     setDraft(EMPTY_DRAFT);
     setCreateError("");
@@ -59,7 +59,7 @@ export function UsersView() {
 
   const importCsv = () => {
     const accounts = parseCsv(csvText).filter((candidate) => !emailTaken(candidate.email));
-    if (!accounts.length) return setCsvError("No new accounts were found. Use name,email,company,country,role columns.");
+    if (!accounts.length) return setCsvError("No new accounts found. Use the columns name,email,company,country,role.");
     save([...accounts, ...users], `Imported ${accounts.length} account${accounts.length === 1 ? "" : "s"} from CSV`);
     setCsvText("");
     setCsvError("");
@@ -72,7 +72,7 @@ export function UsersView() {
 
   return (
     <>
-      <AdminPanel id="admin-create-user" title="Create an account" description="Issue an alpha ID for a customer or Morgan colleague." saved={saved}>
+      <AdminPanel id="admin-create-user" title="Add a user" description="Create an alpha ID for a customer or Morgan colleague." saved={saved}>
         <form className={styles.form} onSubmit={createUser} noValidate>
           <Grid min={220} gap={4}>
             <Field label="Full name">
@@ -98,33 +98,33 @@ export function UsersView() {
           {createError && <Alert tone="danger">{createError}</Alert>}
           <div className={styles.actions}>
             <Button type="submit" leading={<Plus size={16} aria-hidden="true" />}>
-              Create account
+              Add user
             </Button>
           </div>
         </form>
       </AdminPanel>
 
-      <AdminPanel id="admin-import-users" title="Import alpha users from CSV" description="Paste one account per line. Columns: name, email, company, country, role. Existing emails are skipped.">
+      <AdminPanel id="admin-import-users" title="Import from CSV" description="One user per line: name, email, company, country, role. Existing emails are skipped.">
         <Field label="CSV rows">
           <Textarea value={csvText} onChange={(event) => setCsvText(event.target.value)} rows={4} placeholder={CSV_PLACEHOLDER} spellCheck={false} />
         </Field>
         {csvError && <Alert tone="danger">{csvError}</Alert>}
         <div className={styles.actions}>
           <Button variant="secondary" onClick={importCsv} disabled={!csvText.trim()} leading={<FileUp size={16} aria-hidden="true" />}>
-            Import accounts
+            Import
           </Button>
         </div>
       </AdminPanel>
 
-      <AdminPanel id="admin-user-list" title="Managed accounts" description="Change roles, assign Morgan User product lines and deactivate access." actions={<Badge tone="brand">{users.length} accounts</Badge>}>
+      <AdminPanel id="admin-user-list" title="Users" description="Change roles, assign product lines and manage access." actions={<Badge tone="brand">{users.length} accounts</Badge>}>
         {users.length ? (
-          <AdminTable caption="Managed accounts">
+          <AdminTable caption="Users">
             <thead>
               <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Email / company</th>
                 <th scope="col">Role</th>
-                <th scope="col">Product line access</th>
+                <th scope="col">Product lines</th>
                 <th scope="col">Status</th>
                 <th scope="col">
                   <span className="visually-hidden">Actions</span>
@@ -181,7 +181,7 @@ export function UsersView() {
             </tbody>
           </AdminTable>
         ) : (
-          <EmptyState icon={<Users size={22} />} title="No managed accounts yet" description="Create an alpha ID above or import a CSV." />
+          <EmptyState icon={<Users size={22} />} title="No users yet" description="Add a user or import a CSV." />
         )}
       </AdminPanel>
     </>

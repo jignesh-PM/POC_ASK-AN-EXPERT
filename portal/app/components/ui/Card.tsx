@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { HTMLAttributes, ReactNode } from "react";
 import { cx } from "./cx";
+import { MascotOr } from "../mascot/Mascot";
 import styles from "./Card.module.css";
 
 type Padding = "none" | "sm" | "md" | "lg";
@@ -69,11 +70,11 @@ export function Stat({ label, value, hint, className }: { label: ReactNode; valu
   );
 }
 
-/** Placeholder for lists and searches with no results. */
+/** Placeholder for lists and searches with no results. Shows the curious mascot (or `icon` when the guide is off). */
 export function EmptyState({ icon, title, description, action, className }: { icon?: ReactNode; title: ReactNode; description?: ReactNode; action?: ReactNode; className?: string }) {
   return (
     <div className={cx(styles.empty, className)}>
-      {icon && <IconTile tone="neutral" size="lg">{icon}</IconTile>}
+      <MascotOr mood="curious" size="sm" fallback={icon && <IconTile tone="neutral" size="lg">{icon}</IconTile>} />
       <strong className={styles.emptyTitle}>{title}</strong>
       {description && <p className={styles.emptyDescription}>{description}</p>}
       {action}

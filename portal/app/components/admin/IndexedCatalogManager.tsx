@@ -60,17 +60,17 @@ export function IndexedCatalogManager() {
   };
 
   return (
-    <AdminPanel id="admin-index-title" title="Indexed product & document data" description="Review indexed records and choose what visitors and customers can see." saved={saved}>
+    <AdminPanel id="admin-index-title" title="Products and documents" description="Choose which indexed records customers can see." saved={saved}>
       <Alert icon={<RefreshCw size={18} aria-hidden="true" />}>
-        <strong>Source website: </strong>
+        <strong>Source: </strong>
         <a className={styles.inlineLink} href="https://www.morganthermalceramics.com/" target="_blank" rel="noreferrer">
           morganthermalceramics.com
         </a>
-        . Live indexing is not connected in this prototype; the catalog is seeded with official source links.
+        . Prototype: live indexing is not connected; records link to official sources.
       </Alert>
 
       <Grid min={180} gap={3}>
-        <Stat label="Visible product systems" value={visibleProducts} hint={`of ${allProducts.length}`} />
+        <Stat label="Visible products" value={visibleProducts} hint={`of ${allProducts.length}`} />
         <Stat label="Visible documents" value={visibleDocuments} hint={`of ${officialSiteIndex.length}`} />
         <Stat label="Hidden records" value={settings.hiddenProductIds.length + settings.hiddenDocumentIds.length} />
       </Grid>
@@ -83,7 +83,7 @@ export function IndexedCatalogManager() {
             {productMasters.map((master) => (
               <section key={master.id} aria-labelledby={`index-${master.id}`} className={styles.group}>
                 <SectionHeader as="h3" id={`index-${master.id}`} title={master.name} />
-                <TeamInput label={`Default product manager / team for ${master.name}`} value={settings.expertTeams[master.id] ?? ""} placeholder="Morgan product team" hint="Team fields save when you leave them." onSave={(team) => setTeam(master.id, master.name, team)} />
+                <TeamInput label={`Default team for ${master.name}`} value={settings.expertTeams[master.id] ?? ""} placeholder="Morgan product team" hint="Saves when you leave the field." onSave={(team) => setTeam(master.id, master.name, team)} />
                 <VisibilityList label={`${master.name} products`}>
                   {master.subcategories.map((product) => {
                     const visible = !settings.hiddenProductIds.includes(product.id);
@@ -96,9 +96,9 @@ export function IndexedCatalogManager() {
                         visible={visible}
                         onToggle={() => toggle("hiddenProductIds", product.id, product.name, visible)}
                       >
-                        <TeamInput label="Product manager / team" value={settings.expertTeams[product.id] ?? settings.expertTeams[master.id] ?? ""} onSave={(team) => setTeam(product.id, product.name, team)} />
+                        <TeamInput label="Expert team" value={settings.expertTeams[product.id] ?? settings.expertTeams[master.id] ?? ""} onSave={(team) => setTeam(product.id, product.name, team)} />
                         <Button href={product.url} external variant="link" size="sm" trailing={<ArrowUpRight size={14} aria-hidden="true" />}>
-                          Official product page
+                          Product page
                         </Button>
                       </VisibilityRow>
                     );
@@ -121,7 +121,7 @@ export function IndexedCatalogManager() {
                   onToggle={() => toggle("hiddenDocumentIds", resource.id, resource.title, visible)}
                 >
                   <Button href={resource.url} external variant="link" size="sm" trailing={<ArrowUpRight size={14} aria-hidden="true" />}>
-                    Official source
+                    View source
                   </Button>
                 </VisibilityRow>
               );

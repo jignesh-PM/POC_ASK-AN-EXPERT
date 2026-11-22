@@ -12,6 +12,7 @@ import { appendConversationMessage, initialMessages, setRequestStatus, useConver
 import { isStaff, useAdminSettings, useRole } from "@/app/lib/session";
 import { useProfileCompletion } from "@/app/lib/profile-completion";
 import RequireSignIn from "./RequireSignIn";
+import { celebrate } from "@/app/lib/celebrate";
 
 /** Signed-in users only; visitors are asked to sign in and come back to the same thread. */
 export default function ExpertWorkspace() {
@@ -82,7 +83,8 @@ function ExpertInbox({ requestedId }: { requestedId: string | null }) {
   const resolve = () => {
     if (!active) return;
     setRequestStatus(active.id, "Resolved");
-    setStatus("Conversation marked as resolved.");
+    celebrate(document.activeElement);
+    setStatus("Chat resolved.");
   };
 
   const ownSender = staff ? "expert" : "customer";
@@ -91,11 +93,11 @@ function ExpertInbox({ requestedId }: { requestedId: string | null }) {
   return (
     <Page width="wide">
       <PageHeader
-        title={staff ? "Customer conversations" : "Expert conversations"}
+        title={staff ? "Customer chats" : "Expert chats"}
         description={
           staff
-            ? "Reply to customer questions and resolve a chat when the customer has what they need. Each conversation shows the team it was routed to."
-            : "Your questions to Morgan subject matter experts. Replies appear here and you can continue the conversation at any time."
+            ? "Reply to customers and resolve each chat once answered."
+            : "Your chats with Morgan experts. Replies appear here."
         }
         actions={
           <>
@@ -116,17 +118,17 @@ function ExpertInbox({ requestedId }: { requestedId: string | null }) {
 
       {staff && (
         <Alert tone="info" icon={<ShieldCheck size={18} aria-hidden="true" />}>
-          <strong>Proof of concept:</strong> every Morgan user sees all conversations. New chats are still routed to the team configured in Admin › Expert teams, shown on each conversation.
+          <strong>Prototype:</strong> all Morgan users see every chat. Each chat shows the team it is routed to in Admin › Expert teams.
         </Alert>
       )}
 
       <div className={styles.workspace}>
         <aside className={styles.inbox} aria-labelledby="inbox-title">
           <h2 id="inbox-title" className="visually-hidden">
-            Conversations
+            Chats
           </h2>
-          <Field label="Find a conversation" hideLabel>
-            <SearchInput value={filter} onChange={(event) => setFilter(event.target.value)} placeholder="Find a conversation" />
+          <Field label="Search chats" hideLabel>
+            <SearchInput value={filter} onChange={(event) => setFilter(event.target.value)} placeholder="Search chats" />
           </Field>
           {threads.length ? (
             <ul className={styles.threadList}>
@@ -155,15 +157,15 @@ function ExpertInbox({ requestedId }: { requestedId: string | null }) {
               })}
             </ul>
           ) : (
-            <p className={styles.inboxEmpty}>{term ? "No conversations match your search." : "No conversations yet."}</p>
+            <p className={styles.inboxEmpty}>{term ? "No chats match your search." : "No chats yet."}</p>
           )}
           <p className={styles.inboxNote}>
             <ShieldCheck size={16} aria-hidden="true" />
-            Questions are routed to the Morgan team for the selected product.
+            Each question goes to the Morgan team for its product.
           </p>
         </aside>
 
-        <section ref={panelRef} className={styles.panel} aria-labelledby={active ? "conversation-title" : undefined} aria-label={active ? undefined : "Conversation"}>
+        <section ref={panelRef} className={styles.panel} aria-labelledby={active ? "conversation-title" : undefined} aria-label={active ? undefined : "Chat"}>
           {active && activeStatus ? (
             <>
               <header className={styles.panelHeader}>
@@ -185,9 +187,9 @@ function ExpertInbox({ requestedId }: { requestedId: string | null }) {
                 </div>
               </header>
 
-              <div ref={transcriptRef} className={styles.transcript} role="log" aria-live="polite" aria-label="Messages between the customer and the Morgan expert team" tabIndex={0}>
+              <div ref={transcriptRef} className={styles.transcript} role="log" aria-live="polite" aria-label="Messages" tabIndex={0}>
                 <div className={chat.transcript}>
-                  <p className={chat.divider}>Conversation started {formatTimestamp(active.createdAt)}</p>
+                  <p className={chat.divider}>Started {formatTimestamp(active.createdAt)}</p>
                   {messages.map((message) => (
                     <ChatBubble
                       key={message.id}
@@ -203,12 +205,12 @@ function ExpertInbox({ requestedId }: { requestedId: string | null }) {
                   <p className={styles.responseState}>
                     {staff ? <Headset size={16} aria-hidden="true" /> : expertReplied ? <Check size={16} aria-hidden="true" /> : <Clock3 size={16} aria-hidden="true" />}
                     {staff
-                      ? "Reply as the Morgan subject matter expert."
+                      ? "You are replying as the Morgan expert."
                       : active.status === "Resolved"
-                        ? "This conversation was marked as resolved. Send a message to reopen it."
+                        ? "Resolved. Send a message to reopen this chat."
                         : expertReplied
-                          ? "Morgan's expert team has replied. Continue the conversation below."
-                          : "A Morgan subject matter expert will reply in this conversation."}
+                          ? "A Morgan expert has replied."
+                          : "A Morgan expert will reply here."}
                   </p>
                 </div>
               </div>
@@ -216,14 +218,14 @@ function ExpertInbox({ requestedId }: { requestedId: string | null }) {
               <div className={styles.composer}>
                 {profileRequired ? (
                   <Alert tone="warning" icon={<ShieldCheck size={18} aria-hidden="true" />}>
-                    <strong>Complete your profile to message a Morgan expert.</strong> Your question is saved in the {active.category || active.product} community thread.{" "}
+                    <strong>Complete your profile to message a Morgan expert.</strong> Your question is saved.{" "}
                     <Button href="/profile#personal-details" variant="link" size="sm" trailing={<ArrowRight size={14} aria-hidden="true" />}>
                       Complete profile
                     </Button>
                   </Alert>
                 ) : (
                   <form onSubmit={send} className={styles.composerForm}>
-                    <Field label={staff ? "Reply to customer" : "Message the Morgan expert team"} hideLabel>
+                    <Field label={staff ? "Reply to customer" : "Message the Morgan expert"} hideLabel>
                       <Textarea
                         rows={2}
                         value={draft}
@@ -232,7 +234,7 @@ function ExpertInbox({ requestedId }: { requestedId: string | null }) {
                           setStatus("");
                         }}
                         onKeyDown={onComposerKeyDown}
-                        placeholder={staff ? "Write a reply to the customer…" : "Ask a follow-up question…"}
+                        placeholder={staff ? "Write a reply…" : "Ask a follow-up…"}
                         aria-describedby="composer-hint"
                         className={styles.composerInput}
                       />
@@ -253,18 +255,18 @@ function ExpertInbox({ requestedId }: { requestedId: string | null }) {
             <EmptyState
               className={styles.panelEmpty}
               icon={<MessageSquareText size={22} />}
-              title={requests.length ? "Choose a conversation" : "No conversations yet"}
+              title={requests.length ? "Choose a chat" : "No chats yet"}
               description={
                 requests.length
-                  ? "Select a question from the list to open the conversation."
+                  ? "Select a question from the list."
                   : staff
-                    ? "Customer questions routed to your product lines will appear here."
-                    : "Ask Morgan AI first, or start a separate chat with a product specialist."
+                    ? "Customer questions for your products appear here."
+                    : "Ask Morgan AI, or start a chat with a Morgan expert."
               }
               action={
                 !staff && !requests.length ? (
                   <Button href="/questions?mode=expert" variant="accent" size="sm" leading={<Headset size={16} aria-hidden="true" />}>
-                    Start an expert chat
+                    Start chat
                   </Button>
                 ) : undefined
               }

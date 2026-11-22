@@ -28,7 +28,7 @@ export function ProductCatalogue() {
     <Stack as="section" gap={6} aria-labelledby="product-results-title">
       <FilterBar label="Filter products">
         <Field label="Search products" hideLabel>
-          <SearchInput value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search products and product ranges" />
+          <SearchInput value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search products" />
         </Field>
         <Field label="Product range" hideLabel>
           <Select value={range} onChange={(event) => setRange(event.target.value)}>
@@ -42,7 +42,7 @@ export function ProductCatalogue() {
         </Field>
       </FilterBar>
 
-      <SectionHeader id="product-results-title" title="Products and services" actions={<ResultCount count={results.length} noun="product" />} />
+      <SectionHeader id="product-results-title" title="All products" actions={<ResultCount count={results.length} noun="product" />} />
 
       {results.length ? (
         <Grid as="ul" min={260}>
@@ -53,7 +53,7 @@ export function ProductCatalogue() {
                 tags={[categoryName(product.category)]}
                 title={product.name}
                 description={product.description}
-                cta={`View ${categoryName(product.category)} range`}
+                cta="View range"
               />
             </li>
           ))}
@@ -62,7 +62,7 @@ export function ProductCatalogue() {
         <EmptyState
           icon={<Search size={22} aria-hidden="true" />}
           title="No products found"
-          description="Try a different product name or choose another product range."
+          description="Try another name or product range."
           action={
             <Button variant="secondary" onClick={clearFilters}>
               Clear filters

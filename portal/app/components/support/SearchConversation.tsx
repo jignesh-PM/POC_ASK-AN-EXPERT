@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { ArrowRight, ArrowUpRight, FileText } from "../Icon";
 import { Badge, Button, Card, EmptyState, Grid, Stack } from "../ui";
 import { ChatBubble } from "./ChatBubble";
@@ -12,6 +13,7 @@ import { usePublishedKnowledge } from "@/app/lib/admin-knowledge-base";
 import { isExpertThread, threadHref, useRoutingRequests } from "@/app/lib/expert-routing";
 import { useRole } from "@/app/lib/session";
 import { signInHref } from "./RequireSignIn";
+import { mascotConfig } from "@/app/lib/mascot";
 
 type Props = { query: string; industryId: string; productId: string; expertTeam: string };
 
@@ -56,6 +58,16 @@ export default function SearchConversation({ query, industryId, productId, exper
     .slice(0, 8)
     .reverse();
 
+  // A short “thinking” beat before each new answer (skipped for reduced motion).
+  const answerKey = `${query}|${industryId}|${productId}`;
+  const [revealedKey, setRevealedKey] = useState("");
+  useEffect(() => {
+    const delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 900;
+    const timer = window.setTimeout(() => setRevealedKey(answerKey), delay);
+    return () => window.clearTimeout(timer);
+  }, [answerKey]);
+  const thinking = revealedKey !== answerKey;
+
   const askExpertHref = `/questions?${new URLSearchParams({ q: query, industry: industryId, product: productId, team: expertTeam })}`;
   const hasSources = documents.length > 0 || sourceProducts.length > 0;
 
@@ -78,68 +90,82 @@ export default function SearchConversation({ query, industryId, productId, exper
           <ChatBubble author="customer" name="You" align="end">
             {query || "Browse Morgan resources"}
           </ChatBubble>
-          <ChatBubble author="ai" name="Morgan AI">
-            <p>{answer.answer}</p>
-            <section className={styles.sources} aria-labelledby="answer-sources-title">
-              <div className={styles.sourcesHeading}>
-                <h2 id="answer-sources-title" className={styles.sourcesTitle}>
-                  Sources
-                </h2>
-                <span className={styles.cardText}>From Morgan&apos;s official website</span>
-              </div>
-
-              {!hasSources && (
-                <EmptyState
-                  icon={<FileText size={20} />}
-                  title="No approved sources matched"
-                  description="Try different wording, browse the library, or ask a Morgan expert below."
-                  action={
-                    <Button href="/documents" variant="secondary" size="sm" trailing={<ArrowRight size={14} aria-hidden="true" />}>
-                      Browse documents
-                    </Button>
-                  }
-                />
-              )}
-
-              {sourceProducts.length > 0 && (
-                <SourceGroup title="Products" count={sourceProducts.length}>
-                  {sourceProducts.slice(0, MAX_SOURCES).map((item) => (
-                    <SourceCard key={item.id} href={item.url} label={item.categoryName} title={item.name} summary={item.description} linkText="Official product page" />
-                  ))}
-                </SourceGroup>
-              )}
-
-              {documents.length > 0 && (
-                <SourceGroup title="Documents" count={documents.length}>
-                  {documents.slice(0, MAX_SOURCES).map((resource) => (
-                    <SourceCard
-                      key={resource.id}
-                      href={resource.url}
-                      label={`${resource.type} · ${resource.category}`}
-                      title={resource.title}
-                      summary={resource.summary}
-                      linkText="Open document source"
+          <ChatBubble author="ai" name="Morgan AI" mood={thinking ? "think" : "happy"}>
+            {thinking ? (
+              <p className={styles.thinking} role="status">
+                <span className={styles.typing} aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                {mascotConfig.lines.think[0]}
+              </p>
+            ) : (
+              <div className={styles.answer}>
+                <p>{answer.answer}</p>
+                <section className={styles.sources} aria-labelledby="answer-sources-title">
+                  <div className={styles.sourcesHeading}>
+                    <h2 id="answer-sources-title" className={styles.sourcesTitle}>
+                      Sources
+                    </h2>
+                    <span className={styles.cardText}>From morganthermalceramics.com</span>
+                  </div>
+    
+                  {!hasSources && (
+                    <EmptyState
+                      icon={<FileText size={20} />}
+                      title="No sources found"
+                      description="Try other words, or ask an expert below."
+                      action={
+                        <Button href="/documents" variant="secondary" size="sm" trailing={<ArrowRight size={14} aria-hidden="true" />}>
+                          Browse documents
+                        </Button>
+                      }
                     />
-                  ))}
-                </SourceGroup>
-              )}
-            </section>
+                  )}
+    
+                  {sourceProducts.length > 0 && (
+                    <SourceGroup title="Products" count={sourceProducts.length}>
+                      {sourceProducts.slice(0, MAX_SOURCES).map((item) => (
+                        <SourceCard key={item.id} href={item.url} label={item.categoryName} title={item.name} summary={item.description} linkText="View product" />
+                      ))}
+                    </SourceGroup>
+                  )}
+    
+                  {documents.length > 0 && (
+                    <SourceGroup title="Documents" count={documents.length}>
+                      {documents.slice(0, MAX_SOURCES).map((resource) => (
+                        <SourceCard
+                          key={resource.id}
+                          href={resource.url}
+                          label={`${resource.type} · ${resource.category}`}
+                          title={resource.title}
+                          summary={resource.summary}
+                          linkText="Open document"
+                        />
+                      ))}
+                    </SourceGroup>
+                  )}
+                </section>
+              </div>
+            )}
           </ChatBubble>
         </div>
       </section>
 
       {query &&
+        !thinking &&
         (current && isExpertThread(current) ? (
           <Card tone="muted" as="aside" aria-labelledby="expert-handoff-title">
             <div className={styles.cta}>
               <div className={styles.ctaCopy}>
                 <h2 id="expert-handoff-title" className={styles.ctaTitle}>
-                  You&apos;re already chatting with an expert
+                  You have an expert chat for this
                 </h2>
-                <p className={styles.cardText}>Continue the conversation with {current.expertTeam} about this question.</p>
+                <p className={styles.cardText}>Continue with {current.expertTeam}.</p>
               </div>
               <Button href={threadHref(current)} trailing={<ArrowRight size={16} aria-hidden="true" />}>
-                Open conversation
+                Open chat
               </Button>
             </div>
           </Card>
@@ -148,15 +174,15 @@ export default function SearchConversation({ query, industryId, productId, exper
             <div className={styles.cta}>
               <div className={styles.ctaCopy}>
                 <h2 id="expert-handoff-title" className={styles.ctaTitle}>
-                  Not what you needed? Continue with an expert
+                  Need more help? Ask an expert
                 </h2>
                 <p className={styles.cardText}>
-                  {expertTeam || "A Morgan subject matter expert"} will pick up this conversation. Your question, industry and product come with you, so there&apos;s no need to repeat yourself.
-                  {signedOut && " Expert chat needs a Morgan account, so you’ll sign in first."}
+                  {expertTeam || "A Morgan specialist"} will pick up your question — no need to repeat it.
+                  {signedOut && " Sign in first to start a chat."}
                 </p>
               </div>
               <Button href={signedOut ? signInHref(askExpertHref) : askExpertHref} variant="accent" trailing={<ArrowRight size={16} aria-hidden="true" />}>
-                {signedOut ? "Sign in to continue" : "Continue with an expert"}
+                {signedOut ? "Sign in" : "Ask an expert"}
               </Button>
             </div>
           </Card>

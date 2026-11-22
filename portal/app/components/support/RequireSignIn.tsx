@@ -5,6 +5,7 @@ import { Headset, LogIn } from "../Icon";
 import { Button, Card } from "../ui";
 import { useRole } from "@/app/lib/session";
 import { useHydrated } from "@/app/lib/storage";
+import { MascotOr } from "../mascot/Mascot";
 import styles from "./RequireSignIn.module.css";
 
 /** Link to sign-in that returns to `next` afterwards. */
@@ -26,17 +27,22 @@ export default function RequireSignIn({ next, children }: { next: string; childr
 
   return (
     <Card padding="lg" className={styles.card} animate>
-      <span className={styles.icon} aria-hidden="true">
-        <Headset size={26} />
-      </span>
-      <h2 className={styles.title}>Sign in to chat with a Morgan expert</h2>
+      <MascotOr
+        mood="wave"
+        size="md"
+        fallback={
+          <span className={styles.icon} aria-hidden="true">
+            <Headset size={26} />
+          </span>
+        }
+      />
+      <h2 className={styles.title}>Sign in to chat with an expert</h2>
       <p className={styles.text}>
-        Expert conversations are linked to your account, so the specialist team can follow up and you can return to the chat at any time. Morgan AI answers stay available without
-        signing in.
+        Your chats are saved to your account, so you can pick them up any time. Morgan AI answers don’t need an account.
       </p>
       <div className={styles.actions}>
         <Button href={signInHref(next)} variant="accent" leading={<LogIn size={16} aria-hidden="true" />}>
-          Sign in to continue
+          Sign in
         </Button>
         <Button href={signInHref(next)} variant="secondary">
           Create an account

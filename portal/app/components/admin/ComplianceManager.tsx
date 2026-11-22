@@ -16,12 +16,12 @@ export function ComplianceManager() {
   return (
     <AdminPanel
       id="admin-compliance"
-      title="ISO certification visibility"
-      description="Choose which regional certifications appear on the customer home page."
+      title="ISO certifications"
+      description="Choose which certifications show on the home page."
       saved={saved}
       actions={
         <Button href={qualityCertificatesUrl} external variant="secondary" size="sm" trailing={<ArrowUpRight size={14} aria-hidden="true" />}>
-          Published certificate index
+          View certificates
         </Button>
       }
     >
@@ -31,7 +31,7 @@ export function ComplianceManager() {
           return (
             <section key={region} aria-labelledby={headingId}>
               <Stack gap={3}>
-                <SectionHeader as="h3" id={headingId} title={data.label} description={`Source index: ${data.sourceRegion}`} />
+                <SectionHeader as="h3" id={headingId} title={data.label} description={`Source: ${data.sourceRegion}`} />
                 {data.certifications.length ? (
                   <VisibilityList label={`${data.label} certifications`}>
                     {data.certifications.map((cert) => {
@@ -53,7 +53,7 @@ export function ComplianceManager() {
                     })}
                   </VisibilityList>
                 ) : (
-                  <EmptyState icon={<BadgeCheck size={22} />} title="No ISO certificates listed" description="Morgan has not published certificates for this region yet." />
+                  <EmptyState icon={<BadgeCheck size={22} />} title="No certificates listed" description="None published for this region." />
                 )}
               </Stack>
             </section>

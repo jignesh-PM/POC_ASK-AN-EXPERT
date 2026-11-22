@@ -17,7 +17,6 @@ export function CategoryResources({ category }: { category: Category }) {
         <SectionHeader
           id="range-products-title"
           title={`${category.name} products`}
-          description="Product information with links to the official Morgan website."
         />
         {products.length ? (
           <Grid as="ul" min={260}>
@@ -28,13 +27,13 @@ export function CategoryResources({ category }: { category: Category }) {
                   external
                   title={product.name}
                   description={product.description}
-                  cta="View on the Morgan website"
+                  cta="View on morganthermalceramics.com"
                 />
               </li>
             ))}
           </Grid>
         ) : (
-          <EmptyState icon={<PackageSearch size={22} aria-hidden="true" />} title="No published products" description="No products in this range are currently published." />
+          <EmptyState icon={<PackageSearch size={22} aria-hidden="true" />} title="No products yet" description="No products in this range are published." />
         )}
       </Stack>
 
@@ -44,7 +43,7 @@ export function CategoryResources({ category }: { category: Category }) {
           title="Related documents"
           actions={
             <Button href="/documents" variant="secondary" size="sm" trailing={<ArrowRight size={15} aria-hidden="true" />}>
-              Browse all documents
+              All documents
             </Button>
           }
         />
@@ -54,10 +53,10 @@ export function CategoryResources({ category }: { category: Category }) {
           <EmptyState
             icon={<FileText size={22} aria-hidden="true" />}
             title="No documents yet"
-            description={`No approved documents are published for ${category.name} yet.`}
+            description={`No documents published for ${category.name}.`}
             action={
               <Button href="/documents" variant="secondary">
-                Search the full library
+                Search all documents
               </Button>
             }
           />

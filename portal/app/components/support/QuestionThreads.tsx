@@ -14,7 +14,7 @@ export function SupportHubActions() {
         Ask Morgan AI
       </Button>
       <Button href="/questions?mode=expert" variant="accent" leading={<Headset size={16} aria-hidden="true" />}>
-        Talk to an expert
+        Chat with an expert
       </Button>
     </>
   );
@@ -27,7 +27,7 @@ export default function QuestionThreads() {
   return (
     <section aria-labelledby="threads-title">
       <Stack gap={4}>
-        <SectionHeader id="threads-title" title="Recent product threads" actions={<Badge>{requests.length} threads</Badge>} />
+        <SectionHeader id="threads-title" title="Recent questions" actions={<Badge>{requests.length} {requests.length === 1 ? "question" : "questions"}</Badge>} />
         {requests.length ? (
           <ul className={styles.list}>
             {requests.slice(0, 12).map((request) => {
@@ -56,11 +56,11 @@ export default function QuestionThreads() {
         ) : (
           <EmptyState
             icon={<MessageSquareText size={22} />}
-            title="No conversations yet"
-            description="Ask Morgan AI about a product line, or open a separate chat with a Morgan expert."
+            title="No questions yet"
+            description="Ask Morgan AI about a product, or chat with a Morgan expert."
             action={
               <Button href="/categories" variant="secondary" size="sm" trailing={<ArrowRight size={14} aria-hidden="true" />}>
-                Browse product lines
+                Browse products
               </Button>
             }
           />

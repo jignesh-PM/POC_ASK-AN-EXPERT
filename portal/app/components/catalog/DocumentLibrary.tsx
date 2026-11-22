@@ -35,7 +35,7 @@ export function DocumentLibrary() {
     <Stack as="section" gap={6} aria-labelledby="document-results-title">
       <FilterBar label="Filter documents">
         <Field label="Search documents" hideLabel>
-          <SearchInput value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search titles, products or technical topics" />
+          <SearchInput value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by title, product or topic" />
         </Field>
         <Field label="Document type" hideLabel>
           <Select value={type} onChange={(event) => setType(event.target.value)}>
@@ -67,7 +67,7 @@ export function DocumentLibrary() {
         <EmptyState
           icon={<Search size={22} aria-hidden="true" />}
           title="No documents found"
-          description="Try another search term or change the filters."
+          description="Try another search or filter."
           action={
             <Button variant="secondary" onClick={clearFilters}>
               Clear filters

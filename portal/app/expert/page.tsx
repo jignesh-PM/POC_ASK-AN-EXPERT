@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Page, PageHeader } from "@/app/components/ui";
 import ExpertWorkspace from "@/app/components/support/ExpertWorkspace";
 
-export const metadata = { title: "Expert conversations" };
+export const metadata = { title: "Expert chats" };
 
 export default function ExpertPage() {
   return (
@@ -10,7 +10,7 @@ export default function ExpertPage() {
     <Suspense
       fallback={
         <Page width="wide" aria-busy="true">
-          <PageHeader title="Expert conversations" description="Loading conversations…" />
+          <PageHeader title="Expert chats" description="Loading chats…" />
         </Page>
       }
     >

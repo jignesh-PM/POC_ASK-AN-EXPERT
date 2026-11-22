@@ -14,7 +14,7 @@ export function DocumentGrid({ documents, showCategory = true }: { documents: In
             tags={showCategory ? [resource.type, resource.category] : [resource.type]}
             title={resource.title}
             description={resource.summary}
-            cta="View source document"
+            cta="View document"
           />
         </li>
       ))}

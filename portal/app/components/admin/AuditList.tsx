@@ -7,7 +7,7 @@ import styles from "./AuditList.module.css";
 /** Chronological list of Super Admin changes. */
 export function AuditList({ events, limit }: { events: AuditEvent[]; limit?: number }) {
   if (!events.length) {
-    return <EmptyState icon={<ClipboardList size={22} />} title="No changes recorded yet" description="Admin changes made in this browser are recorded here." />;
+    return <EmptyState icon={<ClipboardList size={22} />} title="No changes yet" description="Admin changes appear here." />;
   }
   return (
     <ol className={styles.list}>

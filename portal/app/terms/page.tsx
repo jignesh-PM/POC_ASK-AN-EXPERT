@@ -7,13 +7,13 @@ export default function TermsPage() {
   return (
     <LegalArticle
       title="Terms of Use"
-      description="The terms that apply to product information, technical content and expert support in this portal."
+      description="Terms for using product information, technical content and expert support."
       sections={[
         {
           heading: "Using this portal",
-          body: "Information in this portal supports product selection and technical enquiries. Always confirm safety-critical decisions with an approved Morgan expert or product documentation.",
+          body: "Use this information to support product selection and technical enquiries. Confirm safety-critical decisions with a Morgan expert or the product documentation.",
         },
-        { heading: "Prototype", body: "This environment uses dummy content and mock AI responses for review." },
+        { heading: "Prototype", body: "This prototype uses sample content and simulated AI answers." },
       ]}
     />
   );

@@ -31,9 +31,9 @@ export default async function MainAreaPage({ params }: Props) {
           <CatalogCard
             href="/documents"
             headingLevel="h2"
-            title="Technical resources"
-            description="Browse documents and downloads for this area."
-            cta="Browse technical documents"
+            title="Technical documents"
+            description="Datasheets, manuals and downloads for this area."
+            cta="Browse documents"
           />
         </li>
         <li>
@@ -41,7 +41,7 @@ export default async function MainAreaPage({ params }: Props) {
             href="/questions"
             headingLevel="h2"
             title="Ask an expert"
-            description="Start an AI-assisted question or talk to the responding team."
+            description="Get an instant Morgan AI answer or chat with a Morgan expert."
             cta="Ask a question"
           />
         </li>

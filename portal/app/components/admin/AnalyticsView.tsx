@@ -50,18 +50,17 @@ export function AnalyticsView() {
 
       <AdminPanel
         id="admin-question-report"
-        title="Question and usage report"
-        description="Product demand captured in this prototype."
+        title="Questions by product line"
         actions={
           <Button variant="secondary" onClick={() => downloadQuestionsCsv(requests)} disabled={!requests.length} leading={<Download size={16} aria-hidden="true" />}>
-            Export questions CSV
+            Export CSV
           </Button>
         }
       >
         <BreakdownChart rows={questionsByProductLine(requests)} label="Questions by product line" />
       </AdminPanel>
 
-      <AdminPanel id="admin-recent-questions" title="Recent questions" description={`The latest ${RECENT_LIMIT} questions customers asked.`}>
+      <AdminPanel id="admin-recent-questions" title="Recent questions" description={`Latest ${RECENT_LIMIT}.`}>
         {requests.length ? (
           <AdminTable caption="Recent questions">
             <thead>
@@ -93,13 +92,13 @@ export function AnalyticsView() {
             </tbody>
           </AdminTable>
         ) : (
-          <EmptyState icon={<MessageSquareText size={22} />} title="No questions yet" description="Question activity appears here when customers start a thread." />
+          <EmptyState icon={<MessageSquareText size={22} />} title="No questions yet" description="Customer questions appear here." />
         )}
       </AdminPanel>
 
-      <AdminPanel id="admin-recent-activity" title="Recent page and tool activity" description={`The latest ${RECENT_LIMIT} tracked portal events.`}>
+      <AdminPanel id="admin-recent-activity" title="Recent activity" description={`Latest ${RECENT_LIMIT} page and tool events.`}>
         {events.length ? (
-          <AdminTable caption="Recent page and tool activity">
+          <AdminTable caption="Recent activity">
             <thead>
               <tr>
                 <th scope="col">Event</th>
@@ -129,11 +128,11 @@ export function AnalyticsView() {
             </tbody>
           </AdminTable>
         ) : (
-          <EmptyState icon={<Activity size={22} />} title="No activity yet" description="Usage activity appears here as portal pages are visited." />
+          <EmptyState icon={<Activity size={22} />} title="No activity yet" description="Page and tool visits appear here." />
         )}
       </AdminPanel>
 
-      <Alert>Analytics are recorded in this browser only. Production reporting needs a shared analytics service.</Alert>
+      <Alert>Prototype: analytics are recorded in this browser only.</Alert>
     </>
   );
 }

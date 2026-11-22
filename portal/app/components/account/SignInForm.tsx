@@ -15,11 +15,11 @@ type Step = "email" | "code" | "forgot" | "reset-sent";
 const COPY: Record<Step, (email: string, mode: Mode) => { title: string; description: string }> = {
   email: (_, mode) => ({
     title: mode === "signin" ? "Welcome back" : "Create your account",
-    description: "Sign in securely to access your technical resources and expert support.",
+    description: "Enter your work email. We’ll send you a one-time passcode.",
   }),
-  code: (email) => ({ title: "Check your email", description: `Enter the six-digit passcode sent to ${email}.` }),
-  forgot: () => ({ title: "Reset your password", description: "Enter your work email and we'll send password reset instructions." }),
-  "reset-sent": (email) => ({ title: "Check your email", description: `If a password-based account exists for ${email}, reset instructions are on the way.` }),
+  code: (email) => ({ title: "Check your email", description: `Enter the six-digit code sent to ${email}.` }),
+  forgot: () => ({ title: "Reset your password", description: "Enter your work email and we’ll send reset instructions." }),
+  "reset-sent": (email) => ({ title: "Check your email", description: `If an account exists for ${email}, we’ve sent reset instructions.` }),
 };
 
 /** Only same-site paths are allowed as a post-sign-in destination. */
@@ -96,13 +96,13 @@ export default function SignInForm({ returnTo }: { returnTo?: string }) {
       {step === "reset-sent" ? (
         <div className={styles.form}>
           <Alert tone="success" icon={<Check size={18} aria-hidden="true" />}>
-            <strong>Reset instructions requested.</strong> Check your inbox and spam folder.
+            <strong>Email sent.</strong> Check your inbox and spam folder.
           </Alert>
           <div className={styles.row}>
             <Button variant="ghost" size="sm" leading={<ArrowLeft size={16} aria-hidden="true" />} onClick={() => goTo("email")}>
               Back to sign in
             </Button>
-            <Button variant="link" size="sm" onClick={() => setNotice("Reset instructions requested again.")}>
+            <Button variant="link" size="sm" onClick={() => setNotice("Email sent again.")}>
               Resend email
             </Button>
           </div>
@@ -111,7 +111,7 @@ export default function SignInForm({ returnTo }: { returnTo?: string }) {
         <form className={styles.form} onSubmit={submit}>
           {step === "code" ? (
             <>
-              <Field label="Six-digit passcode">
+              <Field label="Passcode">
                 <Input
                   className={styles.otp}
                   type="text"
@@ -127,7 +127,7 @@ export default function SignInForm({ returnTo }: { returnTo?: string }) {
                 />
               </Field>
               <Button type="submit" size="lg" fullWidth disabled={code.length !== 6} trailing={<ArrowRight size={16} aria-hidden="true" />}>
-                Verify and continue
+                Continue
               </Button>
               <div className={styles.row}>
                 <Button variant="ghost" size="sm" leading={<ArrowLeft size={16} aria-hidden="true" />} onClick={() => goTo("email")}>
@@ -138,7 +138,7 @@ export default function SignInForm({ returnTo }: { returnTo?: string }) {
                   size="sm"
                   onClick={() => {
                     setCode("");
-                    setNotice("A new passcode has been sent to your email.");
+                    setNotice("New passcode sent.");
                   }}
                 >
                   Resend passcode
@@ -168,7 +168,7 @@ export default function SignInForm({ returnTo }: { returnTo?: string }) {
                 />
               )}
               <Button type="submit" size="lg" fullWidth trailing={<ArrowRight size={16} aria-hidden="true" />}>
-                {step === "forgot" ? "Send reset instructions" : mode === "signup" ? "Create account" : "Continue with email"}
+                {step === "forgot" ? "Send reset email" : mode === "signup" ? "Create account" : "Continue with email"}
               </Button>
               {step === "forgot" ? (
                 <Button variant="ghost" size="sm" className={styles.center} leading={<ArrowLeft size={16} aria-hidden="true" />} onClick={() => goTo("email")}>
@@ -177,7 +177,7 @@ export default function SignInForm({ returnTo }: { returnTo?: string }) {
               ) : (
                 <>
                   <p className={styles.secure}>
-                    <ShieldCheck size={16} aria-hidden="true" /> Password-free sign-in with a one-time passcode
+                    <ShieldCheck size={16} aria-hidden="true" /> No password needed
                   </p>
                   {mode === "signin" && (
                     <Button variant="link" size="sm" className={styles.center} onClick={() => goTo("forgot")}>
@@ -219,7 +219,7 @@ export default function SignInForm({ returnTo }: { returnTo?: string }) {
       )}
 
       <p className={styles.privacy}>
-        <Mail size={14} aria-hidden="true" /> Your information is handled in line with Morgan&apos;s privacy standards.
+        <Mail size={14} aria-hidden="true" /> We handle your data in line with Morgan&apos;s privacy policy.
       </p>
     </Card>
   );

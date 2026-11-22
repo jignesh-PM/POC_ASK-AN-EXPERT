@@ -41,7 +41,7 @@ export default function AdminWorkspace({ view }: { view: AdminView }) {
   if (!hydrated) {
     return (
       <Card padding="lg" className={styles.loading}>
-        <p role="status">Loading admin workspace…</p>
+        <p role="status">Loading…</p>
       </Card>
     );
   }
@@ -51,10 +51,10 @@ export default function AdminWorkspace({ view }: { view: AdminView }) {
       <EmptyState
         icon={<Shield size={22} />}
         title="Super Admin access required"
-        description="Use the account menu to select the Super Admin preview, then return to this page."
+        description="Switch to the Super Admin preview in the account menu."
         action={
           <Button href="/" variant="secondary">
-            Return to home
+            Go to home
           </Button>
         }
       />

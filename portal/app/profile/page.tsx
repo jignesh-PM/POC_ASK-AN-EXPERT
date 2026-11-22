@@ -10,7 +10,7 @@ export const metadata = { title: "Your profile" };
 export default function ProfilePage() {
   return (
     <Page>
-      <PageHeader title="Your profile" description="Keep your contact and organization details up to date for more relevant support." />
+      <PageHeader title="Your profile" description="Keep your details up to date so your questions reach the right specialist." />
       <div className={styles.profileLayout}>
         <ProfileForm />
         <div className={styles.sideColumn}>

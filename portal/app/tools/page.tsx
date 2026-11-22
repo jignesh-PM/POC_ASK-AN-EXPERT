@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "Tools" };
 export default function ToolsPage() {
   return (
     <Page>
-      <PageHeader title="Tools" description="Calculators, finders and certificate searches to support product selection and specification." />
+      <PageHeader title="Tools" description="Calculators and finders for product selection and specification." />
       <Grid as="ul" min={260}>
         {tools.map((tool) => (
           <li key={tool.slug}>
@@ -18,7 +18,7 @@ export default function ToolsPage() {
               tags={tool.restricted ? [tool.type, "Profile required"] : [tool.type]}
               title={tool.title}
               description={tool.description}
-              cta={`Open ${tool.title}`}
+              cta="Open tool"
             />
           </li>
         ))}

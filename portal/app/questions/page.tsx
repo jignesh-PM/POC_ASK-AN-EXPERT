@@ -7,7 +7,7 @@ import QuestionThreads, { SupportHubActions } from "@/app/components/support/Que
 import RequireSignIn from "@/app/components/support/RequireSignIn";
 import { industries, products } from "@/app/lib/mock-data";
 
-export const metadata = { title: "Get product help" };
+export const metadata = { title: "Ask a question" };
 
 type SearchParams = { q?: string; industry?: string; product?: string; team?: string; mode?: string };
 
@@ -23,7 +23,7 @@ export default async function QuestionsPage({ searchParams }: { searchParams: Pr
         <Button href={backHref} variant="link" size="sm" leading={<ArrowLeft size={14} aria-hidden="true" />}>
           Back to Morgan AI answer
         </Button>
-        <PageHeader title="Talk with a Morgan expert" description={`A subject matter expert from the ${assignedTeam} will reply in this conversation.`}>
+        <PageHeader title="Chat with a Morgan expert" description={`A specialist from ${assignedTeam} will reply here.`}>
           <ContextBadges industry={industries.find((item) => item.id === industry)?.name} product={productInfo?.name} team={assignedTeam} teamPrefix="Routed to" />
         </PageHeader>
         <RequireSignIn next={`/questions?${new URLSearchParams({ q, industry, product, team: assignedTeam })}`}>
@@ -38,7 +38,7 @@ export default async function QuestionsPage({ searchParams }: { searchParams: Pr
       <Page width="narrow">
         <PageHeader
           title="Start an expert chat"
-          description="A Morgan subject matter expert will reply in this conversation. This chat is separate from Morgan AI answers."
+          description="A Morgan specialist will reply here, separately from Morgan AI answers."
         />
         <RequireSignIn next="/questions?mode=expert">
           <ExpertChatStarter />
@@ -50,8 +50,8 @@ export default async function QuestionsPage({ searchParams }: { searchParams: Pr
   return (
     <Page>
       <PageHeader
-        title="Get product help"
-        description="Use Morgan AI for a quick answer, or start a separate chat with a product specialist."
+        title="Ask a question"
+        description="Get an instant Morgan AI answer, or chat with a Morgan expert."
         actions={<SupportHubActions />}
       />
       <QuestionThreads />

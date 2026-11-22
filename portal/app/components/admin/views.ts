@@ -1,11 +1,11 @@
 /** Admin workspace views, addressed as `/admin?view=<id>`. Shared by the server page and the client sidebar. */
 export const ADMIN_VIEWS = [
-  { id: "overview", label: "Overview", description: "Accounts, questions and recent admin activity at a glance." },
-  { id: "users", label: "Users & alpha IDs", description: "Create customer access, assign roles, import alpha users and deactivate accounts." },
-  { id: "experts", label: "Expert teams", description: "Assign product managers, team members, backup experts, service hours and response targets." },
-  { id: "content", label: "Content & knowledge", description: "Control which areas, products, documents, sources and certificates customers can see." },
-  { id: "analytics", label: "Analytics & reports", description: "Review product demand and portal activity captured in this prototype." },
-  { id: "settings", label: "Settings & audit", description: "Configure registration, profile requirements and default locale, and review changes." },
+  { id: "overview", label: "Overview", description: "Accounts, questions and recent activity." },
+  { id: "users", label: "Users & alpha IDs", description: "Add users, assign roles and manage access." },
+  { id: "experts", label: "Expert teams", description: "Set experts, service hours and response targets for each product line." },
+  { id: "content", label: "Content & knowledge", description: "Choose what customers can see." },
+  { id: "analytics", label: "Analytics & reports", description: "Product demand and portal activity." },
+  { id: "settings", label: "Settings & audit", description: "Registration, profile rules, default region and the audit log." },
 ] as const;
 
 export type AdminView = (typeof ADMIN_VIEWS)[number]["id"];

@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Legal" };
 export default function LegalPage() {
   return (
     <Page width="narrow">
-      <PageHeader title="Legal" description="Privacy and terms for using this portal." />
+      <PageHeader title="Legal" />
       <Grid as="ul" min={260} aria-label="Legal information">
         <li>
           <CatalogCard
@@ -15,8 +15,8 @@ export default function LegalPage() {
             headingLevel="h2"
             tags={["Your information"]}
             title="Privacy Policy"
-            description="Learn how personal and profile information is handled when you use this portal."
-            cta="Read the privacy policy"
+            description="How we handle your personal and profile information."
+            cta="Read policy"
           />
         </li>
         <li>
@@ -25,8 +25,8 @@ export default function LegalPage() {
             headingLevel="h2"
             tags={["Portal guidance"]}
             title="Terms of Use"
-            description="Review the terms that apply to product information, technical content and expert support."
-            cta="Read the terms of use"
+            description="Terms for using product information and expert support."
+            cta="Read terms"
           />
         </li>
       </Grid>

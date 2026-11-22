@@ -6,7 +6,7 @@ import { Page, PageHeader } from "../components/ui";
 
 export const metadata: Metadata = {
   title: "Admin workspace",
-  description: "Super Admin tools for users, expert routing, content visibility, analytics and portal settings.",
+  description: "Manage users, expert routing, content, analytics and settings.",
 };
 
 export default function AdminPage({ searchParams }: PageProps<"/admin">) {

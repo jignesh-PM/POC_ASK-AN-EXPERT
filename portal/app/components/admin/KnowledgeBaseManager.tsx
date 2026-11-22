@@ -18,9 +18,9 @@ const EMPTY_DRAFT = { title: "", summary: "", url: "", category: categories[0].n
 function validateSourceUrl(value: string): { url: string } | { error: string } {
   try {
     const parsed = new URL(value.trim());
-    return parsed.protocol === "https:" ? { url: parsed.href } : { error: "Only secure HTTPS source links are allowed." };
+    return parsed.protocol === "https:" ? { url: parsed.href } : { error: "Use an HTTPS link." };
   } catch {
-    return { error: "Enter a valid HTTPS source URL." };
+    return { error: "Enter a valid HTTPS link." };
   }
 }
 
@@ -39,7 +39,7 @@ export function KnowledgeBaseManager() {
     event.preventDefault();
     const title = draft.title.trim();
     const summary = draft.summary.trim();
-    if (!title || !summary) return setError("Add a title and a short summary.");
+    if (!title || !summary) return setError("Add a title and summary.");
     const checked = validateSourceUrl(draft.url);
     if ("error" in checked) return setError(checked.error);
     const entry: AdminKnowledgeResource = {
@@ -69,16 +69,16 @@ export function KnowledgeBaseManager() {
   return (
     <AdminPanel
       id="admin-knowledge-base"
-      title="Knowledge base sources"
-      description="Add technical source links used in the customer document library and question recommendations."
+      title="Knowledge base"
+      description="Add source links to the document library and Morgan AI answers."
       saved={saved}
     >
       <form className={styles.form} onSubmit={addResource} noValidate>
         <Grid min={220} gap={4}>
-          <Field label="Document title">
-            <Input value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} placeholder="Technical guide title" required />
+          <Field label="Title">
+            <Input value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} placeholder="Document title" required />
           </Field>
-          <Field label="Secure source URL" hint="Must start with https://">
+          <Field label="Source URL" hint="Must start with https://">
             <Input type="url" inputMode="url" value={draft.url} onChange={(event) => setDraft({ ...draft, url: event.target.value })} placeholder="https://www.morganthermalceramics.com/…" required />
           </Field>
           <Field label="Product line">
@@ -96,8 +96,8 @@ export function KnowledgeBaseManager() {
             </Select>
           </Field>
         </Grid>
-        <Field label="Short summary">
-          <Textarea value={draft.summary} onChange={(event) => setDraft({ ...draft, summary: event.target.value })} rows={2} placeholder="A concise description to help search and recommendations." required />
+        <Field label="Summary">
+          <Textarea value={draft.summary} onChange={(event) => setDraft({ ...draft, summary: event.target.value })} rows={2} placeholder="One or two sentences for search" required />
         </Field>
         {error && <Alert tone="danger">{error}</Alert>}
         <div className={styles.actions}>
@@ -139,7 +139,7 @@ export function KnowledgeBaseManager() {
           ))}
         </ul>
       ) : (
-        <EmptyState icon={<FileText size={22} />} title="No additional sources yet" description="Sources you add here appear in the document library and recommendations." />
+        <EmptyState icon={<FileText size={22} />} title="No sources yet" description="Sources you add appear in the document library." />
       )}
     </AdminPanel>
   );

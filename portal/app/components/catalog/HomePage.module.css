@@ -1,12 +1,78 @@
-/* Welcome band at the top of the home page: hero heading and the two support options. */
+/* Welcome band at the top of the home page: heading, mascot and the two support steps. */
 .hero {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
   padding: clamp(var(--space-5), 4vw, var(--space-10));
+  overflow: hidden;
+  isolation: isolate;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
-  background:
-    radial-gradient(circle at 100% 0%, var(--color-accent-soft), transparent 45%),
-    linear-gradient(180deg, var(--color-brand-softer), var(--color-surface));
+  background: linear-gradient(180deg, var(--color-brand-softer), var(--color-surface));
+}
+
+/* Two soft glows (Morgan orange and navy) that drift slowly. */
+.glowAccent,
+.glowBrand {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.glowAccent {
+  top: -120px;
+  right: -60px;
+  width: 360px;
+  height: 360px;
+  background: var(--color-accent);
+  opacity: 0.18;
+  animation: drift-a 14s ease-in-out infinite alternate;
+}
+
+.glowBrand {
+  bottom: -160px;
+  left: -80px;
+  width: 420px;
+  height: 420px;
+  background: var(--color-brand-fill);
+  opacity: 0.12;
+  animation: drift-b 18s ease-in-out infinite alternate;
+}
+
+@keyframes drift-a {
+  to {
+    transform: translate(-80px, 60px) scale(1.15);
+  }
+}
+
+@keyframes drift-b {
+  to {
+    transform: translate(90px, -50px) scale(0.9);
+  }
+}
+
+.heroTop {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.heroMascot {
+  flex-shrink: 0;
+  margin-bottom: calc(var(--space-2) * -1);
+}
+
+@media (max-width: 720px) {
+  .heroTop {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
+  .heroMascot {
+    align-self: center;
+  }
 }

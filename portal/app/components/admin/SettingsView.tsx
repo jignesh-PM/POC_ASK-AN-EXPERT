@@ -2,6 +2,7 @@
 
 import { Field, Grid, Select, Stack, Switch } from "@/app/components/ui";
 import { LANGUAGES, REGIONS } from "@/app/lib/locale";
+import { mascotConfig } from "@/app/lib/mascot";
 import { useAdminSettings, useAuditLog, type AdminSettings } from "@/app/lib/session";
 import { STORAGE_KEYS, writeJSON } from "@/app/lib/storage";
 import { AdminPanel } from "./AdminPanel";
@@ -20,22 +21,28 @@ export function SettingsView() {
 
   return (
     <>
-      <AdminPanel id="admin-portal-settings" title="Portal settings" description="Configure registration, completion requirements and default locale." saved={saved}>
+      <AdminPanel id="admin-portal-settings" title="Portal settings" saved={saved}>
         <Stack gap={4}>
           <Switch
-            label="Self-service customer registration"
-            description="Allow customer and visitor accounts to sign up."
+            label="Customer sign-up"
+            description="Let customers create their own accounts."
             checked={settings.signupEnabled}
             onChange={(event) => update({ signupEnabled: event.target.checked }, `Self-service registration ${event.target.checked ? "enabled" : "disabled"}`)}
           />
           <Switch
-            label="Require a profile before expert chat and restricted tools"
-            description="Prompt users to complete their profile before using gated features."
+            label="Require a complete profile"
+            description="Needed before expert chat and restricted tools."
             checked={settings.requireProfile}
             onChange={(event) => update({ requireProfile: event.target.checked }, `Profile requirement ${event.target.checked ? "enabled" : "disabled"}`)}
           />
+          <Switch
+            label={`Show portal guide (${mascotConfig.name})`}
+            description="The mascot on the home page, empty states and Morgan AI answers."
+            checked={settings.mascotEnabled}
+            onChange={(event) => update({ mascotEnabled: event.target.checked }, `Portal guide ${event.target.checked ? "shown" : "hidden"}`)}
+          />
           <Grid min={240} gap={4}>
-            <Field label="Default region" hint="Initial region for new portal sessions.">
+            <Field label="Default region" hint="For new visitors.">
               <Select value={settings.defaultRegion} onChange={(event) => update({ defaultRegion: event.target.value }, `Default region set to ${event.target.value}`)}>
                 {REGIONS.map((region) => (
                   <option key={region.value} value={region.value}>
@@ -44,7 +51,7 @@ export function SettingsView() {
                 ))}
               </Select>
             </Field>
-            <Field label="Default language" hint="Initial language for new portal sessions.">
+            <Field label="Default language" hint="For new visitors.">
               <Select value={settings.defaultLanguage} onChange={(event) => update({ defaultLanguage: event.target.value }, `Default language set to ${event.target.value}`)}>
                 {LANGUAGES.map((language) => (
                   <option key={language.value} value={language.value}>
@@ -57,7 +64,7 @@ export function SettingsView() {
         </Stack>
       </AdminPanel>
 
-      <AdminPanel id="admin-audit-log" title="Audit log" description="Recent Super Admin changes recorded in this browser (latest 100).">
+      <AdminPanel id="admin-audit-log" title="Audit log" description="Latest 100 admin changes.">
         <AuditList events={audit} />
       </AdminPanel>
     </>

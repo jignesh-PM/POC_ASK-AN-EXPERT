@@ -23,9 +23,9 @@ export default function PasswordSettings() {
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (next !== confirm) return setFeedback({ tone: "danger", text: "The new passwords do not match. Check both fields and try again." });
-    if (current === next) return setFeedback({ tone: "danger", text: "Choose a new password that is different from your current one." });
-    setFeedback({ tone: "success", text: "Password update requested. Connect your Morgan account provider to apply this change." });
+    if (next !== confirm) return setFeedback({ tone: "danger", text: "The new passwords don’t match." });
+    if (current === next) return setFeedback({ tone: "danger", text: "Choose a password different from your current one." });
+    setFeedback({ tone: "success", text: "Password change requested." });
     setCurrent("");
     setNext("");
     setConfirm("");
@@ -36,12 +36,11 @@ export default function PasswordSettings() {
       <div className={styles.cardHead}>
         <SectionHeader
           id="password-heading"
-          title="Password & security"
-          description="Update the password for your password-based account."
+          title="Password"
           className={styles.cardHeadCopy}
           actions={
             <Button variant="ghost" size="sm" aria-pressed={visible} onClick={() => setVisible((value) => !value)} leading={visible ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}>
-              Show passwords
+              Show
             </Button>
           }
         />
@@ -62,7 +61,7 @@ export default function PasswordSettings() {
         {feedback && <Alert tone={feedback.tone}>{feedback.text}</Alert>}
         <div className={styles.formFooter}>
           <span className={styles.note}>
-            <ShieldCheck size={16} aria-hidden="true" /> Your password is not saved in this prototype.
+            <ShieldCheck size={16} aria-hidden="true" /> Prototype: passwords are not saved.
           </span>
           <Button type="submit" variant="secondary">
             Update password

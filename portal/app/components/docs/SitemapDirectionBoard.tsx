@@ -12,9 +12,9 @@ const mappedRouteCount = portalMap.reduce((total, section) => total + section.no
 const INITIAL_VISIBLE_ROUTES = 5;
 
 const STAGES = [
-  { name: "Now", tone: "brand", detail: "Stabilise navigation, account preferences and document journeys." },
-  { name: "Next", tone: "accent", detail: "Connect tools, document search and expert requests to real services." },
-  { name: "Later", tone: "neutral", detail: "Add shared analytics, workflow administration and localised content." },
+  { name: "Now", tone: "brand", detail: "Stabilise navigation, account settings and document journeys." },
+  { name: "Next", tone: "accent", detail: "Connect tools, document search and expert chat to live services." },
+  { name: "Later", tone: "neutral", detail: "Add shared analytics, workflow admin and localised content." },
 ] as const;
 
 /** Interactive portal route map, the Now/Next/Later plan and a locally saved direction note. */
@@ -24,7 +24,7 @@ export default function SitemapDirectionBoard() {
       <RouteExplorer />
       <section aria-labelledby="direction-heading">
         <Stack gap={4}>
-          <SectionHeader id="direction-heading" title="Now · Next · Later" description="Shape the portal in small, reviewable steps." />
+          <SectionHeader id="direction-heading" title="Now · Next · Later" />
           <Grid min={220} gap={4} as="ul">
             {STAGES.map((stage) => (
               <Card as="li" key={stage.name} className={cx(styles.stage, styles[`stage-${stage.tone}`])}>
@@ -63,13 +63,12 @@ function RouteExplorer() {
     <Card as="section" padding="lg" aria-labelledby="route-map-heading" className={styles.explorer}>
       <SectionHeader
         id="route-map-heading"
-        title="Explore the portal map"
-        description="Choose a goal, then open any route."
+        title="Portal map"
       />
 
       <div className={styles.toolbar}>
-        <Field label="Search portal routes" hideLabel className={styles.search}>
-          <SearchInput value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Find a page or route" />
+        <Field label="Search pages" hideLabel className={styles.search}>
+          <SearchInput value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search pages" />
         </Field>
         <span className={styles.count} role="status">
           {visibleCount} {visibleCount === 1 ? "route" : "routes"}
@@ -139,7 +138,7 @@ function RouteExplorer() {
         <EmptyState
           icon={<Search size={22} />}
           title="No matching routes"
-          description="Try a different page name or route."
+          description="Try another page name or route."
           action={
             <Button
               variant="secondary"
@@ -154,7 +153,6 @@ function RouteExplorer() {
           }
         />
       )}
-      <p className={styles.caption}>Keep route names and ownership synchronised with the product direction.</p>
     </Card>
   );
 }
@@ -170,13 +168,13 @@ function DirectionNote() {
     const next = value.trim();
     writeString(STORAGE_KEYS.directionNote, next || null);
     setDraft(null);
-    setMessage(next ? "Direction note saved in this browser." : "Direction note cleared.");
+    setMessage(next ? "Note saved." : "Note cleared.");
   };
 
   const clear = () => {
     writeString(STORAGE_KEYS.directionNote, null);
     setDraft(null);
-    setMessage("Direction note cleared.");
+    setMessage("Note cleared.");
   };
 
   return (
@@ -184,16 +182,16 @@ function DirectionNote() {
       <SectionHeader
         id="note-heading"
         title="Direction note"
-        description="Capture a short decision or next step alongside the route map. The note stays in this browser for the demo."
+        description="Record a decision or next step. Prototype: saved in this browser only."
       />
-      <Field label="Portal direction" hint={<span aria-live="polite">{message || (savedNote ? "Saved locally." : "No note saved yet.")}</span>}>
+      <Field label="Portal direction" hint={<span aria-live="polite">{message || (savedNote ? "Saved." : "No note yet.")}</span>}>
         <Textarea
           value={value}
           onChange={(event) => {
             setDraft(event.target.value);
             setMessage("");
           }}
-          placeholder="Example: connect document search to the approved content source…"
+          placeholder="e.g. Connect document search to the approved content source"
           rows={3}
         />
       </Field>
@@ -202,7 +200,7 @@ function DirectionNote() {
           Clear
         </Button>
         <Button onClick={save} disabled={draft === null} leading={<Save size={16} aria-hidden="true" />}>
-          Save note
+          Save
         </Button>
       </div>
     </Card>

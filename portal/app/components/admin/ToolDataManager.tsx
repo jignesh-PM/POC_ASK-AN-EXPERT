@@ -35,7 +35,7 @@ export function ToolDataManager() {
     const file = input.files?.[0];
     if (!file) return;
     if (file.size > MAX_CERTIFICATE_BYTES) {
-      setError("Choose a certificate smaller than 1 MB for this local prototype.");
+      setError("Choose a file under 1 MB.");
       input.value = "";
       return;
     }
@@ -48,7 +48,7 @@ export function ToolDataManager() {
       setError("");
       input.value = "";
     };
-    reader.onerror = () => setError("The certificate could not be read. Try another file.");
+    reader.onerror = () => setError("Couldn’t read this file. Try another.");
     reader.readAsDataURL(file);
   };
 
@@ -58,7 +58,7 @@ export function ToolDataManager() {
   };
 
   return (
-    <AdminPanel id="admin-tool-data" title="Restricted tool data" description="Maintain CO₂ calculation factors and regional certificate records." saved={saved}>
+    <AdminPanel id="admin-tool-data" title="Restricted tool data" description="CO₂ factors and regional certificates." saved={saved}>
       <section className={styles.block} aria-labelledby="admin-tool-factors">
         <SectionHeader as="h3" id="admin-tool-factors" title="CO₂ factors" />
         <div className={styles.row}>
@@ -69,13 +69,13 @@ export function ToolDataManager() {
             <Input type="number" min="0" step="0.001" value={factor("electricityFactor")} onChange={(event) => setFactors({ ...factors, electricityFactor: event.target.value })} />
           </Field>
           <Button onClick={saveFactors} leading={<Save size={16} aria-hidden="true" />}>
-            Save factors
+            Save
           </Button>
         </div>
       </section>
 
       <section className={styles.block} aria-labelledby="admin-tool-certificates">
-        <SectionHeader as="h3" id="admin-tool-certificates" title="Regional certificates" description="PDF or image, up to 1 MB. Files are stored in this browser only." />
+        <SectionHeader as="h3" id="admin-tool-certificates" title="Regional certificates" description="PDF or image, up to 1 MB. Prototype: stored in this browser only." />
         <Grid min={200} gap={4}>
           <Field label="Product" optional>
             <Input value={product} onChange={(event) => setProduct(event.target.value)} placeholder="FireMaster duct wrap" />
@@ -120,7 +120,7 @@ export function ToolDataManager() {
             ))}
           </ul>
         ) : (
-          <EmptyState icon={<FileUp size={22} />} title="No certificates uploaded" description="Add a region-specific certificate above." />
+          <EmptyState icon={<FileUp size={22} />} title="No certificates yet" description="Upload one above." />
         )}
       </section>
     </AdminPanel>

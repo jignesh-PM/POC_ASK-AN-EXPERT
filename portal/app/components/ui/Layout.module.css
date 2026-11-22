@@ -113,3 +113,22 @@
   padding: 0;
   list-style: none;
 }
+
+/* Scroll reveal: each block on a page rises in as it scrolls into view.
+   Progressive enhancement — browsers without scroll timelines just show the content. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .page > * {
+      animation: scroll-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 22%;
+    }
+  }
+}
+
+@keyframes scroll-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.985);
+  }
+}

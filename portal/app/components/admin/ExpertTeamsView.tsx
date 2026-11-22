@@ -12,7 +12,7 @@ import styles from "./ExpertTeamsView.module.css";
 
 const TEXT_FIELDS: { key: "manager" | "members" | "backup" | "hours"; label: string; placeholder?: string }[] = [
   { key: "manager", label: "Product manager", placeholder: "Name or Morgan email" },
-  { key: "members", label: "Team members", placeholder: "Separate experts with commas" },
+  { key: "members", label: "Team members", placeholder: "Names, separated by commas" },
   { key: "backup", label: "Backup expert", placeholder: "Name or Morgan email" },
   { key: "hours", label: "Working hours" },
 ];
@@ -37,7 +37,7 @@ export function ExpertTeamsView() {
   };
 
   return (
-    <AdminPanel id="admin-expert-routing" title="Product line ownership and routing" description="Questions for each product line are routed to the team saved here." saved={saved}>
+    <AdminPanel id="admin-expert-routing" title="Expert routing" description="Questions for each product line go to the team set here." saved={saved}>
       <div className={styles.list}>
         {categories.map((category) => {
           const route = routeFor(category.slug);
@@ -79,7 +79,7 @@ export function ExpertTeamsView() {
               <div className={styles.actions}>
                 {dirty && <span className={styles.unsaved}>Unsaved changes</span>}
                 <Button onClick={() => save(category.slug, category.name)} leading={<Save size={16} aria-hidden="true" />}>
-                  Save routing
+                  Save
                 </Button>
               </div>
             </Card>

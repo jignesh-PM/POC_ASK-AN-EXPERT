@@ -10,8 +10,8 @@ import { useVisibleProducts, type Category } from "./catalog-data";
 import styles from "./ProductCommunity.module.css";
 
 function threadStatus(thread: SearchRoutingRequest) {
-  if (!isExpertThread(thread)) return { label: "Morgan AI answer available", action: "View AI answer" };
-  return { label: thread.status === "Resolved" ? "Resolved expert chat" : "Expert chat started", action: "Open expert chat" };
+  if (!isExpertThread(thread)) return { label: "Morgan AI answer", action: "View answer" };
+  return { label: thread.status === "Resolved" ? "Expert chat resolved" : "Expert chat open", action: "Open chat" };
 }
 
 /** Ask-a-question form and the existing question threads for one product range. */
@@ -33,8 +33,8 @@ export function ProductCommunity({ category }: { category: Category }) {
 
   const submit = (event: FormEvent<HTMLElement>) => {
     event.preventDefault();
-    if (!question.trim()) return setError("Write a question to start the thread.");
-    if (!industryId) return setError("Choose an industry so the right product team can respond.");
+    if (!question.trim()) return setError("Enter your question.");
+    if (!industryId) return setError("Choose an industry.");
     saveSearchRoutingRequest(question, industryId, productId);
     const params = new URLSearchParams({ q: question.trim(), industry: industryId, product: productId, team: getSearchContext(industryId, productId).expertTeam });
     router.push(`/search?${params}`);
@@ -48,7 +48,7 @@ export function ProductCommunity({ category }: { category: Category }) {
         actions={
           <Badge tone="brand">
             <MessageSquareText size={14} aria-hidden="true" />
-            {threads.length} {threads.length === 1 ? "thread" : "threads"}
+            {threads.length} {threads.length === 1 ? "question" : "questions"}
           </Badge>
         }
       />
@@ -63,7 +63,7 @@ export function ProductCommunity({ category }: { category: Category }) {
                 setQuestion(event.target.value);
                 setError("");
               }}
-              placeholder={`Ask a product or application question about ${category.name}…`}
+              placeholder={`Ask about ${category.name} products or applications…`}
             />
           </Field>
           <div className={styles.selects}>
@@ -99,7 +99,7 @@ export function ProductCommunity({ category }: { category: Category }) {
           </div>
           {error && <Alert tone="danger">{error}</Alert>}
           <div className={styles.submitRow}>
-            <p className={styles.note}>Your question is shared with this product community and answered from Morgan product and document knowledge. You can start an expert chat from the answer.</p>
+            <p className={styles.note}>Morgan AI answers from Morgan product data and documents. Other visitors can see your question.</p>
             <Button type="submit" variant="accent" disabled={!question.trim() || !productId} leading={<Send size={16} aria-hidden="true" />}>
               Ask Morgan AI
             </Button>
@@ -107,7 +107,7 @@ export function ProductCommunity({ category }: { category: Category }) {
         </Card>
 
         {threads.length ? (
-          <Stack as="ul" gap={3} aria-label={`${category.name} question threads`}>
+          <Stack as="ul" gap={3} aria-label={`${category.name} questions`}>
             {threads.map((thread) => {
               const status = threadStatus(thread);
               const replies = messages[thread.id]?.length ?? 0;
@@ -130,7 +130,7 @@ export function ProductCommunity({ category }: { category: Category }) {
             })}
           </Stack>
         ) : (
-          <EmptyState icon={<MessageSquareText size={22} aria-hidden="true" />} title="Be the first to ask" description={`New questions appear here for everyone exploring ${category.name}.`} />
+          <EmptyState icon={<MessageSquareText size={22} aria-hidden="true" />} title="Be the first to ask" description="New questions appear here." />
         )}
       </div>
     </Stack>

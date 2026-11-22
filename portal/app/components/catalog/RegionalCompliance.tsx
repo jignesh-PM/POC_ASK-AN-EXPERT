@@ -33,7 +33,7 @@ export function RegionalCompliance() {
         }
       />
       <p className={styles.caption}>
-        Certifications published for Morgan locations in <strong>{selected.label}</strong>.
+        Morgan locations in <strong>{selected.label}</strong>.
       </p>
 
       {certifications.length ? (
@@ -61,21 +61,21 @@ export function RegionalCompliance() {
       ) : (
         <EmptyState
           icon={<MapPin size={22} aria-hidden="true" />}
-          title="No regional certificates listed"
-          description={`No region-specific ISO certificates are listed for ${selected.label} in the current source index.`}
+          title="No certificates listed"
+          description={`No ISO certificates listed for ${selected.label}.`}
           action={
             <Button href={morganLocationsUrl} external variant="secondary" trailing={<ArrowUpRight size={15} aria-hidden="true" />}>
-              Explore Morgan locations
+              View locations
             </Button>
           }
         />
       )}
 
       <div className={styles.footer}>
-        <p className={styles.caption}>Certificate coverage follows Morgan&apos;s published quality index.</p>
+        <p className={styles.caption}>Source: Morgan&apos;s published quality certificates.</p>
         <div className={styles.links}>
           <Button href={qualityCertificatesUrl} external variant="link" size="sm" trailing={<ArrowUpRight size={14} aria-hidden="true" />}>
-            View all quality certificates
+            All quality certificates
           </Button>
           <Button href={morganLocationsUrl} external variant="link" size="sm" trailing={<ArrowUpRight size={14} aria-hidden="true" />}>
             Our locations

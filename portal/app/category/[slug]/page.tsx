@@ -40,8 +40,8 @@ export default async function CategoryPage({ params }: Props) {
       <CategoryResources category={category} />
       <ProductCommunity category={category} />
       <CalloutCard
-        title="Need help selecting a product?"
-        description="Share your industry and product context so your question reaches the right Morgan team."
+        title="Need help choosing a product?"
+        description="Tell us your industry and application, and the right specialist will reply."
         action={
           <Button href="/questions?mode=expert" variant="accent" trailing={<ArrowRight size={16} aria-hidden="true" />}>
             Ask a Morgan expert

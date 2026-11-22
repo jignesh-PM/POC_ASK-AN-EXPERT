@@ -12,7 +12,7 @@ export function SupportOptions() {
       <Card padding="lg" animate>
         <span className={styles.step} aria-label="Step 1">1</span>
         <h2 className={styles.title}>Get an answer with sources</h2>
-        <p className={styles.text}>Type your question in the search bar and choose your industry and product. Morgan AI answers from approved product pages and technical documents, and shows its sources.</p>
+        <p className={styles.text}>Ask in the search bar. Morgan AI answers from approved product pages and documents.</p>
         <div className={styles.action}>
           <Button variant="accent" onClick={() => focusSupportComposer()} trailing={<ArrowRight size={16} aria-hidden="true" />}>
             Ask a question
@@ -21,11 +21,11 @@ export function SupportOptions() {
       </Card>
       <Card padding="lg" tone="brand" animate>
         <span className={`${styles.step} ${styles.stepInverse}`} aria-label="Step 2">2</span>
-        <h2 className={styles.title}>Continue with a Morgan expert</h2>
-        <p className={styles.textInverse}>Not satisfied with the answer? Hand your question to the specialist team for your product line and continue in a live chat.</p>
+        <h2 className={styles.title}>Chat with a Morgan expert</h2>
+        <p className={styles.textInverse}>Need more? Your question goes straight to the right specialist team.</p>
         <div className={styles.action}>
           <Button href="/questions?mode=expert" variant="secondary" trailing={<ArrowRight size={16} aria-hidden="true" />}>
-            Start expert chat
+            Start a chat
           </Button>
         </div>
       </Card>

@@ -1,5 +1,6 @@
 "use client";
 
+import { celebrate } from "@/app/lib/celebrate";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Send, ShieldCheck } from "../Icon";
@@ -23,17 +24,18 @@ export default function ExpertChatStarter() {
   const send = (event: { preventDefault(): void }) => {
     event.preventDefault();
     if (!industryId || !productId || !question.trim()) {
-      setError("Choose an industry and product line, then add your question.");
+      setError("Add your question, industry and product.");
       return;
     }
     setSending(true);
     const requestId = submitExpertFollowUp(question, industryId, productId, "Direct chat requested with a Morgan subject matter expert.");
+    celebrate(document.activeElement);
     router.push(`/expert?request=${encodeURIComponent(requestId)}`);
   };
 
   return (
     <>
-      <Card as="form" onSubmit={send} aria-label="Start an expert chat">
+      <Card as="form" onSubmit={send} aria-label="Start expert chat">
         <Field label="Your question">
           <Textarea
             rows={4}
@@ -42,7 +44,7 @@ export default function ExpertChatStarter() {
               setQuestion(event.target.value);
               setError("");
             }}
-            placeholder="Describe your product or application question…"
+            placeholder="Describe your product or application question"
             aria-required="true"
           />
         </Field>
@@ -65,7 +67,7 @@ export default function ExpertChatStarter() {
               ))}
             </Select>
           </Field>
-          <Field label="Product line" hint={industryId ? undefined : "Choose an industry first."}>
+          <Field label="Product" hint={industryId ? undefined : "Choose an industry first."}>
             <Select
               value={productId}
               onChange={(event) => {
@@ -87,7 +89,7 @@ export default function ExpertChatStarter() {
         {error && <Alert tone="danger">{error}</Alert>}
         <div className={styles.footer}>
           <span className={styles.note}>
-            <ShieldCheck size={16} aria-hidden="true" /> Routed to the matching Morgan team{industryName ? ` for ${industryName}` : ""}.
+            <ShieldCheck size={16} aria-hidden="true" /> Sent to the right Morgan specialist{industryName ? ` for ${industryName}` : ""}.
           </span>
           <Button type="submit" disabled={sending} trailing={<Send size={16} aria-hidden="true" />}>
             {sending ? "Opening chat…" : "Start expert chat"}
@@ -95,7 +97,7 @@ export default function ExpertChatStarter() {
         </div>
       </Card>
       <Button href="/questions" variant="link" className={styles.backLink} leading={<ArrowLeft size={14} aria-hidden="true" />}>
-        Browse product community threads
+        Back to questions
       </Button>
     </>
   );

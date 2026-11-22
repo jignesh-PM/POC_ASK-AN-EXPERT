@@ -51,11 +51,11 @@ function ProfileGate({ missing }: { missing: number }) {
     <Card padding="lg">
       <EmptyState
         icon={<UserRound size={22} aria-hidden="true" />}
-        title="Complete your profile to continue"
-        description={`This restricted tool needs your organisation and contact details (${missing} ${missing === 1 ? "field" : "fields"} left). Your question and product context stay available.`}
+        title="Complete your profile"
+        description={`This tool needs your organisation and contact details (${missing} ${missing === 1 ? "field" : "fields"} left).`}
         action={
           <Button href="/profile" variant="accent" trailing={<ArrowRight size={16} aria-hidden="true" />}>
-            Complete your profile
+            Update profile
           </Button>
         }
       />
@@ -71,7 +71,7 @@ function CertificateBrowser() {
 
   return (
     <Stack as="section" gap={4} aria-labelledby="certificate-results-title">
-      <SectionHeader id="certificate-results-title" title="Regional certificates" description="Search certificates published for your selected region." />
+      <SectionHeader id="certificate-results-title" title="Regional certificates" />
       <div className={styles.filters}>
         <Field label="Search product">
           <SearchInput value={query} onChange={(event) => setQuery(event.target.value)} placeholder="e.g. FireMaster duct wrap" />
@@ -110,7 +110,7 @@ function CertificateBrowser() {
         <EmptyState
           icon={<Search size={22} aria-hidden="true" />}
           title="No certificates found"
-          description="No portal certificates match this region and search. Morgan's published certificates may cover your product."
+          description="Nothing matches this region and search. Try Morgan's published certificates."
           action={
             <div className={styles.actions}>
               {query && (
@@ -144,9 +144,9 @@ function Co2Calculator() {
       <div className={styles.calcHeading}>
         <div>
           <h2 id="co2-title" className={styles.calcTitle}>
-            Estimate annual energy emissions
+            Estimate annual emissions
           </h2>
-          <p className={styles.muted}>Uses the emission factors maintained by Morgan administrators.</p>
+          <p className={styles.muted}>Uses Morgan&apos;s current emission factors.</p>
         </div>
       </div>
       <div className={styles.filters}>
@@ -180,7 +180,7 @@ function Co2Calculator() {
       </div>
       <div>
         <Button type="submit" leading={<Calculator size={16} aria-hidden="true" />}>
-          Calculate estimate
+          Calculate
         </Button>
       </div>
       <div aria-live="polite">
@@ -190,7 +190,7 @@ function Co2Calculator() {
               Estimated emissions: <strong>{tonnes.toLocaleString(undefined, { maximumFractionDigits: 2 })} tonnes CO₂e per year</strong>
             </p>
             <p className={styles.small}>
-              Based on the current Morgan factor for {source.label.toLowerCase()}: {factor} kg CO₂e/kWh.
+              Factor for {source.label.toLowerCase()}: {factor} kg CO₂e/kWh.
             </p>
           </Alert>
         )}
@@ -202,14 +202,14 @@ function Co2Calculator() {
 function ExternalToolNotice({ staff }: { staff: boolean }) {
   return (
     <Card padding="lg">
-      <p>This tool is available in the portal prototype. Contact your Morgan representative or ask an expert for application-specific guidance.</p>
-      {staff && <Badge tone="brand">Expert preview access is enabled</Badge>}
+      <p>For application-specific guidance, ask a Morgan expert or contact your Morgan representative.</p>
+      {staff && <Badge tone="brand">Staff preview</Badge>}
       <div className={styles.actions}>
         <Button href="/questions?mode=expert" variant="accent" trailing={<ArrowRight size={16} aria-hidden="true" />}>
           Ask a Morgan expert
         </Button>
         <Button href="/tools" variant="secondary">
-          Browse other tools
+          All tools
         </Button>
       </div>
     </Card>

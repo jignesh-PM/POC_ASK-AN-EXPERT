@@ -19,7 +19,7 @@ export default function MyQuestions() {
   const expertCount = questions.filter(isExpertThread).length;
   const tabs: TabItem<Filter>[] = [
     { id: "all", label: `All (${questions.length})` },
-    { id: "ai", label: `Morgan AI answers (${questions.length - expertCount})`, icon: <Sparkles size={15} aria-hidden="true" /> },
+    { id: "ai", label: `Morgan AI (${questions.length - expertCount})`, icon: <Sparkles size={15} aria-hidden="true" /> },
     { id: "expert", label: `Expert chats (${expertCount})`, icon: <Headset size={15} aria-hidden="true" /> },
   ];
 
@@ -34,8 +34,8 @@ export default function MyQuestions() {
     return (
       <EmptyState
         icon={<MessageSquareText size={22} />}
-        title="You haven’t asked anything yet"
-        description="Ask a question in the search bar to get a Morgan AI answer with sources. You can continue any answer with a Morgan expert."
+        title="No questions yet"
+        description="Use the search bar for a Morgan AI answer, or ask a Morgan expert."
         action={
           <Button href="/questions?mode=expert" variant="accent" size="sm" leading={<Headset size={14} aria-hidden="true" />}>
             Ask an expert
@@ -92,7 +92,7 @@ export default function MyQuestions() {
       ) : (
         <EmptyState
           title="No questions match"
-          description="Try another search, or switch the filter."
+          description="Try another search or filter."
           action={
             <Button
               variant="secondary"

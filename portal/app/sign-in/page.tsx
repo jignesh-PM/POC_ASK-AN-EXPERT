@@ -9,11 +9,11 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
   return (
     <Page width="narrow">
       <PageHeader
-        title="Sign in to your account"
+        title="Sign in"
         description={
           toExpertChat
-            ? "Sign in to chat with a Morgan expert. You’ll return to your question straight after."
-            : "Access technical resources, saved conversations and Morgan expert support."
+            ? "Sign in to chat with a Morgan expert. We’ll bring you back to your question."
+            : "Access your questions, chats and Morgan expert support."
         }
       />
       <SignInForm returnTo={next} />

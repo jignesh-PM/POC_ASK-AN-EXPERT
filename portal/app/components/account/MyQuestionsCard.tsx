@@ -18,10 +18,10 @@ export default function MyQuestionsCard() {
       <p className={styles.questionsText}>
         {questions.length
           ? `${questions.length} ${questions.length === 1 ? "question" : "questions"} · ${expertChats} expert ${expertChats === 1 ? "chat" : "chats"}`
-          : "Your Morgan AI answers and expert chats will appear here."}
+          : "Your Morgan AI answers and expert chats."}
       </p>
       <span className={styles.questionsLink}>
-        View all questions <ArrowRight size={14} aria-hidden="true" />
+        View questions <ArrowRight size={14} aria-hidden="true" />
       </span>
     </Card>
   );

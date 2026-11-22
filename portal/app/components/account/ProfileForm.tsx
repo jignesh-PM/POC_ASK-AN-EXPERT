@@ -1,5 +1,6 @@
 "use client";
 
+import { celebrate } from "@/app/lib/celebrate";
 import { useState, type ReactNode } from "react";
 import { Building2, Check, Phone, UserRound } from "../Icon";
 import { Button, Card, Field, Input, SectionHeader, Select } from "../ui";
@@ -13,21 +14,21 @@ const ORGANIZATION_SIZES = ["1–10", "11–50", "51–200", "201–1,000", "1,0
 const SECTIONS: { id: string; title: string; icon: ReactNode; fields: FieldConfig[] }[] = [
   {
     id: "personal",
-    title: "Personal details",
+    title: "Personal",
     icon: <UserRound size={18} />,
     fields: [
       { name: "name", label: "Name", autoComplete: "name" },
-      { name: "designation", label: "Designation", autoComplete: "organization-title" },
+      { name: "designation", label: "Job title", autoComplete: "organization-title" },
     ],
   },
   {
     id: "organization",
-    title: "Organization details",
+    title: "Organisation",
     icon: <Building2 size={18} />,
     fields: [
-      { name: "organizationName", label: "Organization name", autoComplete: "organization" },
-      { name: "organizationSize", label: "Organization size" },
-      { name: "organizationAddress", label: "Organization address", autoComplete: "street-address" },
+      { name: "organizationName", label: "Organisation name", autoComplete: "organization" },
+      { name: "organizationSize", label: "Organisation size" },
+      { name: "organizationAddress", label: "Address", autoComplete: "street-address" },
       { name: "postalCode", label: "Postal code", autoComplete: "postal-code" },
       { name: "city", label: "City", autoComplete: "address-level2" },
       { name: "state", label: "State / province", autoComplete: "address-level1" },
@@ -35,7 +36,7 @@ const SECTIONS: { id: string; title: string; icon: ReactNode; fields: FieldConfi
   },
   {
     id: "contact",
-    title: "Contact details",
+    title: "Contact",
     icon: <Phone size={18} />,
     fields: [
       { name: "mobileNumber", label: "Mobile number", type: "tel", autoComplete: "tel" },
@@ -62,15 +63,16 @@ export default function ProfileForm() {
   const submit = (event: { preventDefault(): void }) => {
     event.preventDefault();
     saveProfileDetails(details);
+    celebrate(document.activeElement);
     setDraft(null);
     setSaved(true);
   };
 
   const statusText = saved
-    ? "Your profile details have been saved."
+    ? "Profile saved."
     : completion.percent < 100
-      ? `${completion.missing.length} required ${completion.missing.length === 1 ? "detail still needs" : "details still need"} to be completed.`
-      : "All required details are complete.";
+      ? `${completion.missing.length} required ${completion.missing.length === 1 ? "field" : "fields"} left.`
+      : "Profile complete.";
 
   return (
     <Card as="form" id="personal-details" onSubmit={submit} padding="lg" aria-labelledby="profile-form-heading">
@@ -78,7 +80,7 @@ export default function ProfileForm() {
         <SectionHeader
           id="profile-form-heading"
           title="Profile details"
-          description={`${completion.completed} of ${completion.total} required details complete`}
+          description={`${completion.completed} of ${completion.total} required fields complete`}
           className={styles.cardHeadCopy}
           actions={<strong className={styles.percent}>{completion.percent}%</strong>}
         />
@@ -100,7 +102,7 @@ export default function ProfileForm() {
               <Field key={field.name} label={field.label} optional={field.optional}>
                 {field.name === "organizationSize" ? (
                   <Select name={field.name} value={details.organizationSize} onChange={(event) => update("organizationSize", event.target.value)} required>
-                    <option value="">Select organization size</option>
+                    <option value="">Choose size</option>
                     {ORGANIZATION_SIZES.map((size) => (
                       <option key={size} value={size}>
                         {size} employees
@@ -129,7 +131,7 @@ export default function ProfileForm() {
           {statusText}
         </p>
         <Button type="submit" leading={<Check size={16} aria-hidden="true" />}>
-          Save profile
+          Save
         </Button>
       </div>
     </Card>

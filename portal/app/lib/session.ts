@@ -50,6 +50,8 @@ export type AdminSettings = {
   requireProfile: boolean;
   defaultRegion: string;
   defaultLanguage: string;
+  /** Show the Ember mascot across the portal. */
+  mascotEnabled: boolean;
 };
 
 export const DEFAULT_ADMIN_SETTINGS: AdminSettings = {
@@ -57,6 +59,7 @@ export const DEFAULT_ADMIN_SETTINGS: AdminSettings = {
   requireProfile: false,
   defaultRegion: DEFAULT_REGION,
   defaultLanguage: DEFAULT_LANGUAGE,
+  mascotEnabled: true,
 };
 
 const EMPTY_SETTINGS: Partial<AdminSettings> = {};

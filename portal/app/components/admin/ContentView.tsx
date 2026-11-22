@@ -27,7 +27,7 @@ function MainAreasManager() {
   const { saved, record } = useSavedFlash();
 
   return (
-    <AdminPanel id="admin-main-areas" title="Main areas and access" description="Choose which main area pages are available in the portal." saved={saved}>
+    <AdminPanel id="admin-main-areas" title="Main areas" description="Choose which main area pages customers can open." saved={saved}>
       <VisibilityList label="Main areas">
         {mainAreas.map((area) => {
           const visible = !hiddenAreas.includes(area.slug);

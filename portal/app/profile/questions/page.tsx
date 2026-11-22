@@ -10,7 +10,7 @@ export default function MyQuestionsPage() {
     <Page>
       <PageHeader
         title="My questions"
-        description="Every question you’ve asked: Morgan AI answers with their sources, and your conversations with Morgan experts."
+        description="Your Morgan AI answers and expert chats."
         actions={
           <>
             <Button href="/profile" variant="secondary" leading={<ArrowLeft size={16} aria-hidden="true" />}>

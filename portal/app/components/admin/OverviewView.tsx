@@ -19,22 +19,22 @@ export function OverviewView() {
   return (
     <>
       <Grid min={200}>
-        <Stat label="Managed accounts" value={users.length} hint={`${users.filter((user) => user.active).length} active`} />
-        <Stat label="Product questions" value={requests.length} hint={`Across ${breakdown.filter((item) => item.count).length} product lines`} />
-        <Stat label="Open conversations" value={requests.filter((request) => request.status !== "Resolved").length} hint="Awaiting expert resolution" />
-        <Stat label="Portal activity" value={events.length} hint={`${events.filter((event) => event.type === "tool_view").length} tool visits recorded`} />
+        <Stat label="Accounts" value={users.length} hint={`${users.filter((user) => user.active).length} active`} />
+        <Stat label="Questions" value={requests.length} hint={`Across ${breakdown.filter((item) => item.count).length} product lines`} />
+        <Stat label="Open chats" value={requests.filter((request) => request.status !== "Resolved").length} hint="Not yet resolved" />
+        <Stat label="Portal activity" value={events.length} hint={`${events.filter((event) => event.type === "tool_view").length} tool visits`} />
       </Grid>
 
-      <AdminPanel id="admin-quick-actions" title="Quick actions" description="Jump to the most common admin tasks.">
+      <AdminPanel id="admin-quick-actions" title="Quick actions">
         <Grid min={200} gap={3}>
           <Button href="/admin?view=users" variant="secondary" leading={<Users size={18} aria-hidden="true" />}>
             Manage users
           </Button>
           <Button href="/admin?view=experts" variant="secondary" leading={<Boxes size={18} aria-hidden="true" />}>
-            Route expert teams
+            Expert teams
           </Button>
           <Button href="/admin?view=content" variant="secondary" leading={<FileText size={18} aria-hidden="true" />}>
-            Review indexed content
+            Manage content
           </Button>
         </Grid>
       </AdminPanel>

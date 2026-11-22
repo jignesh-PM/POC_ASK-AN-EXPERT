@@ -10,7 +10,7 @@ export function CategoryGrid() {
   const ranges = useVisibleCategories();
 
   if (!ranges.length) {
-    return <EmptyState icon={<Boxes size={22} aria-hidden="true" />} title="No product ranges are published" description="Product ranges will appear here once they are made visible." />;
+    return <EmptyState icon={<Boxes size={22} aria-hidden="true" />} title="No product ranges yet" description="Published ranges will appear here." />;
   }
 
   return (
@@ -22,7 +22,7 @@ export function CategoryGrid() {
             tags={[`${range.productCount} ${range.productCount === 1 ? "product" : "products"}`]}
             title={range.name}
             description={range.description}
-            cta={`Explore ${range.name}`}
+            cta="View range"
           />
         </li>
       ))}

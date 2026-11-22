@@ -1,0 +1,434 @@
+/* ---------- Layout ---------- */
+.mascot {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.bubble-top {
+  flex-direction: column-reverse;
+}
+
+.character {
+  flex-shrink: 0;
+  animation: mascot-enter 600ms var(--ease-out) both;
+}
+
+.xs .character {
+  width: 32px;
+}
+
+.sm .character {
+  width: 56px;
+}
+
+.md .character {
+  width: 96px;
+}
+
+.lg .character {
+  width: 148px;
+}
+
+.art {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* ---------- Speech bubble ---------- */
+.bubble {
+  position: relative;
+  max-width: 260px;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  color: var(--color-text);
+  font-size: var(--text-md);
+  font-weight: var(--weight-medium);
+  line-height: 1.4;
+  animation: bubble-pop 420ms var(--ease-out) 300ms both;
+}
+
+.bubble::before {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: inherit;
+  border-top: 0;
+  border-right: 0;
+  background: inherit;
+}
+
+.bubble-right .bubble::before {
+  top: 50%;
+  left: -7px;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.bubble-top .bubble::before {
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-45deg);
+}
+
+/* ---------- Artwork colours (brand tokens, theme aware) ---------- */
+.shadow {
+  fill: var(--color-brand);
+  opacity: 0.12;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: shadow-breathe 3.2s ease-in-out infinite;
+}
+
+.body,
+.limb,
+.foot {
+  fill: var(--color-brand-fill);
+}
+
+.limb {
+  fill: none;
+  stroke: var(--color-brand-fill);
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.hand {
+  fill: var(--color-brand-fill);
+}
+
+.bodyShine {
+  fill: var(--color-text-inverse);
+  opacity: 0.16;
+}
+
+.band {
+  fill: var(--color-accent);
+}
+
+.flameOuter {
+  fill: var(--color-accent);
+}
+
+.flameInner {
+  fill: var(--color-accent-on-fill);
+}
+
+.eyeWhite {
+  fill: var(--color-text-inverse);
+}
+
+.pupil {
+  fill: var(--color-brand-fill);
+}
+
+:global(:root[data-theme="dark"]) .pupil {
+  fill: #0b1a2b;
+}
+
+.glint {
+  fill: var(--color-text-inverse);
+}
+
+.cheek {
+  fill: var(--color-accent);
+  opacity: 0.45;
+}
+
+.mouth,
+.happyEyes path {
+  fill: none;
+  stroke: var(--color-text-inverse);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+}
+
+.mouthO {
+  fill: var(--color-text-inverse);
+}
+
+.thought circle {
+  fill: var(--color-brand-soft);
+  stroke: var(--color-brand);
+  stroke-width: 1.5;
+}
+
+.question {
+  fill: var(--color-accent);
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.sweat {
+  fill: #7cc4f5;
+}
+
+.sparkles path {
+  fill: var(--color-accent);
+}
+
+/* ---------- Motion ---------- */
+.figure {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: idle-bob 3.2s ease-in-out infinite;
+}
+
+.flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: flicker 1.6s ease-in-out infinite;
+}
+
+.eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 5s infinite;
+}
+
+.pupils {
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.waveArm {
+  transform-box: fill-box;
+  transform-origin: 0% 100%;
+}
+
+/* Mood: wave — greets with the right arm. */
+.art[data-mood="wave"] .waveArm {
+  animation: wave 2.4s ease-in-out infinite;
+}
+
+/* Mood: think — looks up, flame flickers faster, thought bubbles rise. */
+.art[data-mood="think"] .pupils {
+  transform: translate(2px, -3px);
+}
+
+.art[data-mood="think"] .flame {
+  animation-duration: 0.7s;
+}
+
+.thought circle {
+  animation: thought-rise 1.5s ease-in-out infinite;
+}
+
+.thought circle:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.thought circle:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Mood: happy — jumps for joy, sparkles twinkle. */
+.art[data-mood="happy"] .figure {
+  animation: jump 1.4s var(--ease-out) infinite;
+}
+
+.sparkles path {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: twinkle 1.4s ease-in-out infinite;
+}
+
+.sparkles path:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+/* Mood: curious — tilts its head, question mark bobs. */
+.art[data-mood="curious"] .figure {
+  animation: tilt 3s ease-in-out infinite;
+}
+
+.art[data-mood="curious"] .pupils {
+  transform: translate(-2px, 0);
+}
+
+.question {
+  animation: float 2s ease-in-out infinite;
+}
+
+/* Mood: oops — wobbles, a nervous drop slides down. */
+.art[data-mood="oops"] .figure {
+  animation: wobble 2.6s ease-in-out infinite;
+}
+
+.sweat {
+  animation: drip 2s ease-in infinite;
+}
+
+@keyframes mascot-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.92);
+  }
+}
+
+@keyframes bubble-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateX(-6px);
+  }
+}
+
+@keyframes idle-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes shadow-breathe {
+  0%,
+  100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.88);
+  }
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    transform: scale(1, 1) rotate(0);
+  }
+  25% {
+    transform: scale(0.94, 1.08) rotate(-3deg);
+  }
+  50% {
+    transform: scale(1.04, 0.95) rotate(2deg);
+  }
+  75% {
+    transform: scale(0.97, 1.05) rotate(-1deg);
+  }
+}
+
+@keyframes blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes wave {
+  0%,
+  60%,
+  100% {
+    transform: rotate(0);
+  }
+  70% {
+    transform: rotate(-18deg);
+  }
+  80% {
+    transform: rotate(10deg);
+  }
+  90% {
+    transform: rotate(-12deg);
+  }
+}
+
+@keyframes thought-rise {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes jump {
+  0%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  15% {
+    transform: translateY(0) scale(1.06, 0.92);
+  }
+  40% {
+    transform: translateY(-12px) scale(0.96, 1.05);
+  }
+  65% {
+    transform: translateY(0) scale(1.04, 0.95);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tilt {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  40%,
+  60% {
+    transform: rotate(-8deg);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20% {
+    transform: rotate(-4deg);
+  }
+  40% {
+    transform: rotate(4deg);
+  }
+  60% {
+    transform: rotate(-2deg);
+  }
+}
+
+@keyframes drip {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}

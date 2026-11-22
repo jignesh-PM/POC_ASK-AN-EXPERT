@@ -7,13 +7,13 @@ export default function PrivacyPage() {
   return (
     <LegalArticle
       title="Privacy Policy"
-      description="How personal and profile information is handled when you use this portal."
+      description="How we handle your personal and profile information."
       sections={[
         {
           heading: "How Morgan uses your data",
-          body: "This prototype demonstrates the customer consent and data handling journey. In production, Morgan will publish the approved GDPR privacy notice and record consent with a version, date and account history.",
+          body: "Prototype: this shows the consent journey only. The live portal will publish Morgan’s approved GDPR privacy notice and record each consent with its version and date.",
         },
-        { heading: "Your choices", body: "You can view, export or delete your data from the profile page." },
+        { heading: "Your choices", body: "View, export or delete your data from your profile." },
       ]}
     />
   );

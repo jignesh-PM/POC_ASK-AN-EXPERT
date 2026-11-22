@@ -15,7 +15,7 @@ export function SupportAreas({ limit = 3 }: { limit?: number }) {
       <Grid as="ul" min={240}>
         {areas.map((area) => (
           <li key={area.slug}>
-            <CatalogCard href={`/main-area/${area.slug}`} title={area.title} description={area.description} cta={`Open ${area.title}`} />
+            <CatalogCard href={`/main-area/${area.slug}`} title={area.title} description={area.description} cta="Open" />
           </li>
         ))}
       </Grid>

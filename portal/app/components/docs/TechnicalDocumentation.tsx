@@ -62,14 +62,14 @@ function OverviewPanel({ onNavigate }: { onNavigate: (tab: DocTab) => void }) {
   return (
     <Stack gap={8}>
       <SectionHeader
-        title="What this handbook covers"
-        description="The shared reference for the portal: the system we are building and a lightweight place to keep delivery status current."
+        title="Overview"
+        description="What the portal is and where delivery stands."
         actions={<Badge tone="brand">Prototype v{currentVersion}</Badge>}
       />
       <Grid min={180} gap={3}>
-        <Stat label="Experience USPs" value={uspFeatures.length} hint="Distinctive customer value" />
-        <Stat label="Dynamic features" value={dynamicCount} hint="Interactive in the prototype" />
-        <Stat label="Static features" value={staticCount} hint="Stable reference content" />
+        <Stat label="Experience USPs" value={uspFeatures.length} hint="Customer value" />
+        <Stat label="Dynamic features" value={dynamicCount} hint="Interactive" />
+        <Stat label="Static features" value={staticCount} hint="Reference content" />
         <Stat label="Portal features" value={portalFeatures.length} hint="Core journeys" />
       </Grid>
 
@@ -106,7 +106,7 @@ function OverviewPanel({ onNavigate }: { onNavigate: (tab: DocTab) => void }) {
 function DesignPanel() {
   return (
     <Stack gap={8}>
-      <SectionHeader title="Design system" description="Every colour, size, radius and shadow comes from app/styles/tokens.css. Components reference tokens only." />
+      <SectionHeader title="Design system" description="All colours, sizes, radii and shadows come from app/styles/tokens.css." />
       <Grid min={200} gap={4} as="ul" aria-label="Colour tokens">
         {designTokens.colors.map((color) => (
           <li className={styles.colorCard} key={color.token}>
@@ -163,7 +163,7 @@ function Guidance({ title, children }: { title: string; children: ReactNode }) {
 function TypographyPanel() {
   return (
     <Stack gap={6}>
-      <SectionHeader title="Typography" description="Roboto, loaded with next/font, is the single interface family. Use weight and size contrast instead of decorative styling." />
+      <SectionHeader title="Typography" description="Roboto, loaded with next/font. Use weight and size for contrast." />
       <Card tone="brand" padding="lg" className={styles.typePreview}>
         <strong className={styles.previewTitle}>Clear answers start with clear type.</strong>
         <p>Product guidance, document details and expert responses stay easy to scan at every viewport size.</p>
@@ -189,7 +189,7 @@ function TypographyPanel() {
 function TechnologyPanel() {
   return (
     <Stack gap={6}>
-      <SectionHeader title="Technology stack" description="A small dependency footprint: Next.js and React, with everything else built in-house." />
+      <SectionHeader title="Technology stack" description="Next.js and React; everything else is built in-house." />
       <DocTable caption="Technology stack" head={["Layer", "Technology", "Purpose"]}>
         {technologyStack.map((row) => (
           <tr key={row.layer}>
@@ -212,7 +212,7 @@ function TechnologyPanel() {
 function FeaturesPanel() {
   return (
     <Stack gap={6}>
-      <SectionHeader title="Portal features" description="A concise inventory of the core visitor, customer and admin journeys in this prototype." />
+      <SectionHeader title="Portal features" description="Core visitor, customer and admin journeys." />
       <Grid min={260} gap={4}>
         {portalFeatures.map((feature) => (
           <Card key={feature.id} className={styles.feature}>
@@ -248,7 +248,7 @@ function FeaturesPanel() {
 function ReleasesPanel() {
   return (
     <Stack gap={6}>
-      <SectionHeader title="Version history" description="Prototype milestones record meaningful changes to the experience and implementation." />
+      <SectionHeader title="Version history" description="Prototype milestones." />
       <ol className={styles.releases}>
         {releaseHistory.map((release) => (
           <li className={styles.release} key={release.version}>

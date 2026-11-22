@@ -17,7 +17,7 @@ export function LegalArticle({ title, description, sections }: LegalArticleProps
         description={description}
         actions={
           <Button href="/legal" variant="ghost" size="sm" leading={<ArrowLeft size={15} aria-hidden="true" />}>
-            All legal information
+            All legal
           </Button>
         }
       />
