@@ -16,7 +16,6 @@ export function ComplianceManager() {
   return (
     <AdminPanel
       id="admin-compliance"
-      eyebrow="Regional content"
       title="ISO certification visibility"
       description="Choose which regional certifications appear on the customer home page."
       saved={saved}
@@ -41,7 +40,6 @@ export function ComplianceManager() {
                       return (
                         <VisibilityRow
                           key={key}
-                          icon={<BadgeCheck size={16} />}
                           title={cert.standard}
                           name={`${cert.standard} for ${data.label}`}
                           description={`${cert.name} · ${cert.locations.length} locations`}

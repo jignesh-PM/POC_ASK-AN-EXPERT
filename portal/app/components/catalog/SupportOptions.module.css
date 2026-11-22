@@ -17,3 +17,21 @@
 .action {
   margin-top: var(--space-2);
 }
+
+/* Numbered step marker: shows the order of the support journey. */
+.step {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+}
+
+.stepInverse {
+  background: var(--color-surface);
+  color: var(--color-accent-text);
+}

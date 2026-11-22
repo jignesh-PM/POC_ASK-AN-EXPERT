@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight, Clock3, Headset, MessageSquareText, Sparkles } from "../Icon";
-import { Badge, Button, Card, EmptyState, IconTile, SectionHeader, Stack } from "../ui";
+import { Badge, Button, Card, EmptyState, SectionHeader, Stack } from "../ui";
 import { formatTimestamp, threadStatus } from "./thread-status";
 import styles from "./QuestionThreads.module.css";
 import { threadHref, useRoutingRequests } from "@/app/lib/expert-routing";
@@ -27,7 +27,7 @@ export default function QuestionThreads() {
   return (
     <section aria-labelledby="threads-title">
       <Stack gap={4}>
-        <SectionHeader id="threads-title" eyebrow="Product community" title="Recent product threads" actions={<Badge>{requests.length} threads</Badge>} />
+        <SectionHeader id="threads-title" title="Recent product threads" actions={<Badge>{requests.length} threads</Badge>} />
         {requests.length ? (
           <ul className={styles.list}>
             {requests.slice(0, 12).map((request) => {
@@ -36,9 +36,6 @@ export default function QuestionThreads() {
                 <li key={request.id}>
                   <Card href={threadHref(request)} padding="sm">
                     <div className={styles.row}>
-                      <IconTile size="sm">
-                        <MessageSquareText size={16} />
-                      </IconTile>
                       <div className={styles.copy}>
                         <strong className={styles.title}>{request.query}</strong>
                         <span className={styles.meta}>{[request.industry, request.product, request.expertTeam].filter(Boolean).join(" · ")}</span>

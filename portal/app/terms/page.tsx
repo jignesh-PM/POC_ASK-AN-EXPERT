@@ -11,7 +11,7 @@ export default function TermsPage() {
       sections={[
         {
           heading: "Using this portal",
-          body: "Information in the Ask the Expert portal supports product selection and technical enquiries. Always confirm safety-critical decisions with an approved Morgan expert or product documentation.",
+          body: "Information in this portal supports product selection and technical enquiries. Always confirm safety-critical decisions with an approved Morgan expert or product documentation.",
         },
         { heading: "Prototype", body: "This environment uses dummy content and mock AI responses for review." },
       ]}

@@ -27,7 +27,6 @@ export default async function ToolPage({ params }: Props) {
   return (
     <Page width="narrow">
       <PageHeader
-        eyebrow={tool.type}
         title={tool.title}
         description={tool.description}
         actions={
@@ -36,7 +35,10 @@ export default async function ToolPage({ params }: Props) {
           </Button>
         }
       >
-        {tool.restricted && <Badge tone="warning">Profile required</Badge>}
+        <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
+          <Badge tone="brand">{tool.type}</Badge>
+          {tool.restricted && <Badge tone="warning">Profile required</Badge>}
+        </div>
       </PageHeader>
       <ToolRunner slug={tool.slug} restricted={Boolean(tool.restricted)} />
     </Page>

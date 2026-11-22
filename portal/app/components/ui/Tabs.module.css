@@ -33,6 +33,28 @@
   color: var(--color-brand);
 }
 
+.tab {
+  position: relative;
+}
+
+.tab[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  right: var(--space-3);
+  bottom: 3px;
+  left: var(--space-3);
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  animation: tab-in var(--duration-base) var(--ease-out);
+}
+
+@keyframes tab-in {
+  from {
+    transform: scaleX(0);
+  }
+}
+
 .tab[aria-selected="true"] {
   background: var(--color-surface);
   color: var(--color-brand);

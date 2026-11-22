@@ -13,13 +13,7 @@ export function Page({ width = "default", className, children, ...props }: HTMLA
   );
 }
 
-/** Small uppercase label shown above titles. */
-export function Eyebrow({ children, tone = "accent", className }: { children: ReactNode; tone?: "accent" | "muted" | "inverse"; className?: string }) {
-  return <p className={cx(styles.eyebrow, styles[`eyebrow-${tone}`], className)}>{children}</p>;
-}
-
 type HeaderProps = {
-  eyebrow?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
   /** Buttons or links aligned to the right on wide screens. */
@@ -30,11 +24,10 @@ type HeaderProps = {
 };
 
 /** The single `<h1>` block at the top of a page. */
-export function PageHeader({ eyebrow, title, description, actions, children, className }: HeaderProps) {
+export function PageHeader({ title, description, actions, children, className }: HeaderProps) {
   return (
     <header className={cx(styles.pageHeader, className)}>
       <div className={styles.headerCopy}>
-        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
         <h1 className={styles.pageTitle}>{title}</h1>
         {description && <p className={styles.pageDescription}>{description}</p>}
         {children}
@@ -44,12 +37,11 @@ export function PageHeader({ eyebrow, title, description, actions, children, cla
   );
 }
 
-/** Heading row for a section inside a page: eyebrow, title, description and an optional action. */
-export function SectionHeader({ eyebrow, title, description, actions, children, className, as: Heading = "h2", id }: HeaderProps & { as?: "h2" | "h3"; id?: string }) {
+/** Heading row for a section inside a page: title, description and an optional action. */
+export function SectionHeader({ title, description, actions, children, className, as: Heading = "h2", id }: HeaderProps & { as?: "h2" | "h3"; id?: string }) {
   return (
     <div className={cx(styles.sectionHeader, className)}>
       <div className={styles.headerCopy}>
-        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
         <Heading id={id} className={Heading === "h2" ? styles.sectionTitle : styles.subsectionTitle}>
           {title}
         </Heading>

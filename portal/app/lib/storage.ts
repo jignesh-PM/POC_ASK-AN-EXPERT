@@ -32,6 +32,7 @@ export const STORAGE_KEYS = {
   analytics: "morgan-analytics-events",
   welcomeRead: "morgan-welcome-notification-read",
   directionNote: "morgan-portal-direction-note",
+  theme: "morgan-theme",
 } as const;
 
 export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];

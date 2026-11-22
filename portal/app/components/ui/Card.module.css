@@ -33,7 +33,7 @@
 
 .tone-brand {
   border-color: transparent;
-  background: var(--color-brand);
+  background: var(--color-brand-fill);
   color: var(--color-text-inverse);
 }
 
@@ -42,7 +42,7 @@
 }
 
 .tone-accent {
-  border-color: #f6cfb0;
+  border-color: var(--color-accent-border);
   background: var(--color-accent-soft);
 }
 
@@ -54,10 +54,45 @@
     transform var(--duration-base) var(--ease-out);
 }
 
+.interactive {
+  overflow: hidden;
+}
+
+/* Orange bar that sweeps across the top edge on hover. */
+.interactive::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
 .interactive:hover {
-  border-color: var(--color-border-strong);
+  border-color: var(--color-accent-border);
   box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+}
+
+.interactive:hover::before {
+  transform: scaleX(1);
+}
+
+/* Nudge the trailing arrow of a card link on hover. */
+.interactive svg:last-child {
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.interactive:hover svg:last-child {
+  transform: translate(3px, 0);
+}
+
+.interactive:active {
+  transform: translateY(-1px);
 }
 
 /* Icon tile */
@@ -186,6 +221,7 @@
 
 /* Empty state */
 .empty {
+  animation: page-enter var(--duration-slow) var(--ease-out) both;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -243,4 +279,11 @@
 .alert-danger {
   background: var(--color-danger-soft);
   color: var(--color-danger);
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
 }

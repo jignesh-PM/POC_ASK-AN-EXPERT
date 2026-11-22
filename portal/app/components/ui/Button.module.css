@@ -18,8 +18,17 @@
     transform var(--duration-fast) var(--ease-out);
 }
 
+.button > svg {
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+/* Trailing icon (usually an arrow) slides forward on hover. */
+.button:hover:not(:disabled) > svg:last-child:not(:first-child) {
+  transform: translateX(3px);
+}
+
 .button:active:not(:disabled) {
-  transform: translateY(1px);
+  transform: translateY(1px) scale(0.98);
 }
 
 .button:disabled,
@@ -56,13 +65,14 @@
 }
 
 .primary {
-  background: var(--color-brand);
+  background: var(--color-brand-fill);
   color: var(--color-text-inverse);
 }
 
 .primary:hover:not(:disabled) {
-  background: var(--color-brand-hover);
-  box-shadow: var(--shadow-sm);
+  background: var(--color-brand-fill-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .accent {
@@ -72,7 +82,8 @@
 
 .accent:hover:not(:disabled) {
   background: var(--color-accent-hover);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-accent);
+  transform: translateY(-1px);
 }
 
 .secondary {
@@ -82,8 +93,9 @@
 }
 
 .secondary:hover:not(:disabled) {
-  border-color: var(--color-brand);
-  background: var(--color-brand-softer);
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-text);
 }
 
 .ghost {

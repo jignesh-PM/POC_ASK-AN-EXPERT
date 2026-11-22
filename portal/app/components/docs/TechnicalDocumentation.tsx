@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import { ArrowUpRight, BookOpenText, Check, ClipboardList, Palette, RotateCcw, Sparkles, Type, Workflow, Zap } from "@/app/components/Icon";
-import { Alert, Badge, Button, Card, Grid, IconTile, SectionHeader, Stack, Stat, Tabs, cx, type TabItem } from "@/app/components/ui";
+import { Alert, Badge, Button, Card, Grid, SectionHeader, Stack, Stat, Tabs, cx, type TabItem } from "@/app/components/ui";
 import { designTokens, portalFeatures, releaseHistory, technologyStack, typographyScale } from "@/app/lib/project-documentation";
 import styles from "./TechnicalDocumentation.module.css";
 
@@ -62,9 +62,8 @@ function OverviewPanel({ onNavigate }: { onNavigate: (tab: DocTab) => void }) {
   return (
     <Stack gap={8}>
       <SectionHeader
-        eyebrow="Reference guide"
         title="What this handbook covers"
-        description="The shared reference for the Morgan Ask the Expert portal: the system we are building and a lightweight place to keep delivery status current."
+        description="The shared reference for the portal: the system we are building and a lightweight place to keep delivery status current."
         actions={<Badge tone="brand">Prototype v{currentVersion}</Badge>}
       />
       <Grid min={180} gap={3}>
@@ -75,13 +74,10 @@ function OverviewPanel({ onNavigate }: { onNavigate: (tab: DocTab) => void }) {
       </Grid>
 
       <Stack gap={4}>
-        <SectionHeader as="h3" eyebrow="Why this portal" title="Useful by design" actions={<Badge tone="accent">{uspFeatures.length} customer-facing USPs</Badge>} />
+        <SectionHeader as="h3" title="Useful by design" actions={<Badge tone="accent">{uspFeatures.length} customer-facing USPs</Badge>} />
         <Grid min={240} gap={4}>
           {uspFeatures.map((feature) => (
             <Card tone="muted" key={feature.id}>
-              <IconTile tone="accent" size="sm">
-                <Sparkles size={16} />
-              </IconTile>
               <h4 className={styles.cardTitle}>{feature.name}</h4>
               <p className={styles.cardText}>{feature.detail}</p>
             </Card>
@@ -90,11 +86,10 @@ function OverviewPanel({ onNavigate }: { onNavigate: (tab: DocTab) => void }) {
       </Stack>
 
       <Stack gap={4}>
-        <SectionHeader as="h3" eyebrow="Explore" title="Sections" />
+        <SectionHeader as="h3" title="Sections" />
         <Grid min={220} gap={4}>
           {guides.map((guide) => (
             <Card key={guide.tab} padding="sm" className={styles.guide}>
-              <IconTile size="sm">{guide.icon}</IconTile>
               <h4 className={styles.cardTitle}>{guide.title}</h4>
               <p className={styles.cardText}>{guide.detail}</p>
               <Button variant="link" size="sm" onClick={() => onNavigate(guide.tab)} trailing={<ArrowUpRight size={14} aria-hidden="true" />}>
@@ -111,7 +106,7 @@ function OverviewPanel({ onNavigate }: { onNavigate: (tab: DocTab) => void }) {
 function DesignPanel() {
   return (
     <Stack gap={8}>
-      <SectionHeader eyebrow="Visual language" title="Design system" description="Every colour, size, radius and shadow comes from app/styles/tokens.css. Components reference tokens only." />
+      <SectionHeader title="Design system" description="Every colour, size, radius and shadow comes from app/styles/tokens.css. Components reference tokens only." />
       <Grid min={200} gap={4} as="ul" aria-label="Colour tokens">
         {designTokens.colors.map((color) => (
           <li className={styles.colorCard} key={color.token}>
@@ -168,9 +163,8 @@ function Guidance({ title, children }: { title: string; children: ReactNode }) {
 function TypographyPanel() {
   return (
     <Stack gap={6}>
-      <SectionHeader eyebrow="Readability" title="Typography" description="Roboto, loaded with next/font, is the single interface family. Use weight and size contrast instead of decorative styling." />
+      <SectionHeader title="Typography" description="Roboto, loaded with next/font, is the single interface family. Use weight and size contrast instead of decorative styling." />
       <Card tone="brand" padding="lg" className={styles.typePreview}>
-        <span className={styles.previewKicker}>Roboto · Morgan Ask the Expert</span>
         <strong className={styles.previewTitle}>Clear answers start with clear type.</strong>
         <p>Product guidance, document details and expert responses stay easy to scan at every viewport size.</p>
       </Card>
@@ -187,7 +181,7 @@ function TypographyPanel() {
           </tr>
         ))}
       </DocTable>
-      <p className={styles.caption}>Body copy uses a 1.55 line height. Reserve uppercase for short labels such as eyebrows and table headers.</p>
+      <p className={styles.caption}>Body copy uses a 1.55 line height. Reserve uppercase for short labels such as table headers.</p>
     </Stack>
   );
 }
@@ -195,7 +189,7 @@ function TypographyPanel() {
 function TechnologyPanel() {
   return (
     <Stack gap={6}>
-      <SectionHeader eyebrow="Implementation" title="Technology stack" description="A small dependency footprint: Next.js and React, with everything else built in-house." />
+      <SectionHeader title="Technology stack" description="A small dependency footprint: Next.js and React, with everything else built in-house." />
       <DocTable caption="Technology stack" head={["Layer", "Technology", "Purpose"]}>
         {technologyStack.map((row) => (
           <tr key={row.layer}>
@@ -218,7 +212,7 @@ function TechnologyPanel() {
 function FeaturesPanel() {
   return (
     <Stack gap={6}>
-      <SectionHeader eyebrow="Product map" title="Portal features" description="A concise inventory of the core visitor, customer and admin journeys in this prototype." />
+      <SectionHeader title="Portal features" description="A concise inventory of the core visitor, customer and admin journeys in this prototype." />
       <Grid min={260} gap={4}>
         {portalFeatures.map((feature) => (
           <Card key={feature.id} className={styles.feature}>
@@ -254,7 +248,7 @@ function FeaturesPanel() {
 function ReleasesPanel() {
   return (
     <Stack gap={6}>
-      <SectionHeader eyebrow="Change history" title="Version history" description="Prototype milestones record meaningful changes to the experience and implementation." />
+      <SectionHeader title="Version history" description="Prototype milestones record meaningful changes to the experience and implementation." />
       <ol className={styles.releases}>
         {releaseHistory.map((release) => (
           <li className={styles.release} key={release.version}>

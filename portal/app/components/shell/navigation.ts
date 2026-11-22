@@ -7,7 +7,6 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/categories", label: "Products", description: "Product ranges and applications", icon: "package", match: (p) => p.startsWith("/categories") || p.startsWith("/category/") || p.startsWith("/main-area/") },
   { href: "/documents", label: "Documents", description: "Datasheets, manuals and certificates", icon: "file", match: (p) => p.startsWith("/documents") },
   { href: "/tools", label: "Tools", description: "Calculators and certificate finders", icon: "calculator", match: (p) => p.startsWith("/tools") },
-  { href: "/questions", label: "Ask an expert", description: "Product community and expert chat", icon: "headset", match: (p) => p.startsWith("/questions") || p.startsWith("/search") },
   { href: "/legal", label: "Legal", description: "Privacy policy and terms of use", icon: "info", match: (p) => p === "/legal" || p === "/privacy" || p === "/terms" },
 ];
 
@@ -36,12 +35,14 @@ const PARENTS: Record<string, { label: string; href: string }> = {
   tools: { label: "Tools", href: "/tools" },
   privacy: { label: "Legal", href: "/legal" },
   terms: { label: "Legal", href: "/legal" },
+  profile: { label: "My profile", href: "/profile" },
 };
 
 function dynamicTitle(section: string, slug: string) {
   if (section === "category") return categories.find((item) => item.slug === slug)?.name;
   if (section === "main-area") return mainAreas.find((item) => item.slug === slug)?.title;
   if (section === "tools") return tools.find((item) => item.slug === slug)?.title;
+  if (section === "profile" && slug === "questions") return "My questions";
   return undefined;
 }
 

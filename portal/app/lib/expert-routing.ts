@@ -2,7 +2,8 @@
 
 import { categories, industries, products } from "./mock-data";
 import { readCatalogSettings } from "./catalog-settings";
-import { STORAGE_KEYS, createId, readJSON, useStoredJSON, writeJSON } from "./storage";
+import { useMemo } from "react";
+import { STORAGE_KEYS, createId, readJSON, readString, useStoredJSON, useStoredString, writeJSON } from "./storage";
 
 const FALLBACK_TEAM = "Morgan technical support";
 
@@ -29,6 +30,8 @@ export type SearchRoutingRequest = ReturnType<typeof getSearchContext> & {
   createdAt: string;
   status?: RequestStatus;
   details?: string;
+  /** Login email of whoever asked; absent for questions asked before sign-in. */
+  askedBy?: string;
 };
 
 export type ChatMessage = { id: string; sender: "customer" | "expert"; text: string; createdAt: string };
@@ -54,6 +57,21 @@ export function useConversationMessages(): Record<string, ChatMessage[]> {
   return useStoredJSON(STORAGE_KEYS.conversationMessages, EMPTY_MESSAGES);
 }
 
+/** Who is asking: the signed-in email, if any. */
+function currentAsker() {
+  return readString(STORAGE_KEYS.profileEmail)?.trim().toLowerCase() || undefined;
+}
+
+/**
+ * The signed-in user’s own questions, newest first. Questions asked in this
+ * browser before signing in (no `askedBy`) are included too (prototype data).
+ */
+export function useMyQuestions(): SearchRoutingRequest[] {
+  const requests = useRoutingRequests();
+  const email = useStoredString(STORAGE_KEYS.profileEmail)?.trim().toLowerCase();
+  return useMemo(() => requests.filter((request) => !request.askedBy || request.askedBy === email), [requests, email]);
+}
+
 function readRequests() {
   return readJSON(STORAGE_KEYS.routingRequests, EMPTY_REQUESTS);
 }
@@ -70,22 +88,23 @@ export function saveSearchRoutingRequest(query: string, industryId: string, prod
     query: query.trim(),
     createdAt: new Date().toISOString(),
     status: "Open",
+    askedBy: currentAsker(),
   };
   writeRequests([request, ...readRequests()]);
   return request.id;
 }
 
-/** Escalates a question to the product's expert team, creating it if needed. */
+/** Escalates a question to the expert team currently configured in admin for the product, creating it if needed. */
 export function submitExpertFollowUp(query: string, industryId: string, productId: string, details: string): string {
   const requests = readRequests();
   const match = requests.find((request) => request.query === query.trim() && request.industryId === industryId && request.productId === productId);
   if (match) {
-    writeRequests(requests.map((request) => (request.id === match.id ? { ...request, status: "Expert follow-up requested", details: details.trim() } : request)));
+    writeRequests(requests.map((request) => (request.id === match.id ? { ...request, ...getSearchContext(industryId, productId), status: "Expert follow-up requested", details: details.trim(), askedBy: request.askedBy ?? currentAsker() } : request)));
     return match.id;
   }
   const id = createId("q");
   writeRequests([
-    { ...getSearchContext(industryId, productId), id, query: query.trim(), createdAt: new Date().toISOString(), status: "Expert follow-up requested", details: details.trim() },
+    { ...getSearchContext(industryId, productId), id, query: query.trim(), createdAt: new Date().toISOString(), status: "Expert follow-up requested", details: details.trim(), askedBy: currentAsker() },
     ...requests,
   ]);
   return id;

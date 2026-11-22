@@ -13,7 +13,6 @@ export function LegalArticle({ title, description, sections }: LegalArticleProps
   return (
     <Page width="narrow">
       <PageHeader
-        eyebrow="Legal"
         title={title}
         description={description}
         actions={

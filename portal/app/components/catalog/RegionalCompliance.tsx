@@ -1,7 +1,7 @@
 "use client";
 
-import { ArrowUpRight, BadgeCheck, MapPin } from "@/app/components/Icon";
-import { Badge, Button, Card, EmptyState, Field, Grid, IconTile, SectionHeader, Select, Stack } from "@/app/components/ui";
+import { ArrowUpRight, MapPin } from "@/app/components/Icon";
+import { Badge, Button, Card, EmptyState, Field, Grid, SectionHeader, Select, Stack } from "@/app/components/ui";
 import { useCatalogSettings } from "@/app/lib/catalog-settings";
 import { morganLocationsUrl, qualityCertificatesUrl, regionalCertifications } from "@/app/lib/compliance-data";
 import { REGIONS } from "@/app/lib/locale";
@@ -19,7 +19,6 @@ export function RegionalCompliance() {
     <Stack as="section" gap={4} aria-labelledby="regional-compliance-title">
       <SectionHeader
         id="regional-compliance-title"
-        eyebrow="Quality & compliance"
         title="Certified management systems"
         actions={
           <Field label="Region" className={styles.regionField}>
@@ -42,9 +41,6 @@ export function RegionalCompliance() {
           {certifications.map((cert) => (
             <Card as="li" key={cert.id}>
               <div className={styles.certTop}>
-                <IconTile tone="success">
-                  <BadgeCheck size={20} aria-hidden="true" />
-                </IconTile>
                 <Badge tone="success">
                   {cert.locations.length} {cert.locations.length === 1 ? "location" : "locations"}
                 </Badge>

@@ -48,7 +48,6 @@ export function ExpertTeamsView() {
               <SectionHeader
                 as="h3"
                 id={headingId}
-                eyebrow="Product line"
                 title={category.name}
                 actions={
                   <Badge tone="brand">

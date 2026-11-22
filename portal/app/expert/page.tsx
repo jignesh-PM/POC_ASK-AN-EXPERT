@@ -10,7 +10,7 @@ export default function ExpertPage() {
     <Suspense
       fallback={
         <Page width="wide" aria-busy="true">
-          <PageHeader eyebrow="Morgan expert support" title="Expert conversations" description="Loading conversations…" />
+          <PageHeader title="Expert conversations" description="Loading conversations…" />
         </Page>
       }
     >

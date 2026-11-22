@@ -13,7 +13,6 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   return (
     <Page>
       <PageHeader
-        eyebrow="Morgan AI · Answers with sources"
         title="Your answer"
         description="Drawn from Morgan product information and approved documents. Ask a follow-up in the search bar above, or continue with a Morgan expert."
       >

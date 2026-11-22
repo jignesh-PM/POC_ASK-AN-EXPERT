@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowUpRight, FileText, PackageSearch, RefreshCw } from "@/app/components/Icon";
+import { ArrowUpRight, RefreshCw } from "@/app/components/Icon";
 import { Alert, Button, Field, Grid, Input, SectionHeader, Stack, Stat, Tabs } from "@/app/components/ui";
 import { readCatalogSettings, toggleHidden, useCatalogSettings, writeCatalogSettings } from "@/app/lib/catalog-settings";
 import { productMasters } from "@/app/lib/mock-data";
@@ -60,7 +60,7 @@ export function IndexedCatalogManager() {
   };
 
   return (
-    <AdminPanel id="admin-index-title" eyebrow="Content operations" title="Indexed product & document data" description="Review indexed records and choose what visitors and customers can see." saved={saved}>
+    <AdminPanel id="admin-index-title" title="Indexed product & document data" description="Review indexed records and choose what visitors and customers can see." saved={saved}>
       <Alert icon={<RefreshCw size={18} aria-hidden="true" />}>
         <strong>Source website: </strong>
         <a className={styles.inlineLink} href="https://www.morganthermalceramics.com/" target="_blank" rel="noreferrer">
@@ -82,7 +82,7 @@ export function IndexedCatalogManager() {
           <Stack gap={6}>
             {productMasters.map((master) => (
               <section key={master.id} aria-labelledby={`index-${master.id}`} className={styles.group}>
-                <SectionHeader as="h3" id={`index-${master.id}`} eyebrow="Product category" title={master.name} />
+                <SectionHeader as="h3" id={`index-${master.id}`} title={master.name} />
                 <TeamInput label={`Default product manager / team for ${master.name}`} value={settings.expertTeams[master.id] ?? ""} placeholder="Morgan product team" hint="Team fields save when you leave them." onSave={(team) => setTeam(master.id, master.name, team)} />
                 <VisibilityList label={`${master.name} products`}>
                   {master.subcategories.map((product) => {
@@ -90,7 +90,6 @@ export function IndexedCatalogManager() {
                     return (
                       <VisibilityRow
                         key={product.id}
-                        icon={<PackageSearch size={16} />}
                         title={product.name}
                         name={product.name}
                         description={product.description}
@@ -115,7 +114,6 @@ export function IndexedCatalogManager() {
               return (
                 <VisibilityRow
                   key={resource.id}
-                  icon={<FileText size={16} />}
                   title={resource.title}
                   name={resource.title}
                   description={`${resource.type} · ${resource.category} — ${resource.summary}`}

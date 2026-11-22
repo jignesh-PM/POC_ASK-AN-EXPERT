@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowRight, BookOpenText } from "@/app/components/Icon";
+import { ArrowRight } from "@/app/components/Icon";
 import { Button, Page, PageHeader, SectionHeader, Stack } from "@/app/components/ui";
 import { CalloutCard } from "@/app/components/catalog/CalloutCard";
 import { CategoryGrid } from "@/app/components/catalog/CategoryGrid";
@@ -17,7 +17,6 @@ export default function Home() {
       <StaffRedirect />
       <div className={styles.hero}>
         <PageHeader
-          eyebrow="Morgan Thermal Ceramics · Ask the Expert"
           title="How can we help you today?"
           description="Get answers about Morgan insulation, refractory and fire protection products — instantly from Morgan AI, or directly from a product specialist."
         />
@@ -27,7 +26,6 @@ export default function Home() {
       <Stack as="section" gap={4} aria-labelledby="home-ranges-title">
         <SectionHeader
           id="home-ranges-title"
-          eyebrow="Explore the range"
           title="Product ranges"
           actions={
             <Button href="/categories" variant="secondary" size="sm" trailing={<ArrowRight size={15} aria-hidden="true" />}>
@@ -40,8 +38,6 @@ export default function Home() {
 
       <CalloutCard
         tone="muted"
-        icon={<BookOpenText size={22} aria-hidden="true" />}
-        eyebrow="Technical library"
         title="Need a datasheet, manual or certificate?"
         description="Browse Morgan product and application documents in one place."
         action={

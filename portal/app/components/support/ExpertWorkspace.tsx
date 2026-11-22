@@ -8,37 +8,34 @@ import { ChatBubble } from "./ChatBubble";
 import chat from "./Chat.module.css";
 import styles from "./ExpertWorkspace.module.css";
 import { formatTimestamp, threadStatus } from "./thread-status";
-import { appendConversationMessage, initialMessages, setRequestStatus, useConversationMessages, useRoutingRequests, type SearchRoutingRequest } from "@/app/lib/expert-routing";
+import { appendConversationMessage, initialMessages, setRequestStatus, useConversationMessages, useRoutingRequests } from "@/app/lib/expert-routing";
 import { isStaff, useAdminSettings, useRole } from "@/app/lib/session";
 import { useProfileCompletion } from "@/app/lib/profile-completion";
-import { products } from "@/app/lib/mock-data";
-import { STORAGE_KEYS, useStoredJSON, useStoredString } from "@/app/lib/storage";
+import RequireSignIn from "./RequireSignIn";
 
-type ManagedUser = { email: string; role: string; active: boolean; productLines: string[] };
-const NO_USERS: ManagedUser[] = [];
-
-/** Product lines a Morgan User may answer (from the admin user list), or `null` when unrestricted. */
-function useAssignedProductLines(): string[] | null {
-  const role = useRole();
-  const users = useStoredJSON(STORAGE_KEYS.adminUsers, NO_USERS);
-  const email = useStoredString(STORAGE_KEYS.profileEmail)?.toLowerCase();
-  if (role !== "Morgan User") return null;
-  const account = users.find((user) => user.email.toLowerCase() === email && user.role === "Morgan User" && user.active);
-  return account?.productLines ?? [];
+/** Signed-in users only; visitors are asked to sign in and come back to the same thread. */
+export default function ExpertWorkspace() {
+  const requestedId = useSearchParams().get("request");
+  const next = requestedId ? `/expert?${new URLSearchParams({ request: requestedId })}` : "/expert";
+  return (
+    <RequireSignIn next={next}>
+      <ExpertInbox requestedId={requestedId} />
+    </RequireSignIn>
+  );
 }
 
-const productLine = (request: SearchRoutingRequest) => products.find((product) => product.id === request.productId)?.category ?? "";
-
-/** Expert inbox (Morgan staff) or community conversation view (customers) with a sticky composer. */
-export default function ExpertWorkspace() {
+/**
+ * Expert inbox (Morgan staff) or conversation view (customers) with a sticky composer.
+ * POC: Morgan users see every conversation; each still shows the team it was routed to
+ * by the admin configuration. Production would limit staff to their routed product lines.
+ */
+function ExpertInbox({ requestedId }: { requestedId: string | null }) {
   const role = useRole();
   const staff = isStaff(role);
   const { requireProfile } = useAdminSettings();
   const completion = useProfileCompletion();
-  const assignedLines = useAssignedProductLines();
   const requests = useRoutingRequests();
   const conversations = useConversationMessages();
-  const requestedId = useSearchParams().get("request");
 
   const [filter, setFilter] = useState("");
   const [draft, setDraft] = useState("");
@@ -46,12 +43,11 @@ export default function ExpertWorkspace() {
   const transcriptRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLElement>(null);
 
-  const allowed = assignedLines ? requests.filter((request) => assignedLines.includes(productLine(request))) : requests;
   const term = filter.trim().toLowerCase();
-  const threads = term ? allowed.filter((request) => `${request.query} ${request.industry} ${request.product} ${request.expertTeam}`.toLowerCase().includes(term)) : allowed;
+  const threads = term ? requests.filter((request) => `${request.query} ${request.industry} ${request.product} ${request.expertTeam}`.toLowerCase().includes(term)) : requests;
   const active = threads.find((request) => request.id === requestedId) ?? threads[0];
   const messages = active ? conversations[active.id] ?? initialMessages(active) : [];
-  const openCount = allowed.filter((request) => request.status !== "Resolved").length;
+  const openCount = requests.filter((request) => request.status !== "Resolved").length;
   const profileRequired = requireProfile && !staff && completion.percent < 100;
   const expertReplied = messages.at(-1)?.sender === "expert";
 
@@ -95,16 +91,20 @@ export default function ExpertWorkspace() {
   return (
     <Page width="wide">
       <PageHeader
-        eyebrow={staff ? "Support inbox" : "Product community"}
         title={staff ? "Customer conversations" : "Expert conversations"}
         description={
           staff
-            ? "Reply to customer questions routed to your product lines. Resolve a chat when the customer has what they need."
+            ? "Reply to customer questions and resolve a chat when the customer has what they need. Each conversation shows the team it was routed to."
             : "Your questions to Morgan subject matter experts. Replies appear here and you can continue the conversation at any time."
         }
         actions={
           <>
             <Badge tone={openCount ? "accent" : "neutral"}>{openCount} open</Badge>
+            {!staff && (
+              <Button href="/profile/questions" variant="secondary" size="sm" leading={<MessageSquareText size={16} aria-hidden="true" />}>
+                My questions
+              </Button>
+            )}
             {!staff && (
               <Button href="/questions?mode=expert" variant="secondary" size="sm" leading={<Headset size={16} aria-hidden="true" />}>
                 New expert chat
@@ -113,6 +113,12 @@ export default function ExpertWorkspace() {
           </>
         }
       />
+
+      {staff && (
+        <Alert tone="info" icon={<ShieldCheck size={18} aria-hidden="true" />}>
+          <strong>Proof of concept:</strong> every Morgan user sees all conversations. New chats are still routed to the team configured in Admin › Expert teams, shown on each conversation.
+        </Alert>
+      )}
 
       <div className={styles.workspace}>
         <aside className={styles.inbox} aria-labelledby="inbox-title">
@@ -162,7 +168,6 @@ export default function ExpertWorkspace() {
             <>
               <header className={styles.panelHeader}>
                 <div className={styles.panelCopy}>
-                  <p className={styles.panelEyebrow}>{staff ? "Customer ↔ Morgan expert team" : "Morgan expert support"}</p>
                   <h2 id="conversation-title" className={styles.panelTitle}>
                     {active.query}
                   </h2>
@@ -248,16 +253,16 @@ export default function ExpertWorkspace() {
             <EmptyState
               className={styles.panelEmpty}
               icon={<MessageSquareText size={22} />}
-              title={allowed.length ? "Choose a conversation" : "No conversations yet"}
+              title={requests.length ? "Choose a conversation" : "No conversations yet"}
               description={
-                allowed.length
+                requests.length
                   ? "Select a question from the list to open the conversation."
                   : staff
                     ? "Customer questions routed to your product lines will appear here."
                     : "Ask Morgan AI first, or start a separate chat with a product specialist."
               }
               action={
-                !staff && !allowed.length ? (
+                !staff && !requests.length ? (
                   <Button href="/questions?mode=expert" variant="accent" size="sm" leading={<Headset size={16} aria-hidden="true" />}>
                     Start an expert chat
                   </Button>

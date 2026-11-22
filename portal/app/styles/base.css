@@ -110,3 +110,31 @@ svg {
     scroll-behavior: auto !important;
   }
 }
+
+/* Stagger entrance of animated siblings (cards in a grid). */
+[data-animate]:nth-child(2) { animation-delay: 50ms; }
+[data-animate]:nth-child(3) { animation-delay: 100ms; }
+[data-animate]:nth-child(4) { animation-delay: 150ms; }
+[data-animate]:nth-child(5) { animation-delay: 200ms; }
+[data-animate]:nth-child(6) { animation-delay: 250ms; }
+[data-animate]:nth-child(n + 7) { animation-delay: 300ms; }
+
+/* Smooth theme switch. */
+body {
+  transition:
+    background-color var(--duration-slow) var(--ease-out),
+    color var(--duration-slow) var(--ease-out);
+}
+
+/* Inline links inside running text. */
+p a:not([class]) {
+  color: var(--color-brand);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 3px;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+p a:not([class]):hover {
+  color: var(--color-accent-text);
+}

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowUpRight, ChevronDown, ChevronUp, Compass, Save, Search, Trash2 } from "@/app/components/Icon";
-import { Badge, Button, Card, EmptyState, Field, Grid, IconTile, SearchInput, SectionHeader, Stack, Textarea, cx } from "@/app/components/ui";
+import { ArrowUpRight, ChevronDown, ChevronUp, Save, Search, Trash2 } from "@/app/components/Icon";
+import { Badge, Button, Card, EmptyState, Field, Grid, SearchInput, SectionHeader, Stack, Textarea, cx } from "@/app/components/ui";
 import { portalMap } from "@/app/lib/project-documentation";
 import { STORAGE_KEYS, useStoredString, writeString } from "@/app/lib/storage";
 import styles from "./SitemapDirectionBoard.module.css";
@@ -24,7 +24,7 @@ export default function SitemapDirectionBoard() {
       <RouteExplorer />
       <section aria-labelledby="direction-heading">
         <Stack gap={4}>
-          <SectionHeader id="direction-heading" eyebrow="Evolution plan" title="Now · Next · Later" description="Shape the portal in small, reviewable steps." />
+          <SectionHeader id="direction-heading" title="Now · Next · Later" description="Shape the portal in small, reviewable steps." />
           <Grid min={220} gap={4} as="ul">
             {STAGES.map((stage) => (
               <Card as="li" key={stage.name} className={cx(styles.stage, styles[`stage-${stage.tone}`])}>
@@ -63,14 +63,8 @@ function RouteExplorer() {
     <Card as="section" padding="lg" aria-labelledby="route-map-heading" className={styles.explorer}>
       <SectionHeader
         id="route-map-heading"
-        eyebrow="Route map"
         title="Explore the portal map"
         description="Choose a goal, then open any route."
-        actions={
-          <IconTile size="sm">
-            <Compass size={18} />
-          </IconTile>
-        }
       />
 
       <div className={styles.toolbar}>
@@ -189,7 +183,6 @@ function DirectionNote() {
     <Card as="section" padding="lg" aria-labelledby="note-heading">
       <SectionHeader
         id="note-heading"
-        eyebrow="Team workspace"
         title="Direction note"
         description="Capture a short decision or next step alongside the route map. The note stays in this browser for the demo."
       />

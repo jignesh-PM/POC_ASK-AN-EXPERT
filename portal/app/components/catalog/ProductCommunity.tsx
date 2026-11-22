@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, MessageSquareText, Send } from "@/app/components/Icon";
-import { Alert, Badge, Button, Card, EmptyState, Field, IconTile, SectionHeader, Select, Stack, Textarea } from "@/app/components/ui";
+import { Alert, Badge, Button, Card, EmptyState, Field, SectionHeader, Select, Stack, Textarea } from "@/app/components/ui";
 import { getSearchContext, isExpertThread, saveSearchRoutingRequest, threadHref, useConversationMessages, useRoutingRequests, type SearchRoutingRequest } from "@/app/lib/expert-routing";
 import { industries } from "@/app/lib/mock-data";
 import { useVisibleProducts, type Category } from "./catalog-data";
@@ -44,7 +44,6 @@ export function ProductCommunity({ category }: { category: Category }) {
     <Stack as="section" gap={4} aria-labelledby="product-community-title">
       <SectionHeader
         id="product-community-title"
-        eyebrow="Product community"
         title={`Questions about ${category.name}`}
         actions={
           <Badge tone="brand">
@@ -115,9 +114,6 @@ export function ProductCommunity({ category }: { category: Category }) {
               return (
                 <Card as="li" padding="sm" key={thread.id}>
                   <div className={styles.thread}>
-                    <IconTile size="sm">
-                      <MessageSquareText size={16} aria-hidden="true" />
-                    </IconTile>
                     <div className={styles.threadCopy}>
                       <h3 className={styles.threadTitle}>{thread.query}</h3>
                       <p className={styles.meta}>{[thread.product, thread.industry, thread.expertTeam].filter(Boolean).join(" · ")}</p>

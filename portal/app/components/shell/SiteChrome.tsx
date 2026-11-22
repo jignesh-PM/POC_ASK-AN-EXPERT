@@ -1,9 +1,10 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { STORAGE_KEYS, readString } from "../../lib/storage";
 import { readAdminSettings, readRole, trackEvent, type PortalEvent } from "../../lib/session";
+import { useApplyTheme } from "../../lib/theme";
 import TopBar from "./TopBar";
 import NavDrawer from "./NavDrawer";
 import SubHeader from "./SubHeader";
@@ -44,21 +45,22 @@ function usePortalAnalytics(pathname: string) {
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
+  const toggleMenu = useCallback(() => setMenuOpen((open) => !open), []);
   usePortalAnalytics(pathname);
+  useApplyTheme();
 
   return (
     <>
       <a className={styles.skipLink} href="#main-content">
         Skip to content
       </a>
-      <header className={styles.header}>
-        <TopBar menuOpen={menuOpen} onToggleMenu={() => setMenuOpen((open) => !open)} />
-        <Suspense fallback={<div className={styles.subheaderPlaceholder} />}>
-          <SubHeader pathname={pathname} />
-        </Suspense>
+      <header ref={headerRef} className={styles.header}>
+        <TopBar />
+        <SubHeader pathname={pathname} menuOpen={menuOpen} onToggleMenu={toggleMenu} />
       </header>
-      <NavDrawer open={menuOpen} pathname={pathname} onClose={closeMenu} />
+      <NavDrawer open={menuOpen} pathname={pathname} onClose={closeMenu} headerRef={headerRef} />
       <div id="main-content" className={styles.content}>
         {children}
       </div>

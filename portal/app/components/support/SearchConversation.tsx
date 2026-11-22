@@ -1,7 +1,7 @@
 "use client";
 
-import { ArrowRight, ArrowUpRight, FileText, Headset, MessageSquareText, PackageSearch } from "../Icon";
-import { Badge, Button, Card, EmptyState, Grid, IconTile, Stack } from "../ui";
+import { ArrowRight, ArrowUpRight, FileText } from "../Icon";
+import { Badge, Button, Card, EmptyState, Grid, Stack } from "../ui";
 import { ChatBubble } from "./ChatBubble";
 import chat from "./Chat.module.css";
 import styles from "./SearchConversation.module.css";
@@ -10,6 +10,8 @@ import { getMockAiAnswer, searchIndexedResources, type IndexedResource } from "@
 import { useCatalogSettings } from "@/app/lib/catalog-settings";
 import { usePublishedKnowledge } from "@/app/lib/admin-knowledge-base";
 import { isExpertThread, threadHref, useRoutingRequests } from "@/app/lib/expert-routing";
+import { useRole } from "@/app/lib/session";
+import { signInHref } from "./RequireSignIn";
 
 type Props = { query: string; industryId: string; productId: string; expertTeam: string };
 
@@ -24,6 +26,7 @@ export default function SearchConversation({ query, industryId, productId, exper
   const { hiddenDocumentIds, hiddenProductIds } = useCatalogSettings();
   const published = usePublishedKnowledge();
   const requests = useRoutingRequests();
+  const signedOut = useRole() === "Visitor";
 
   const product = products.find((item) => item.id === productId);
   const category = product ? categories.find((item) => item.slug === product.category) : undefined;
@@ -101,7 +104,7 @@ export default function SearchConversation({ query, industryId, productId, exper
               {sourceProducts.length > 0 && (
                 <SourceGroup title="Products" count={sourceProducts.length}>
                   {sourceProducts.slice(0, MAX_SOURCES).map((item) => (
-                    <SourceCard key={item.id} href={item.url} icon={<PackageSearch size={16} />} label={item.categoryName} title={item.name} summary={item.description} linkText="Official product page" />
+                    <SourceCard key={item.id} href={item.url} label={item.categoryName} title={item.name} summary={item.description} linkText="Official product page" />
                   ))}
                 </SourceGroup>
               )}
@@ -112,7 +115,6 @@ export default function SearchConversation({ query, industryId, productId, exper
                     <SourceCard
                       key={resource.id}
                       href={resource.url}
-                      icon={<FileText size={16} />}
                       label={`${resource.type} · ${resource.category}`}
                       title={resource.title}
                       summary={resource.summary}
@@ -130,9 +132,6 @@ export default function SearchConversation({ query, industryId, productId, exper
         (current && isExpertThread(current) ? (
           <Card tone="muted" as="aside" aria-labelledby="expert-handoff-title">
             <div className={styles.cta}>
-              <IconTile>
-                <MessageSquareText size={20} />
-              </IconTile>
               <div className={styles.ctaCopy}>
                 <h2 id="expert-handoff-title" className={styles.ctaTitle}>
                   You&apos;re already chatting with an expert
@@ -147,19 +146,17 @@ export default function SearchConversation({ query, industryId, productId, exper
         ) : (
           <Card tone="accent" as="aside" aria-labelledby="expert-handoff-title">
             <div className={styles.cta}>
-              <IconTile tone="accent">
-                <Headset size={20} />
-              </IconTile>
               <div className={styles.ctaCopy}>
                 <h2 id="expert-handoff-title" className={styles.ctaTitle}>
                   Not what you needed? Continue with an expert
                 </h2>
                 <p className={styles.cardText}>
                   {expertTeam || "A Morgan subject matter expert"} will pick up this conversation. Your question, industry and product come with you, so there&apos;s no need to repeat yourself.
+                  {signedOut && " Expert chat needs a Morgan account, so you’ll sign in first."}
                 </p>
               </div>
-              <Button href={askExpertHref} variant="accent" trailing={<ArrowRight size={16} aria-hidden="true" />}>
-                Continue with an expert
+              <Button href={signedOut ? signInHref(askExpertHref) : askExpertHref} variant="accent" trailing={<ArrowRight size={16} aria-hidden="true" />}>
+                {signedOut ? "Sign in to continue" : "Continue with an expert"}
               </Button>
             </div>
           </Card>
@@ -181,10 +178,9 @@ function SourceGroup({ title, count, children }: { title: string; count: number;
   );
 }
 
-function SourceCard({ href, icon, label, title, summary, linkText }: { href: string; icon: React.ReactNode; label: string; title: string; summary: string; linkText: string }) {
+function SourceCard({ href, label, title, summary, linkText }: { href: string; label: string; title: string; summary: string; linkText: string }) {
   return (
     <Card href={href} external padding="sm">
-      <IconTile size="sm">{icon}</IconTile>
       <Badge tone="brand">{label}</Badge>
       <h4 className={styles.cardTitle}>{title}</h4>
       <p className={styles.cardText}>{summary}</p>

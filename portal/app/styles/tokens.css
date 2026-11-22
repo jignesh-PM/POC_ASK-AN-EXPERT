@@ -4,6 +4,7 @@
  * here. Components reference tokens only; never hard-code values in modules.
  */
 :root {
+  color-scheme: light;
   /* Brand */
   --color-brand: #002f5f;
   --color-brand-hover: #0a4078;
@@ -13,6 +14,12 @@
   --color-accent-hover: #d85a00;
   --color-accent-text: #b84d00; /* AA on white for small text */
   --color-accent-soft: #fff3e9;
+  --color-accent-border: #f6cfb0;
+  --color-accent-on-fill: #ffb98a; /* accent text on navy fills */
+  /* Filled brand surfaces (top bar, primary buttons). Text-brand is --color-brand. */
+  --color-brand-fill: #002f5f;
+  --color-brand-fill-hover: #0a4078;
+  --color-backdrop: rgba(0, 24, 48, 0.45);
 
   /* Neutrals */
   --color-text: #132231;
@@ -48,7 +55,7 @@
   --weight-bold: 700;
   --leading-tight: 1.2;
   --leading-normal: 1.55;
-  --tracking-eyebrow: 0.12em;
+  --tracking-label: 0.12em;
 
   /* Spacing (4px grid) */
   --space-1: 4px;
@@ -75,6 +82,7 @@
   --shadow-md: 0 10px 28px rgba(0, 47, 95, 0.1);
   --shadow-lg: 0 22px 54px rgba(0, 47, 95, 0.16);
   --focus-ring: 0 0 0 3px rgba(239, 100, 0, 0.35);
+  --shadow-accent: 0 4px 14px rgba(239, 100, 0, 0.3);
 
   /* Motion */
   --ease-out: cubic-bezier(0.2, 0.7, 0.25, 1);
@@ -92,4 +100,42 @@
   --z-header: 50;
   --z-overlay: 80;
   --z-menu: 90;
+}
+
+/* ---------- Dark theme ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-brand: #9cc4f0;
+  --color-brand-hover: #b8d5f5;
+  --color-brand-soft: #1c3252;
+  --color-brand-softer: #162940;
+  --color-brand-fill: #12355e;
+  --color-brand-fill-hover: #1a467a;
+  --color-accent-hover: #ff7a1f;
+  --color-accent-text: #ff9e5c;
+  --color-accent-soft: #3a2415;
+  --color-accent-border: #6b3a18;
+  --color-backdrop: rgba(0, 0, 0, 0.6);
+
+  --color-text: #e6edf4;
+  --color-text-muted: #a8b6c4;
+  --color-text-subtle: #8395a7;
+  --color-bg: #0c1520;
+  --color-surface: #13202f;
+  --color-surface-muted: #192a3c;
+  --color-border: #263a50;
+  --color-border-strong: #38526e;
+
+  --color-success: #5fd39a;
+  --color-success-soft: #12301f;
+  --color-danger: #ff8a80;
+  --color-danger-soft: #3a1817;
+  --color-warning: #f0c060;
+  --color-warning-soft: #33280d;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 22px 54px rgba(0, 0, 0, 0.55);
 }

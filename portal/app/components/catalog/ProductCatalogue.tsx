@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PackageSearch, Search } from "@/app/components/Icon";
+import { Search } from "@/app/components/Icon";
 import { Button, EmptyState, Field, Grid, SearchInput, SectionHeader, Select, Stack } from "@/app/components/ui";
 import { CatalogCard } from "./CatalogCard";
 import { FilterBar, ResultCount } from "./FilterBar";
@@ -50,7 +50,6 @@ export function ProductCatalogue() {
             <li key={product.id}>
               <CatalogCard
                 href={`/category/${product.category}`}
-                icon={<PackageSearch size={20} aria-hidden="true" />}
                 tags={[categoryName(product.category)]}
                 title={product.name}
                 description={product.description}

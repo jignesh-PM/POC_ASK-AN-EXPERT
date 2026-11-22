@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Eye, EyeOff, KeyRound, ShieldCheck } from "../Icon";
-import { Alert, Button, Card, Field, IconTile, Input, SectionHeader } from "../ui";
+import { Eye, EyeOff, ShieldCheck } from "../Icon";
+import { Alert, Button, Card, Field, Input, SectionHeader } from "../ui";
 import styles from "./Account.module.css";
 
 type Feedback = { tone: "success" | "danger"; text: string } | null;
@@ -34,9 +34,6 @@ export default function PasswordSettings() {
   return (
     <Card as="section" id="password-reset" aria-labelledby="password-heading" padding="lg">
       <div className={styles.cardHead}>
-        <IconTile>
-          <KeyRound size={20} />
-        </IconTile>
         <SectionHeader
           id="password-heading"
           title="Password & security"

@@ -133,3 +133,31 @@
   flex-wrap: wrap;
   gap: var(--space-3);
 }
+
+/* My questions shortcut */
+.questionsIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-text);
+}
+
+.questionsTitle {
+  font-size: var(--text-lg);
+}
+
+.questionsText {
+  color: var(--color-text-muted);
+}
+
+.questionsLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-accent-text);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}

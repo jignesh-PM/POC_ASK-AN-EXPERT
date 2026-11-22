@@ -3,15 +3,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Bell, ChevronRight, Eye, FileText, KeyRound, LogIn, LogOut, Mail, Menu, Phone, Sparkles, UserRound, X, ExternalLink, Compass } from "../Icon";
-import { Button, Field, Popover, PopoverHeader, PopoverSection, Select, cx, popoverItemClassName } from "../ui";
+import { Bell, ChevronRight, Eye, FileText, KeyRound, LogIn, LogOut, Mail, MessageSquareText, Moon, Phone, Sparkles, Sun, UserRound, ExternalLink, Compass } from "../Icon";
+import { Button, Field, Popover, PopoverHeader, PopoverSection, Select, Switch, cx, popoverItemClassName } from "../ui";
+import { setTheme, useTheme } from "../../lib/theme";
 import { ROLES, ROLE_LABELS, isRole, roleHome, setLanguage, setRegion, setRole, useLanguage, useRegion, useRole, type Role } from "../../lib/session";
 import { useProfileCompletion } from "../../lib/profile-completion";
 import { STORAGE_KEYS, useStoredString, writeString } from "../../lib/storage";
 import { LANGUAGES, REGIONS } from "../../lib/locale";
+import AskExpertButton from "./AskExpertButton";
 import styles from "./Shell.module.css";
 
-export default function TopBar({ menuOpen, onToggleMenu }: { menuOpen: boolean; onToggleMenu: () => void }) {
+/** Main header row: brand, then preview role, utilities and the animated Ask an Expert badge. */
+export default function TopBar() {
   const router = useRouter();
   const role = useRole();
 
@@ -22,30 +25,30 @@ export default function TopBar({ menuOpen, onToggleMenu }: { menuOpen: boolean; 
 
   return (
     <div className={styles.topBar}>
-      <button type="button" className={styles.iconButton} onClick={onToggleMenu} aria-expanded={menuOpen} aria-controls="main-navigation" aria-label={menuOpen ? "Close navigation" : "Open navigation"}>
-        {menuOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
-      </button>
-      <Link href="/" className={styles.brand} aria-label="Morgan Ask the Expert home">
-        <Image src="/morgan-logo.png" alt="Morgan Advanced Materials" width={1149} height={336} priority className={styles.logo} />
-        <span className={styles.productName}>Ask the Expert</span>
+      <Link href="/" className={styles.brand} aria-label="Morgan home">
+        {/* Black logo on the light header, white logo in dark mode (switched in CSS). */}
+        <Image src="/morgan-logo-black.png" alt="Morgan Advanced Materials" width={531} height={155} priority className={cx(styles.logo, styles.logoLight)} />
+        <Image src="/morgan-logo.png" alt="" width={1149} height={336} priority className={cx(styles.logo, styles.logoDark)} />
       </Link>
 
-      <label className={styles.preview}>
-        <Eye size={16} aria-hidden="true" />
-        <span className={styles.previewLabel}>Preview as</span>
-        <select value={role} onChange={(event) => isRole(event.target.value) && switchRole(event.target.value)} aria-label="Preview the portal as">
-          {ROLES.map((item) => (
-            <option key={item} value={item}>
-              {ROLE_LABELS[item]}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <div className={styles.utilities}>
-        <ContactMenu />
-        <NotificationsMenu role={role} />
-        <AccountMenu role={role} onLogout={() => switchRole("Visitor")} />
+      <div className={styles.actions}>
+        <label className={styles.preview}>
+          <Eye size={16} aria-hidden="true" />
+          <span className={styles.previewLabel}>Preview as</span>
+          <select value={role} onChange={(event) => isRole(event.target.value) && switchRole(event.target.value)} aria-label="Preview the portal as">
+            {ROLES.map((item) => (
+              <option key={item} value={item}>
+                {ROLE_LABELS[item]}
+              </option>
+            ))}
+          </select>
+        </label>
+        <div className={styles.utilities}>
+          <ContactMenu />
+          <NotificationsMenu role={role} />
+          <AccountMenu role={role} onLogout={() => switchRole("Visitor")} />
+        </div>
+        <AskExpertButton />
       </div>
     </div>
   );
@@ -108,7 +111,7 @@ function NotificationsMenu({ role }: { role: Role }) {
             <div className={cx(popoverItemClassName, styles.notification)}>
               <Sparkles size={18} aria-hidden="true" />
               <span>
-                <strong>Welcome to Morgan Ask the Expert</strong>
+                <strong>Welcome to Morgan</strong>
                 <small>Find documents, use tools, and connect with Morgan experts.</small>
               </span>
             </div>
@@ -123,6 +126,7 @@ function AccountMenu({ role, onLogout }: { role: Role; onLogout: () => void }) {
   const region = useRegion();
   const language = useLanguage();
   const completion = useProfileCompletion();
+  const theme = useTheme();
   const signedIn = role !== "Visitor";
   const showProgress = signedIn && completion.percent < 100;
 
@@ -165,6 +169,16 @@ function AccountMenu({ role, onLogout }: { role: Role; onLogout: () => void }) {
             )
           )}
           <PopoverSection title="Preferences">
+            <div className={styles.themeRow}>
+              {theme === "dark" ? <Moon size={18} aria-hidden="true" /> : <Sun size={18} aria-hidden="true" />}
+              <Switch
+                className={styles.themeSwitch}
+                label="Dark appearance"
+                description={theme === "dark" ? "Dark theme is on" : "Light theme is on"}
+                checked={theme === "dark"}
+                onChange={(event) => setTheme(event.target.checked ? "dark" : "light")}
+              />
+            </div>
             <div className={styles.preferenceFields}>
               <Field label="Region">
                 <Select value={region} onChange={(event) => setRegion(event.target.value)}>
@@ -192,6 +206,10 @@ function AccountMenu({ role, onLogout }: { role: Role; onLogout: () => void }) {
                 <Link className={popoverItemClassName} href="/profile" onClick={close}>
                   <UserRound size={18} aria-hidden="true" />
                   <span>My profile</span>
+                </Link>
+                <Link className={popoverItemClassName} href="/profile/questions" onClick={close}>
+                  <MessageSquareText size={18} aria-hidden="true" />
+                  <span>My questions</span>
                 </Link>
                 <Link className={popoverItemClassName} href="/profile#password-reset" onClick={close}>
                   <KeyRound size={18} aria-hidden="true" />

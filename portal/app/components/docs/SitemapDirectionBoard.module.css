@@ -65,8 +65,8 @@
 }
 
 .filter[aria-pressed="true"] {
-  border-color: var(--color-brand);
-  background: var(--color-brand);
+  border-color: var(--color-brand-fill);
+  background: var(--color-brand-fill);
   color: var(--color-text-inverse);
 }
 
@@ -94,7 +94,7 @@
   width: 32px;
   height: 32px;
   border-radius: var(--radius-md);
-  background: var(--color-brand);
+  background: var(--color-brand-fill);
   color: var(--color-text-inverse);
   font-size: var(--text-xs);
   font-weight: var(--weight-bold);

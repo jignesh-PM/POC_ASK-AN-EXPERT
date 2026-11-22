@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, ArrowUpRight, BadgeCheck, Calculator, Download, FileText, Search, UserRound } from "@/app/components/Icon";
-import { Alert, Badge, Button, Card, EmptyState, Field, IconTile, Input, SearchInput, SectionHeader, Select, Stack } from "@/app/components/ui";
+import { ArrowRight, ArrowUpRight, BadgeCheck, Calculator, Download, Search, UserRound } from "@/app/components/Icon";
+import { Alert, Badge, Button, Card, EmptyState, Field, Input, SearchInput, SectionHeader, Select, Stack } from "@/app/components/ui";
 import { qualityCertificatesUrl } from "@/app/lib/compliance-data";
 import { REGIONS } from "@/app/lib/locale";
 import { useProfileCompletion } from "@/app/lib/profile-completion";
@@ -92,9 +92,6 @@ function CertificateBrowser() {
           {results.map((certificate) => (
             <Card as="li" padding="sm" key={certificate.id}>
               <div className={styles.record}>
-                <IconTile size="sm">
-                  <FileText size={16} aria-hidden="true" />
-                </IconTile>
                 <div className={styles.recordCopy}>
                   <strong className={styles.recordTitle}>{certificate.product}</strong>
                   <span className={styles.muted}>{certificate.name}</span>
@@ -145,9 +142,6 @@ function Co2Calculator() {
   return (
     <Card as="form" padding="lg" aria-labelledby="co2-title" onSubmit={(event) => { event.preventDefault(); setCalculated(true); }}>
       <div className={styles.calcHeading}>
-        <IconTile tone="success">
-          <Calculator size={20} aria-hidden="true" />
-        </IconTile>
         <div>
           <h2 id="co2-title" className={styles.calcTitle}>
             Estimate annual energy emissions

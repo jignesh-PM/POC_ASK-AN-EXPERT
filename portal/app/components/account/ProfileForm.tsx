@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import { Building2, Check, Phone, UserRound } from "../Icon";
-import { Button, Card, Field, IconTile, Input, SectionHeader, Select } from "../ui";
+import { Button, Card, Field, Input, SectionHeader, Select } from "../ui";
 import styles from "./Account.module.css";
 import { getProfileCompletion, saveProfileDetails, useProfileDetails, type ProfileDetails } from "@/app/lib/profile-completion";
 
@@ -75,9 +75,6 @@ export default function ProfileForm() {
   return (
     <Card as="form" id="personal-details" onSubmit={submit} padding="lg" aria-labelledby="profile-form-heading">
       <div className={styles.cardHead}>
-        <IconTile>
-          <UserRound size={20} />
-        </IconTile>
         <SectionHeader
           id="profile-form-heading"
           title="Profile details"

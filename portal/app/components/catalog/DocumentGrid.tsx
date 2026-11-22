@@ -1,4 +1,3 @@
-import { FileText } from "@/app/components/Icon";
 import { Grid } from "@/app/components/ui";
 import type { IndexedResource } from "@/app/lib/site-index";
 import { CatalogCard } from "./CatalogCard";
@@ -12,7 +11,6 @@ export function DocumentGrid({ documents, showCategory = true }: { documents: In
           <CatalogCard
             href={resource.url}
             external
-            icon={<FileText size={20} aria-hidden="true" />}
             tags={showCategory ? [resource.type, resource.category] : [resource.type]}
             title={resource.title}
             description={resource.summary}

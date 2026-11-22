@@ -6,7 +6,6 @@ import styles from "./AdminPanel.module.css";
 type AdminPanelProps = {
   /** Heading id; also labels the section landmark. */
   id: string;
-  eyebrow?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
   actions?: ReactNode;
@@ -16,11 +15,11 @@ type AdminPanelProps = {
 };
 
 /** Consistent card for one admin section: heading, optional actions, saved status and body. */
-export function AdminPanel({ id, eyebrow, title, description, actions, saved, children }: AdminPanelProps) {
+export function AdminPanel({ id, title, description, actions, saved, children }: AdminPanelProps) {
   const status = saved === undefined ? null : <SavedStatus saved={saved} />;
   return (
     <Card as="section" padding="lg" aria-labelledby={id} className={styles.panel}>
-      <SectionHeader id={id} eyebrow={eyebrow} title={title} description={description} actions={actions || status ? <>{status}{actions}</> : undefined} />
+      <SectionHeader id={id} title={title} description={description} actions={actions || status ? <>{status}{actions}</> : undefined} />
       {children}
     </Card>
   );

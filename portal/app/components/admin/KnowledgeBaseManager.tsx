@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { ArrowUpRight, Eye, EyeOff, FileText, Plus, Trash2 } from "@/app/components/Icon";
-import { Alert, Badge, Button, EmptyState, Field, Grid, IconTile, Input, Select, Textarea } from "@/app/components/ui";
+import { Alert, Badge, Button, EmptyState, Field, Grid, Input, Select, Textarea } from "@/app/components/ui";
 import { useAdminKnowledgeBase, writeAdminKnowledgeBase, type AdminKnowledgeResource } from "@/app/lib/admin-knowledge-base";
 import { categories } from "@/app/lib/mock-data";
 import type { IndexedResource } from "@/app/lib/site-index";
@@ -69,7 +69,6 @@ export function KnowledgeBaseManager() {
   return (
     <AdminPanel
       id="admin-knowledge-base"
-      eyebrow="Knowledge base"
       title="Knowledge base sources"
       description="Add technical source links used in the customer document library and question recommendations."
       saved={saved}
@@ -112,9 +111,6 @@ export function KnowledgeBaseManager() {
         <ul className={styles.list} aria-label="Added sources">
           {resources.map((resource) => (
             <li className={styles.item} key={resource.id}>
-              <IconTile size="sm">
-                <FileText size={16} />
-              </IconTile>
               <div className={styles.copy}>
                 <strong className={styles.title}>{resource.title}</strong>
                 <span className={styles.meta}>

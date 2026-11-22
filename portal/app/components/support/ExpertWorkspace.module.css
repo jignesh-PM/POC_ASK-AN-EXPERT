@@ -152,14 +152,6 @@
   min-width: 0;
 }
 
-.panelEyebrow {
-  color: var(--color-accent-text);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
-}
-
 .panelTitle {
   font-size: var(--text-lg);
   overflow-wrap: anywhere;

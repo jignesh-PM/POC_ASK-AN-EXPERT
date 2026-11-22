@@ -25,6 +25,14 @@ const glyphs = {
     </>
   ),
   "chevron-right": <path d="m9 18 6-6-6-6" />,
+  "chevron-left": <path d="m15 18-6-6 6-6" />,
+  moon: <path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" />,
+  sun: (
+    <>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+    </>
+  ),
   "chevron-down": <path d="m6 9 6 6 6-6" />,
   "chevron-up": <path d="m6 15 6-6 6 6" />,
   user: (
@@ -203,6 +211,7 @@ export const Building2 = make("building");
 export const Calculator = make("calculator");
 export const Check = make("check");
 export const ChevronDown = make("chevron-down");
+export const ChevronLeft = make("chevron-left");
 export const ChevronRight = make("chevron-right");
 export const ChevronUp = make("chevron-up");
 export const ClipboardList = make("clipboard");
@@ -226,6 +235,7 @@ export const LogOut = make("logout");
 export const Mail = make("mail");
 export const MapPin = make("map-pin");
 export const Menu = make("menu");
+export const Moon = make("moon");
 export const MessageCircle = make("message");
 export const MessageSquareText = make("message-text");
 export const PackageSearch = make("package");
@@ -241,6 +251,7 @@ export const Settings = make("settings");
 export const Shield = make("shield");
 export const ShieldCheck = make("shield-check");
 export const Sparkles = make("sparkles");
+export const Sun = make("sun");
 export const Trash2 = make("trash");
 export const Type = make("type");
 export const UserRound = make("user");

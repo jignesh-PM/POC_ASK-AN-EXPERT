@@ -42,7 +42,7 @@ export const typographyScale = [
   { name: "Body large", token: "--text-base", size: "16px", weight: "400", use: "Lead paragraphs and large buttons" },
   { name: "Body", token: "--text-md", size: "14px", weight: "400 / 500", use: "Default body copy, controls, tables" },
   { name: "Small", token: "--text-sm", size: "13px", weight: "400 / 700", use: "Labels, hints, secondary lines" },
-  { name: "Caption", token: "--text-xs", size: "12px", weight: "500 / 700", use: "Badges, eyebrows, table headers (minimum size)" },
+  { name: "Caption", token: "--text-xs", size: "12px", weight: "500 / 700", use: "Badges, table headers (minimum size)" },
 ];
 
 export const technologyStack = [
@@ -96,7 +96,7 @@ export const portalMap = [
     nodes: [
       { title: "Tools", href: "/tools", type: "Workspace" },
       ...tools.map((tool) => ({ title: tool.title, href: `/tools/${tool.slug}`, type: "Tool" })),
-      { title: "Ask the Expert", href: "/questions", type: "Support" },
+      { title: "Ask an expert", href: "/questions", type: "Support" },
       { title: "Expert desk", href: "/expert", type: "Workspace" },
     ],
   },

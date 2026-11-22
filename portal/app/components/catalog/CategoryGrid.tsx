@@ -19,7 +19,6 @@ export function CategoryGrid() {
         <li key={range.slug}>
           <CatalogCard
             href={`/category/${range.slug}`}
-            icon={<Boxes size={20} aria-hidden="true" />}
             tags={[`${range.productCount} ${range.productCount === 1 ? "product" : "products"}`]}
             title={range.name}
             description={range.description}

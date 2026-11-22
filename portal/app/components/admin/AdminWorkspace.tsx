@@ -66,9 +66,6 @@ export default function AdminWorkspace({ view }: { view: AdminView }) {
   return (
     <div className={styles.layout}>
       <nav className={styles.sidebar} aria-label="Admin sections">
-        <p className={styles.sidebarTitle} aria-hidden="true">
-          Administration
-        </p>
         <ul className={styles.navList}>
           {ADMIN_VIEWS.map((item) => {
             const Icon = VIEW_ICONS[item.id];

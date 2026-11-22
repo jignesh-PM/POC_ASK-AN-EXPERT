@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { FileText, MessageSquareText } from "@/app/components/Icon";
 import { Grid, Page, PageHeader } from "@/app/components/ui";
 import { CatalogCard } from "@/app/components/catalog/CatalogCard";
 import { mainAreas } from "@/app/lib/mock-data";
@@ -26,13 +25,12 @@ export default async function MainAreaPage({ params }: Props) {
 
   return (
     <Page>
-      <PageHeader eyebrow="Support area" title={area.title} description={area.description} />
+      <PageHeader title={area.title} description={area.description} />
       <Grid as="ul" min={280} aria-label={`${area.title} next steps`}>
         <li>
           <CatalogCard
             href="/documents"
             headingLevel="h2"
-            icon={<FileText size={20} aria-hidden="true" />}
             title="Technical resources"
             description="Browse documents and downloads for this area."
             cta="Browse technical documents"
@@ -42,7 +40,6 @@ export default async function MainAreaPage({ params }: Props) {
           <CatalogCard
             href="/questions"
             headingLevel="h2"
-            icon={<MessageSquareText size={20} aria-hidden="true" />}
             title="Ask an expert"
             description="Start an AI-assisted question or talk to the responding team."
             cta="Ask a question"

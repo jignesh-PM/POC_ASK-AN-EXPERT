@@ -13,14 +13,15 @@ type CardProps = HTMLAttributes<HTMLElement> & {
   href?: string;
   external?: boolean;
   as?: "div" | "article" | "section" | "aside" | "li" | "form";
-  /** Adds the entrance animation. */
+  /** Entrance animation. Defaults to on for linked cards. */
   animate?: boolean;
 };
 
 /** Surface container. Interactive when `href` is set (hover lift and focus ring). */
 export function Card({ padding = "md", tone = "default", href, external, as: Tag = "div", animate, className, children, ...props }: CardProps) {
   const classes = cx(styles.card, styles[`pad-${padding}`], styles[`tone-${tone}`], href && styles.interactive, className);
-  const motion = animate ? { "data-animate": "" } : {};
+  // Clickable cards animate in by default; static cards opt in with `animate`.
+  const motion = (animate ?? Boolean(href)) ? { "data-animate": "" } : {};
   if (href) {
     const isExternal = external || /^https?:/.test(href);
     if (isExternal) {

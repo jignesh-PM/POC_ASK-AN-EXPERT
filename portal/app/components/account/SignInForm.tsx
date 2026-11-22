@@ -22,8 +22,16 @@ const COPY: Record<Step, (email: string, mode: Mode) => { title: string; descrip
   "reset-sent": (email) => ({ title: "Check your email", description: `If a password-based account exists for ${email}, reset instructions are on the way.` }),
 };
 
-/** One-time-passcode sign in, sign up, password reset and Microsoft sign-in for Morgan staff. */
-export default function SignInForm() {
+/** Only same-site paths are allowed as a post-sign-in destination. */
+function safeReturnPath(path?: string) {
+  return path && path.startsWith("/") && !path.startsWith("//") ? path : null;
+}
+
+/**
+ * One-time-passcode sign in, sign up, password reset and Microsoft sign-in for Morgan staff.
+ * `returnTo` brings the user back to what they were doing, e.g. the expert chat they started.
+ */
+export default function SignInForm({ returnTo }: { returnTo?: string }) {
   const router = useRouter();
   const { signupEnabled } = useAdminSettings();
   const [selectedMode, setSelectedMode] = useState<Mode>("signin");
@@ -47,7 +55,7 @@ export default function SignInForm() {
   const finish = (role: "Customer" | "Morgan User") => {
     setLoginEmail(email);
     setRole(role);
-    router.push(role === "Morgan User" ? "/expert" : "/");
+    router.push(safeReturnPath(returnTo) ?? (role === "Morgan User" ? "/expert" : "/"));
   };
 
   const submit = (event: FormEvent<HTMLFormElement>) => {

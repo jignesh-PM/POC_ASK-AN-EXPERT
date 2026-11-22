@@ -7,7 +7,7 @@ export default function PrivacyPage() {
   return (
     <LegalArticle
       title="Privacy Policy"
-      description="How personal and profile information is handled when you use Morgan Ask the Expert."
+      description="How personal and profile information is handled when you use this portal."
       sections={[
         {
           heading: "How Morgan uses your data",

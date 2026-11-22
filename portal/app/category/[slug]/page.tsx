@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Headset } from "@/app/components/Icon";
+import { ArrowLeft, ArrowRight } from "@/app/components/Icon";
 import { Button, Page, PageHeader } from "@/app/components/ui";
 import { CategoryResources } from "@/app/components/catalog/CategoryResources";
 import { ProductCommunity } from "@/app/components/catalog/ProductCommunity";
@@ -29,7 +29,6 @@ export default async function CategoryPage({ params }: Props) {
   return (
     <Page>
       <PageHeader
-        eyebrow="Product range"
         title={category.name}
         description={category.description}
         actions={
@@ -41,8 +40,6 @@ export default async function CategoryPage({ params }: Props) {
       <CategoryResources category={category} />
       <ProductCommunity category={category} />
       <CalloutCard
-        icon={<Headset size={22} aria-hidden="true" />}
-        eyebrow="Application support"
         title="Need help selecting a product?"
         description="Share your industry and product context so your question reaches the right Morgan team."
         action={

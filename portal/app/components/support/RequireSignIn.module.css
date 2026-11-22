@@ -1,0 +1,47 @@
+.placeholder {
+  min-height: 240px;
+}
+
+.card {
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-text);
+  animation: bob 3s var(--ease-out) infinite;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.title {
+  font-size: var(--text-xl);
+}
+
+.text {
+  max-width: 52ch;
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}

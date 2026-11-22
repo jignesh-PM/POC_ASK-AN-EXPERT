@@ -4,6 +4,7 @@ import { ContextBadges } from "@/app/components/support/ContextBadges";
 import ExpertChatStarter from "@/app/components/support/ExpertChatStarter";
 import QuestionIntake from "@/app/components/support/QuestionIntake";
 import QuestionThreads, { SupportHubActions } from "@/app/components/support/QuestionThreads";
+import RequireSignIn from "@/app/components/support/RequireSignIn";
 import { industries, products } from "@/app/lib/mock-data";
 
 export const metadata = { title: "Get product help" };
@@ -22,10 +23,12 @@ export default async function QuestionsPage({ searchParams }: { searchParams: Pr
         <Button href={backHref} variant="link" size="sm" leading={<ArrowLeft size={14} aria-hidden="true" />}>
           Back to Morgan AI answer
         </Button>
-        <PageHeader eyebrow="Separate human expert chat" title="Talk with a Morgan expert" description={`A subject matter expert from the ${assignedTeam} will reply in this conversation.`}>
+        <PageHeader title="Talk with a Morgan expert" description={`A subject matter expert from the ${assignedTeam} will reply in this conversation.`}>
           <ContextBadges industry={industries.find((item) => item.id === industry)?.name} product={productInfo?.name} team={assignedTeam} teamPrefix="Routed to" />
         </PageHeader>
-        <QuestionIntake query={q} industryId={industry} productId={product} expertTeam={assignedTeam} />
+        <RequireSignIn next={`/questions?${new URLSearchParams({ q, industry, product, team: assignedTeam })}`}>
+          <QuestionIntake query={q} industryId={industry} productId={product} expertTeam={assignedTeam} />
+        </RequireSignIn>
       </Page>
     );
   }
@@ -34,11 +37,12 @@ export default async function QuestionsPage({ searchParams }: { searchParams: Pr
     return (
       <Page width="narrow">
         <PageHeader
-          eyebrow="Human expert support"
           title="Start an expert chat"
           description="A Morgan subject matter expert will reply in this conversation. This chat is separate from Morgan AI answers."
         />
-        <ExpertChatStarter />
+        <RequireSignIn next="/questions?mode=expert">
+          <ExpertChatStarter />
+        </RequireSignIn>
       </Page>
     );
   }
@@ -46,7 +50,6 @@ export default async function QuestionsPage({ searchParams }: { searchParams: Pr
   return (
     <Page>
       <PageHeader
-        eyebrow="Choose a support chat"
         title="Get product help"
         description="Use Morgan AI for a quick answer, or start a separate chat with a product specialist."
         actions={<SupportHubActions />}

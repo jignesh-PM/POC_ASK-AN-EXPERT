@@ -11,7 +11,6 @@ export default function TechnicalDocumentsPage() {
   return (
     <Page>
       <PageHeader
-        eyebrow="Portal handbook"
         title="Technical documents"
         description="A working reference for the portal's design language, technology, capabilities and delivery direction. It separates what works in this prototype from what production delivery still needs."
       />

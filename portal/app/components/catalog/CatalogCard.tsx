@@ -1,6 +1,5 @@
-import type { ReactNode } from "react";
 import { ArrowRight, ArrowUpRight } from "@/app/components/Icon";
-import { Badge, Card, IconTile } from "@/app/components/ui";
+import { Badge, Card } from "@/app/components/ui";
 import styles from "./CatalogCard.module.css";
 
 type CatalogCardProps = {
@@ -8,7 +7,6 @@ type CatalogCardProps = {
   title: string;
   description?: string;
   /** Icon shown in a tinted tile at the top left. */
-  icon?: ReactNode;
   /** Short labels such as range, document type or access level. The first one is highlighted. */
   tags?: string[];
   /** Call-to-action text at the bottom of the card, e.g. "Explore range". */
@@ -23,12 +21,11 @@ type CatalogCardProps = {
  * The one card pattern for browsable catalogue items (ranges, products,
  * documents, tools, support areas). The whole card is the link.
  */
-export function CatalogCard({ href, title, description, icon, tags = [], cta, external, headingLevel: Heading = "h3", animate }: CatalogCardProps) {
+export function CatalogCard({ href, title, description, tags = [], cta, external, headingLevel: Heading = "h3", animate }: CatalogCardProps) {
   return (
     <Card href={href} external={external} animate={animate} className={styles.card}>
-      {(icon || tags.length > 0) && (
+      {tags.length > 0 && (
         <div className={styles.top}>
-          {icon && <IconTile>{icon}</IconTile>}
           {tags.length > 0 && (
             <div className={styles.tags}>
               {tags.map((tag, index) => (

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function AdminPage({ searchParams }: PageProps<"/admin">) {
   return (
     <Page width="wide">
-      <Suspense fallback={<PageHeader eyebrow="Super Admin workspace" title="Admin workspace" />}>
+      <Suspense fallback={<PageHeader title="Admin workspace" />}>
         <AdminView searchParams={searchParams} />
       </Suspense>
     </Page>
@@ -24,7 +24,7 @@ async function AdminView({ searchParams }: Pick<PageProps<"/admin">, "searchPara
   const view = findAdminView((await searchParams).view);
   return (
     <>
-      <PageHeader eyebrow="Super Admin workspace" title={view.label} description={view.description} />
+      <PageHeader title={view.label} description={view.description} />
       <AdminWorkspace view={view.id} />
     </>
   );

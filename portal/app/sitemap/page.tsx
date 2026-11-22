@@ -13,7 +13,7 @@ const routeCount = portalMap.reduce((total, section) => total + section.nodes.le
 export default function PortalSitemapPage() {
   return (
     <Page>
-      <PageHeader eyebrow="Portal direction board" title="Site map" description="See how the portal connects and record the next direction for its evolution.">
+      <PageHeader title="Site map" description="See how the portal connects and record the next direction for its evolution.">
         <Badge tone="success">Working map · {routeCount} routes</Badge>
       </PageHeader>
       <SitemapDirectionBoard />
