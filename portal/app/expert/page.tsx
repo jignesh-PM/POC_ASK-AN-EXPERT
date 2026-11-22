@@ -1,12 +1,5 @@
+import ExpertConversationWorkspace from "../components/ExpertConversationWorkspace";
+
 export default function ExpertWorkspace() {
-  return (
-    <main className="workspace-shell">
-      <div className="workspace-layout">
-        <aside className="inbox-panel"><div className="panel-title"><h2>Expert inbox</h2><span>4 open</span></div><div className="inbox-filter"><button className="active">All</button><button>Live</button><button>Waiting</button></div>
-          {[{title:"WDS board installation clearance",name:"Alex Morgan",time:"12m",active:true},{title:"Superwool Plus operating temperature",name:"Priya Sharma",time:"34m"},{title:"Castable dry-out schedule",name:"Daniel Weber",time:"1h"},{title:"Microporous insulation certificate",name:"Elena Rossi",time:"3h"}].map((t)=><article className={`thread-card ${t.active?'active':''}`} key={t.title}><time>{t.time}</time><h3>{t.title}</h3><p>{t.name} · In live chat</p></article>)}</aside>
-        <section className="chat-workspace"><div className="chat-workspace-head"><div><h2>WDS board installation clearance</h2><p>WDS · Microporous · Alex Morgan · EMEA</p></div><button>Mark resolved</button></div><div className="expert-messages"><div className="expert-message ai"><div className="meta">Morgan AI · 09:41</div><div className="bubble">To maintain insulation performance, check the WDS board joint pattern and compression clearance specified in the latest installation guide.</div></div><div className="expert-message"><div className="meta">Alex Morgan · 09:43</div><div className="bubble">The panel run is 35 mm wide. What clearance should I allow around the steelwork?</div></div><div className="expert-message"><div className="meta">Sarah Chen · 09:46</div><div className="bubble">Please allow 5–10 mm for thermal expansion, and leave a continuous vapour barrier gap around penetrations. I’ll also share the relevant page from the WDS manual.</div></div></div><div className="expert-reply"><input placeholder="Reply to Alex…"/><button>➤</button></div></section>
-        <aside className="customer-panel"><h3>Customer</h3><b>Alex Morgan</b><p style={{fontSize:'11px',color:'#667681'}}>Morgan Industries · United Kingdom</p><div className="customer-profile"><div><span>Region</span><b>EMEA</b></div><div><span>Industry</span><b>Steel</b></div><div><span>Interest</span><b>Microporous</b></div><div><span>Uses</span><b>WDS board</b></div></div><div className="journey"><h3>Customer journey</h3><div className="journey-item"><b>Searched “WDS clearance”</b><span>09:38 · Microporous</span></div><div className="journey-item"><b>Viewed WDS datasheet</b><span>09:39 · Downloaded PDF</span></div><div className="journey-item"><b>Opened installation manual</b><span>09:40 · PFP</span></div><div className="journey-item"><b>Asked AI assistant</b><span>09:41 · 2 sources</span></div></div></aside>
-      </div>
-    </main>
-  );
+  return <ExpertConversationWorkspace />;
 }

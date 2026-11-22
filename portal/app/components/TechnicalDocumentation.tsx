@@ -1,12 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, BookOpenText, Check, ClipboardList, Clock3, Coins, Palette, RotateCcw, Search, Sparkles, Type, Workflow, Zap } from "lucide-react";
+import { ArrowUpRight, BookOpenText, Check, ClipboardList, Palette, RotateCcw, Sparkles, Type, Workflow, Zap } from "@/app/components/Icon";
 import {
   designTokens,
-  estimateAssumptions,
-  initialFeatureTracker,
   portalFeatures,
   releaseHistory,
   technologyStack,
@@ -20,7 +18,6 @@ const tabs = [
   { id: "typography", label: "Typography", icon: Type },
   { id: "technology", label: "Technology", icon: Workflow },
   { id: "features", label: "Portal features", icon: ArrowUpRight },
-  { id: "tracker", label: "Effort & scope", icon: ClipboardList },
   { id: "releases", label: "Version history", icon: RotateCcw },
 ] as const;
 
@@ -31,21 +28,14 @@ const uspCount = portalFeatures.filter((feature) => feature.usp).length;
 
 export default function TechnicalDocumentation() {
   const [activeTab, setActiveTab] = useState<DocumentationTab>("overview");
-  const [query, setQuery] = useState("");
-
-  const filteredFeatures = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
-    if (!normalizedQuery) return initialFeatureTracker;
-    return initialFeatureTracker.filter((feature) => `${feature.feature} ${feature.area} ${feature.route} ${feature.behavior} ${feature.deliveryNote}`.toLowerCase().includes(normalizedQuery));
-  }, [query]);
 
   return (
     <main className={styles.page}>
       <header className={styles.hero}>
         <div>
-          <p className={styles.eyebrow}>PORTAL HANDBOOK · 0.1.0</p>
+          <p className={styles.eyebrow}>PORTAL HANDBOOK Â· 0.1.0</p>
           <h2>Technical Documents</h2>
-          <p className={styles.intro}>A working reference for the portal’s design language, technology, capabilities, and delivery direction.</p>
+          <p className={styles.intro}>A working reference for the portalâ€™s design language, technology, capabilities, and delivery direction.</p>
         </div>
         <div className={styles.heroAside}>
           <span className={styles.statusPip}><span /> Product blueprint</span>
@@ -92,25 +82,24 @@ export default function TechnicalDocumentation() {
               <Snapshot icon={<Sparkles size={17} />} label="Experience USPs" value={String(uspCount)} detail="Distinctive customer value" />
               <Snapshot icon={<Zap size={17} />} label="Dynamic features" value={String(dynamicCount)} detail="Interactive in the prototype" />
               <Snapshot icon={<BookOpenText size={17} />} label="Static features" value={String(staticCount)} detail="Stable reference content" />
-              <Snapshot icon={<Coins size={17} />} label="Indicative build" value="$31.8k-$94k" detail="53-94 working days" />
+              <Snapshot icon={<ClipboardList size={17} />} label="Portal features" value={String(portalFeatures.length)} detail="Core customer journeys" />
             </div>
             <div className={styles.uspBlock}>
               <div className={styles.uspHeading}><div><p className={styles.sectionKicker}>WHY THIS PORTAL</p><h3>Useful by design</h3></div><span>{uspCount} customer-facing USPs</span></div>
-              <div className={styles.uspGrid}>{portalFeatures.filter((feature) => feature.usp).map((feature) => <article className={styles.uspCard} key={feature.id}><span className={styles.uspIcon}><Sparkles size={16} aria-hidden="true" /></span><div><strong>{feature.name}</strong><p>{feature.detail}</p><span className={styles.dynamicPill}>Dynamic · {feature.effort}</span></div></article>)}</div>
+              <div className={styles.uspGrid}>{portalFeatures.filter((feature) => feature.usp).map((feature) => <article className={styles.uspCard} key={feature.id}><span className={styles.uspIcon}><Sparkles size={16} aria-hidden="true" /></span><div><strong>{feature.name}</strong><p>{feature.detail}</p><span className={styles.dynamicPill}>Interactive feature</span></div></article>)}</div>
             </div>
             <div className={styles.overviewGrid}>
               <OverviewCard icon={<Palette size={18} />} title="Design language" detail="Brand colors, spacing, controls, and component behavior." />
               <OverviewCard icon={<Type size={18} />} title="Typography" detail="Roboto hierarchy and guidance for readable content." />
               <OverviewCard icon={<Workflow size={18} />} title="Technology" detail="Runtime, UI, motion, and graphics dependencies." />
-              <OverviewCard icon={<ClipboardList size={18} />} title="Effort & scope" detail="Compare dynamic and static scope, delivery effort, and cost assumptions." />
+              <OverviewCard icon={<ClipboardList size={18} />} title="Support paths" detail="Separate journeys for Morgan AI answers and expert conversations." />
             </div>
-            <div className={styles.note}><strong>Estimate basis</strong><span>{estimateAssumptions.rate} · {estimateAssumptions.day}. Ranges are directional planning figures, not a supplier quote.</span></div>
           </div>
         )}
 
         {activeTab === "design" && (
           <div className={styles.section}>
-            <SectionHeading kicker="VISUAL LANGUAGE" title="Design system" description="Use Morgan’s core palette and consistent interaction patterns throughout the portal." />
+            <SectionHeading kicker="VISUAL LANGUAGE" title="Design system" description="Use Morganâ€™s core palette and consistent interaction patterns throughout the portal." />
             <div className={styles.colorGrid}>
               {designTokens.colors.map((color) => <article className={styles.colorCard} key={color.name}><span className={styles.swatch} style={{ backgroundColor: color.value, color: color.value === "#FFFFFF" ? "#002F5F" : "#FFFFFF" }}>{color.value}</span><div><strong>{color.name}</strong><p>{color.use}</p></div></article>)}
             </div>
@@ -125,15 +114,15 @@ export default function TechnicalDocumentation() {
         {activeTab === "typography" && (
           <div className={styles.section}>
             <SectionHeading kicker="READABILITY" title="Typography" description="Roboto is the shared interface family. Use clear weight and size contrast instead of decorative styling." />
-            <div className={styles.typePreview}><span>ROBOTO · MORGAN ASK THE EXPERT</span><strong>Clear answers start with clear type.</strong><p>Product guidance, document details, and expert responses should remain easy to scan at every viewport size.</p></div>
+            <div className={styles.typePreview}><span>ROBOTO Â· MORGAN ASK THE EXPERT</span><strong>Clear answers start with clear type.</strong><p>Product guidance, document details, and expert responses should remain easy to scan at every viewport size.</p></div>
             <div className={styles.tableWrap}><table className={styles.referenceTable}><thead><tr><th>Style</th><th>Size</th><th>Weight</th><th>Use</th></tr></thead><tbody>{typographyScale.map((row) => <tr key={row.name}><th scope="row">{row.name}</th><td>{row.size}</td><td>{row.weight}</td><td>{row.use}</td></tr>)}</tbody></table></div>
-            <p className={styles.caption}>Body copy should use a comfortable line height (1.45–1.65). Reserve uppercase text for short labels.</p>
+            <p className={styles.caption}>Body copy should use a comfortable line height (1.45â€“1.65). Reserve uppercase text for short labels.</p>
           </div>
         )}
 
         {activeTab === "technology" && (
           <div className={styles.section}>
-            <SectionHeading kicker="IMPLEMENTATION" title="Technology stack" description="The portal uses a small set of focused libraries for routing, accessible controls, and motion." />
+            <SectionHeading kicker="IMPLEMENTATION" title="Technology stack" description="The portal uses focused libraries for routing, accessible controls, and a responsive interface." />
             <div className={styles.tableWrap}><table className={styles.referenceTable}><thead><tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr></thead><tbody>{technologyStack.map((row) => <tr key={row.layer}><th scope="row">{row.layer}</th><td><strong>{row.technology}</strong></td><td>{row.role}</td></tr>)}</tbody></table></div>
             <div className={styles.note}><strong>Implementation note</strong><span>Keep server-rendered content as the default. Add client state where needed. Identity, search, service integrations, and shared storage are production work beyond the prototype UI.</span></div>
           </div>
@@ -142,16 +131,7 @@ export default function TechnicalDocumentation() {
         {activeTab === "features" && (
           <div className={styles.section}>
             <SectionHeading kicker="PRODUCT MAP" title="Portal features" description="A concise inventory of the core visitor and customer journeys in this prototype." />
-            <div className={styles.featureGrid}>{portalFeatures.map((feature) => <article className={styles.featureCard} key={feature.route}><div className={styles.featureCardMeta}><span className={feature.behavior === "Dynamic" ? styles.dynamicPill : styles.staticPill}>{feature.behavior}</span>{feature.usp && <span className={styles.uspPill}><Sparkles size={11} /> USP</span>}<span className={styles.routeLabel}>{feature.route}</span></div><h4>{feature.name}</h4><p>{feature.detail}</p><div className={styles.featureEstimate}><span><Clock3 size={13} /> {feature.effort}</span><strong>{feature.cost}</strong></div><Link href={feature.route}>Explore feature <ArrowUpRight size={14} aria-hidden="true" /></Link></article>)}</div>
-          </div>
-        )}
-
-        {activeTab === "tracker" && (
-          <div className={styles.section}>
-            <div className={styles.trackerHeader}><SectionHeading kicker="PLANNING VIEW" title="Feature effort & cost" description="Search the functionality inventory and compare behavior, delivery effort, and indicative build cost." /></div>
-            <div className={styles.trackerTools}><label className={styles.searchField}><Search size={16} aria-hidden="true" /><span className={styles.visuallyHidden}>Search functionality</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Filter features, routes, type, or delivery notes" /></label><span className={styles.savedState}>{filteredFeatures.length} of {initialFeatureTracker.length} features</span></div>
-            <div className={styles.tableWrap}><table className={`${styles.referenceTable} ${styles.effortTable}`}><thead><tr><th>Feature</th><th>Behavior</th><th>USP</th><th>Route</th><th>Effort</th><th>Indicative cost</th><th>Production delivery note</th></tr></thead><tbody>{filteredFeatures.map((feature) => <tr key={feature.id}><th scope="row">{feature.feature}<small>{feature.area}</small></th><td><span className={feature.behavior === "Dynamic" ? styles.dynamicPill : styles.staticPill}>{feature.behavior}</span></td><td>{feature.usp ? <span className={styles.uspPill}><Sparkles size={11} /> Yes</span> : <span className={styles.noUsp}>—</span>}</td><td><code>{feature.route}</code></td><td><span className={styles.effortValue}><Clock3 size={13} />{feature.effort}</span></td><td><strong className={styles.costValue}>{feature.cost}</strong></td><td>{feature.deliveryNote}</td></tr>)}{filteredFeatures.length === 0 && <tr><td className={styles.emptyState} colSpan={7}>No features match this filter.</td></tr>}</tbody></table></div>
-            <div className={styles.estimateNote}><strong>Estimate assumptions</strong><p>{estimateAssumptions.scope} We use a blended rate of {estimateAssumptions.rate} and an {estimateAssumptions.day}. The total planning envelope is approximately <b>$31,800-$94,000 across 53-94 person-days</b>.</p><p>{estimateAssumptions.excludes} Actual effort depends on approved requirements, integrations, security, and content readiness.</p></div>
+            <div className={styles.featureGrid}>{portalFeatures.map((feature) => <article className={styles.featureCard} key={feature.id}><div className={styles.featureCardMeta}><span className={feature.behavior === "Dynamic" ? styles.dynamicPill : styles.staticPill}>{feature.behavior}</span>{feature.usp && <span className={styles.uspPill}><Sparkles size={11} /> USP</span>}<span className={styles.routeLabel}>{feature.route}</span></div><h4>{feature.name}</h4><p>{feature.detail}</p>{feature.route.startsWith("/") ? <Link href={feature.route}>Explore feature <ArrowUpRight size={14} aria-hidden="true" /></Link> : <span className={styles.featureScopeLabel}>{feature.route === "Header" ? "Available in the portal header" : "Available across portal pages"}</span>}</article>)}</div>
           </div>
         )}
 

@@ -36,9 +36,9 @@ The handbook at `/technical-documents` documents the brand system, Roboto type s
 
 - Morgan Blue `#002F5F`, Morgan Orange `#EF6400`, white, and black form the core palette.
 - Roboto is loaded through `next/font` and used as the portal interface family.
-- Radix UI provides accessible select and menu behavior; Lucide React provides icons.
-- GSAP powers intentional 2D interface motion. Three.js is isolated to the home hero background.
-- Motion respects `prefers-reduced-motion` where animation is used.
+- Native HTML controls provide accessible select and menu behavior.
+- Icons use a local SVG component; no icon or UI package is required.
+- Lightweight CSS/IntersectionObserver motion replaces animation packages and respects `prefers-reduced-motion`.
 
 ## Main routes
 

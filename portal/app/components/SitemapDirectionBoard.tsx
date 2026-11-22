@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowDown, ArrowUpRight, ChevronDown, ChevronUp, Compass, Search, Save, Trash2, X } from "lucide-react";
+import { ArrowDown, ArrowUpRight, ChevronDown, ChevronUp, Compass, Search, Save, Trash2, X } from "@/app/components/Icon";
 import { portalMap } from "../lib/project-documentation";
 import styles from "./SitemapDirectionBoard.module.css";
 
@@ -62,7 +62,7 @@ export default function SitemapDirectionBoard() {
     <main className={styles.page}>
       <header className={styles.hero}>
         <div><p className={styles.eyebrow}>PORTAL DIRECTION BOARD</p><h2>Site map</h2><p>Use this board to see how the portal connects and to record the next direction for its evolution.</p></div>
-        <span className={styles.boardStatus}><span /> Working map · {mappedRouteCount} routes</span>
+        <span className={styles.boardStatus}><span /> Working map Â· {mappedRouteCount} routes</span>
       </header>
 
       <section className={styles.canvas} aria-label="Portal route canvas">
@@ -93,13 +93,13 @@ export default function SitemapDirectionBoard() {
       </section>
 
       <section className={styles.directionSection} aria-labelledby="direction-heading">
-        <div className={styles.directionHeader}><div><p className={styles.eyebrow}>EVOLUTION PLAN</p><h3 id="direction-heading">Now · Next · Later</h3></div><p>Shape the portal in small, reviewable steps.</p></div>
+        <div className={styles.directionHeader}><div><p className={styles.eyebrow}>EVOLUTION PLAN</p><h3 id="direction-heading">Now Â· Next Â· Later</h3></div><p>Shape the portal in small, reviewable steps.</p></div>
         <div className={styles.stageGrid}>{directionStages.map((stage) => <article className={`${styles.stage} ${styles[stage.color]}`} key={stage.name}><span>{stage.name}</span><p>{stage.detail}</p></article>)}</div>
       </section>
 
       <section className={styles.noteBoard} aria-labelledby="note-heading">
         <div className={styles.noteIntro}><p className={styles.eyebrow}>TEAM WORKSPACE</p><h3 id="note-heading">Direction note</h3><p>Capture a short decision or next step alongside the route map. The note stays in this browser for the demo.</p></div>
-        <div className={styles.noteEditor}><label htmlFor="direction-note">Portal direction</label><textarea id="direction-note" value={note} onChange={(event) => { setNote(event.target.value); setMessage(""); }} placeholder="Example: connect document search to the approved content source…" rows={3} /><div><span aria-live="polite">{message || (savedNote ? "Saved locally" : "No note saved yet")}</span><button type="button" className={styles.clearButton} onClick={clearNote} disabled={!note && !savedNote}><Trash2 size={14} /> Clear</button><button type="button" className={styles.saveButton} onClick={saveNote}><Save size={14} /> Save note</button></div></div>
+        <div className={styles.noteEditor}><label htmlFor="direction-note">Portal direction</label><textarea id="direction-note" value={note} onChange={(event) => { setNote(event.target.value); setMessage(""); }} placeholder="Example: connect document search to the approved content sourceâ€¦" rows={3} /><div><span aria-live="polite">{message || (savedNote ? "Saved locally" : "No note saved yet")}</span><button type="button" className={styles.clearButton} onClick={clearNote} disabled={!note && !savedNote}><Trash2 size={14} /> Clear</button><button type="button" className={styles.saveButton} onClick={saveNote}><Save size={14} /> Save note</button></div></div>
       </section>
     </main>
   );

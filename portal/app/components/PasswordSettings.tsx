@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { Eye, EyeOff, KeyRound, ShieldCheck } from "lucide-react";
+import { Eye, EyeOff, KeyRound, ShieldCheck } from "@/app/components/Icon";
 
 export default function PasswordSettings() {
   const [currentPassword, setCurrentPassword] = useState("");

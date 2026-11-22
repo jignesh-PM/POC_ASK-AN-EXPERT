@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { profileEmailStorageKey } from "../lib/profile-completion";
 
 type SignInMode = "signin" | "signup";
@@ -18,12 +18,21 @@ export default function SignIn() {
   const [resendMessage, setResendMessage] = useState("");
   const [forgotPassword, setForgotPassword] = useState(false);
   const [resetRequested, setResetRequested] = useState(false);
+  const [signupEnabled, setSignupEnabled] = useState(true);
 
-  const signInAsMorgan = () => {
-    window.localStorage.setItem("prototype-role", "Morgan User");
+  useEffect(() => {
+    try {
+      const settings = JSON.parse(window.localStorage.getItem("morgan-admin-settings") || "{}") as { signupEnabled?: boolean };
+      setSignupEnabled(settings.signupEnabled !== false);
+      if (settings.signupEnabled === false) setMode("signin");
+    } catch { setSignupEnabled(true); }
+  }, []);
+
+  const finishSignIn = (role: "Customer" | "Morgan User") => {
+    window.localStorage.setItem("prototype-role", role);
     if (email.trim()) window.localStorage.setItem(profileEmailStorageKey, email.trim());
     window.dispatchEvent(new Event("prototype-role-change"));
-    router.push("/");
+    router.push(role === "Morgan User" ? "/expert" : "/");
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -36,10 +45,11 @@ export default function SignIn() {
       setSent(true);
       return;
     }
-    if (code.length === 6) signInAsMorgan();
+    if (code.length === 6) finishSignIn("Customer");
   };
 
   const changeMode = (nextMode: SignInMode) => {
+    if (nextMode === "signup" && !signupEnabled) return;
     setMode(nextMode);
     setSent(false);
     setCode("");
@@ -70,7 +80,7 @@ export default function SignIn() {
 
           {!sent && !forgotPassword && <div className="auth-mode-switch" role="group" aria-label="Account action">
             <button className={mode === "signin" ? "active" : ""} type="button" aria-pressed={mode === "signin"} onClick={() => changeMode("signin")}>Sign in</button>
-            <button className={mode === "signup" ? "active" : ""} type="button" aria-pressed={mode === "signup"} onClick={() => changeMode("signup")}>Create account</button>
+            {signupEnabled && <button className={mode === "signup" ? "active" : ""} type="button" aria-pressed={mode === "signup"} onClick={() => changeMode("signup")}>Create account</button>}
           </div>}
 
           <form className="auth-entry-form" onSubmit={handleSubmit}>
@@ -97,7 +107,7 @@ export default function SignIn() {
           </form>
           {!sent && !forgotPassword && mode === "signin" && <div className="auth-secondary-login">
             <div className="auth-divider"><span>Morgan users</span></div>
-            <button className="microsoft-signin" type="button" onClick={signInAsMorgan}>
+            <button className="microsoft-signin" type="button" onClick={() => finishSignIn("Morgan User")}>
               <span className="microsoft-mark" aria-hidden="true"><i /><i /><i /><i /></span>
               <span>Continue with Microsoft</span>
               <span className="microsoft-arrow" aria-hidden="true">→</span>

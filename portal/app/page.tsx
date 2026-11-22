@@ -1,94 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { mainAreas } from "./lib/mock-data";
-import { officialSiteIndex, searchIndexedResources, getMockAiAnswer } from "./lib/site-index";
-import HomeMotion from "./components/HomeMotion";
-import ThreeBackdrop from "./components/ThreeBackdrop";
-import ProfileCompletionPrompt from "./components/ProfileCompletionPrompt";
+import { useRouter } from "next/navigation";
+import { ArrowRight, Headset, Sparkles } from "@/app/components/Icon";
+import { categories, mainAreas, products } from "./lib/mock-data";
+import { catalogSettingsUpdatedEvent, getDefaultCatalogSettings, readCatalogSettings } from "./lib/catalog-settings";
+import RegionalCompliance from "./components/RegionalCompliance";
+import PortalAmbientCanvas from "./components/PortalAmbientCanvas";
 
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [submittedQuery, setSubmittedQuery] = useState("");
-  const [aiOpen, setAiOpen] = useState(false);
+  const router = useRouter();
+  const [catalogSettings, setCatalogSettings] = useState(getDefaultCatalogSettings);
+  const [hiddenAreas, setHiddenAreas] = useState<string[]>([]);
 
-  const searchResults = submittedQuery ? searchIndexedResources(submittedQuery) : officialSiteIndex.slice(0, 3);
-  const aiResult = getMockAiAnswer(submittedQuery, searchResults);
+  useEffect(() => {
+    const syncSettings = () => setCatalogSettings(readCatalogSettings());
+    const syncVisibility = () => { try { setHiddenAreas(JSON.parse(window.localStorage.getItem("morgan-admin-main-area-visibility") || "[]") as string[]); } catch { setHiddenAreas([]); } };
+    syncSettings();
+    syncVisibility();
+    window.addEventListener(catalogSettingsUpdatedEvent, syncSettings);
+    window.addEventListener("storage", syncVisibility);
+    window.addEventListener("morgan-admin-content-updated", syncVisibility);
+    return () => { window.removeEventListener(catalogSettingsUpdatedEvent, syncSettings); window.removeEventListener("storage", syncVisibility); window.removeEventListener("morgan-admin-content-updated", syncVisibility); };
+  }, []);
 
-  const submitSearch = (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!searchQuery.trim()) return;
-    setSubmittedQuery(searchQuery.trim());
-    setAiOpen(true);
-  };
+  useEffect(() => {
+    const role = window.localStorage.getItem("prototype-role");
+    if (role === "Morgan User") router.replace("/expert");
+    else if (role === "Super Admin") router.replace("/admin");
+  }, [router]);
 
   return (
-    <>
-      <main className="morgan-home">
-        <HomeMotion />
-        <ProfileCompletionPrompt />
-        <section className="morgan-hero">
-          <div className="engineering-nav">
-            <p>ENGINEERING SUPPORT</p>
-            <Link href="/main-area/engineering-design"><span>01</span><b>Thermal insulation system design</b></Link>
-            <Link href="/main-area/product-information"><span>02</span><b>Material selection & specification</b></Link>
-            <Link href="/tools/heat-flow"><span>03</span><b>Heat loss analysis & calculations</b></Link>
-            <Link href="/documents"><span>04</span><b>Technical documentation</b></Link>
-            <Link href="/main-area/supervision-service"><span>05</span><b>Installation support & QA/QC</b></Link>
-            <Link href="/questions"><span>06</span><b>Ongoing technical support</b></Link>
-          </div>
-
-          <ThreeBackdrop />
-
-          <div className="search-focus">
-            <div className="hero-kicker"><span /> ASK THE EXPERT</div>
-            <h1>How can we help?</h1>
-            <p>Search technical resources or ask a question about Morgan Thermal Ceramics products.</p>
-            <form className="index-search" onSubmit={submitSearch}>
-              <label htmlFor="official-search">Search the Morgan index</label>
-              <div>
-                <input id="official-search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder="Ask a question or search products, datasheets, manuals…" />
-                <button type="submit">Search <span>→</span></button>
-              </div>
-            </form>
-            <div className="search-suggestions">
-              <span>Popular searches</span>
-              {["WDS board", "Castable dry-out", "SDS documents", "FireMaster certificate"].map((item) => (
-                <button type="button" key={item} onClick={() => { setSearchQuery(item); setSubmittedQuery(item); setAiOpen(true); }}>{item}</button>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {aiOpen && (
-          <section className="ai-results" aria-live="polite">
-            <div className="ai-answer-card">
-              <div className="ai-answer-head"><span>AI</span><div><p>Morgan AI assistant</p><h2>Answer from the official-site index</h2></div></div>
-              <p className="ai-answer-text">{aiResult.answer}</p>
-              <div className="ai-actions">
-                <Link className="ai-contact-action" href="/questions">Talk to an expert</Link>
-                <button type="button" onClick={() => setSubmittedQuery("")}>Clear answer</button>
-              </div>
-              <small>This is a prototype. Technical decisions should be confirmed with a Morgan expert.</small>
-            </div>
-            <div className="source-card">
-              <p>SOURCED FROM</p>
-              {searchResults.map((resource) => (
-                <a href={resource.url} target="_blank" rel="noreferrer" key={resource.id}><span>{resource.type}</span><b>{resource.title}</b><em>{resource.category} · Official site</em></a>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <section className="portal-overview">
-          <div className="overview-heading"><div><p>MAIN AREAS</p><h2>Technical resources</h2></div><Link href="/categories">Browse all categories →</Link></div>
-          <div className="overview-grid">
-            {mainAreas.map((area) => <Link href={`/main-area/${area.slug}`} className="overview-card" key={area.slug}><span>{area.count}</span><h3>{area.title}</h3><p>{area.description}</p><b>Explore</b></Link>)}
-          </div>
-        </section>
-      </main>
-
-    </>
+    <main className="morgan-home home-discovery home-search-highlighted">
+      <PortalAmbientCanvas />
+      <section className="home-discovery-sections" aria-label="Browse Morgan resources">
+        <section className="home-conversation-options" aria-labelledby="home-help-title"><div className="home-conversation-heading"><p>CHOOSE YOUR SUPPORT</p><h2 id="home-help-title">How can we help?</h2><span>Get a quick answer from Morgan knowledge, or speak directly with a product specialist.</span></div><div className="home-conversation-grid"><article className="home-conversation-card home-ai-card"><span className="home-conversation-icon"><Sparkles size={19} aria-hidden="true" /></span><div><p>MORGAN AI</p><h3>Product and document answers</h3><span>Search approved product information and technical documents. Choose an industry and product in the sticky search bar.</span></div><button type="button" onClick={() => { const prompt = document.getElementById("morgan-ai-prompt"); prompt?.scrollIntoView({ behavior: "smooth", block: "nearest" }); prompt?.focus({ preventScroll: true }); }}>Start AI chat <ArrowRight size={14} aria-hidden="true" /></button></article><article className="home-conversation-card home-expert-card"><span className="home-conversation-icon"><Headset size={19} aria-hidden="true" /></span><div><p>SUBJECT MATTER EXPERT</p><h3>Talk with a Morgan expert</h3><span>Send your question to the team assigned to your selected product line and continue in a human chat.</span></div><Link href="/questions?mode=expert">Start expert chat <ArrowRight size={14} aria-hidden="true" /></Link></article></div></section>
+        <div className="home-section-heading"><div><p>EXPLORE THE RANGE</p><h2>Products</h2></div><Link href="/categories">View all products <ArrowRight size={15} aria-hidden="true" /></Link></div>
+        <div className="home-product-grid">{categories.filter((category) => products.some((product) => product.category === category.slug && !catalogSettings.hiddenProductIds.includes(product.id))).map((category) => <Link href={`/category/${category.slug}`} className="home-product-card" key={category.slug}><span>{products.filter((product) => product.category === category.slug && !catalogSettings.hiddenProductIds.includes(product.id)).length} product systems</span><h3>{category.name}</h3><p>{category.description}</p><b>Explore range <ArrowRight size={14} aria-hidden="true" /></b></Link>)}</div>
+        <div className="home-resource-row"><div><p>TECHNICAL LIBRARY</p><h2>Need a datasheet, manual or certificate?</h2><span>Browse Morgan product and application documents in one place.</span></div><Link href="/documents">Browse documents <ArrowRight size={15} aria-hidden="true" /></Link></div>
+        <div className="home-support-links">{mainAreas.filter((area) => !hiddenAreas.includes(area.slug)).slice(0, 3).map((area) => <Link href={`/main-area/${area.slug}`} key={area.slug}>{area.title}<ArrowRight size={14} aria-hidden="true" /></Link>)}</div>
+        <RegionalCompliance />
+      </section>
+    </main>
   );
 }
