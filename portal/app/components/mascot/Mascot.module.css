@@ -76,7 +76,106 @@
   transform: translateX(-50%) rotate(-45deg);
 }
 
-/* ---------- Artwork colours (brand tokens, theme aware) ---------- */
+/* ---------- Artwork colours ---------- */
+/* Outfit palette (site PPE): the character keeps the same kit in light and dark mode. */
+.art {
+  --ember-jacket: #002f5f;
+  --ember-jacket-line: #2d5a88;
+  --ember-pants: #2b3440;
+  --ember-shoes: #0b1a2b;
+  --ember-hat: #ffffff;
+  --ember-hat-line: #c9d3de;
+  --ember-frame: #1d2b3a;
+}
+
+.jacket {
+  fill: var(--ember-jacket);
+  stroke: var(--ember-jacket-line);
+  stroke-width: 1;
+}
+
+.zip {
+  fill: none;
+  stroke: var(--ember-jacket-line);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.collar {
+  fill: #00264d;
+  stroke: var(--ember-jacket-line);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.logo {
+  pointer-events: none;
+}
+
+/* Reflective hem band in Morgan orange. */
+.hem {
+  fill: var(--color-accent);
+}
+
+.pants {
+  fill: var(--ember-pants);
+}
+
+.sleeve {
+  fill: none;
+  stroke: var(--ember-jacket);
+  stroke-width: 9;
+  stroke-linecap: round;
+}
+
+.toeCap {
+  fill: #3a4756;
+}
+
+/* White hard hat. */
+.hat {
+  fill: var(--ember-hat);
+  stroke: var(--ember-hat-line);
+  stroke-width: 1.2;
+}
+
+.hatRidge {
+  fill: #eef2f6;
+  stroke: var(--ember-hat-line);
+  stroke-width: 1;
+}
+
+.hatShine {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  opacity: 0.9;
+}
+
+/* Safety glasses: clear lenses, dark frame. */
+.lens {
+  fill: #dff1ff;
+  fill-opacity: 0.25;
+  stroke: var(--ember-frame);
+  stroke-width: 2.2;
+}
+
+.temple {
+  fill: none;
+  stroke: var(--ember-frame);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.lensGlare {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
 .shadow {
   fill: var(--color-brand);
   opacity: 0.12;
@@ -85,42 +184,40 @@
   animation: shadow-breathe 3.2s ease-in-out infinite;
 }
 
-.body,
-.limb,
 .foot {
-  fill: var(--color-brand-fill);
-}
-
-.limb {
-  fill: none;
-  stroke: var(--color-brand-fill);
-  stroke-width: 8;
-  stroke-linecap: round;
+  fill: var(--ember-shoes);
 }
 
 .hand {
-  fill: var(--color-brand-fill);
+  fill: var(--color-accent-on-fill);
 }
 
-.bodyShine {
-  fill: var(--color-text-inverse);
-  opacity: 0.16;
+/* Warm peach face. */
+.headBlock {
+  fill: var(--color-accent-on-fill);
 }
 
-.band {
-  fill: var(--color-accent);
+.brow {
+  fill: none;
+  stroke: var(--color-brand-fill);
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform var(--duration-slow) var(--ease-out);
 }
 
-.flameOuter {
-  fill: var(--color-accent);
+.browUp {
+  transform: translateY(-3px) rotate(-6deg);
 }
 
-.flameInner {
+/* Relaxed lids, the same colour as the head. */
+.lids path {
   fill: var(--color-accent-on-fill);
 }
 
 .eyeWhite {
-  fill: var(--color-text-inverse);
+  fill: #ffffff;
 }
 
 .pupil {
@@ -137,19 +234,20 @@
 
 .cheek {
   fill: var(--color-accent);
-  opacity: 0.45;
+  opacity: 0.35;
 }
 
+/* Face details sit on the peach head, so they use navy. */
 .mouth,
 .happyEyes path {
   fill: none;
-  stroke: var(--color-text-inverse);
+  stroke: var(--color-brand-fill);
   stroke-width: 3.2;
   stroke-linecap: round;
 }
 
 .mouthO {
-  fill: var(--color-text-inverse);
+  fill: var(--color-brand-fill);
 }
 
 .thought circle {
@@ -177,13 +275,13 @@
 .figure {
   transform-box: fill-box;
   transform-origin: 50% 100%;
-  animation: idle-bob 3.2s ease-in-out infinite;
+  animation: idle-bob 4.2s ease-in-out infinite;
 }
 
-.flame {
+.head {
   transform-box: fill-box;
   transform-origin: 50% 100%;
-  animation: flicker 1.6s ease-in-out infinite;
+  transition: transform var(--duration-slow) var(--ease-out);
 }
 
 .eyes {
@@ -197,22 +295,18 @@
 }
 
 .waveArm {
-  transform-box: fill-box;
-  transform-origin: 0% 100%;
+  transform-box: view-box;
+  transform-origin: 93px 92px;
 }
 
 /* Mood: wave — greets with the right arm. */
 .art[data-mood="wave"] .waveArm {
-  animation: wave 2.4s ease-in-out infinite;
+  animation: wave 3s ease-in-out infinite;
 }
 
-/* Mood: think — looks up, flame flickers faster, thought bubbles rise. */
+/* Mood: think — looks up, thought bubbles rise. */
 .art[data-mood="think"] .pupils {
   transform: translate(2px, -3px);
-}
-
-.art[data-mood="think"] .flame {
-  animation-duration: 0.7s;
 }
 
 .thought circle {
@@ -229,7 +323,7 @@
 
 /* Mood: happy — jumps for joy, sparkles twinkle. */
 .art[data-mood="happy"] .figure {
-  animation: jump 1.4s var(--ease-out) infinite;
+  animation: jump 2s var(--ease-out) infinite;
 }
 
 .sparkles path {
@@ -243,8 +337,8 @@
 }
 
 /* Mood: curious — tilts its head, question mark bobs. */
-.art[data-mood="curious"] .figure {
-  animation: tilt 3s ease-in-out infinite;
+.art[data-mood="curious"] .head {
+  animation: tilt 3.6s ease-in-out infinite;
 }
 
 .art[data-mood="curious"] .pupils {
@@ -256,8 +350,8 @@
 }
 
 /* Mood: oops — wobbles, a nervous drop slides down. */
-.art[data-mood="oops"] .figure {
-  animation: wobble 2.6s ease-in-out infinite;
+.art[data-mood="oops"] .head {
+  animation: wobble 3.2s ease-in-out infinite;
 }
 
 .sweat {
@@ -269,6 +363,7 @@
     opacity: 0;
     transform: translateY(14px) scale(0.92);
   }
+
 }
 
 @keyframes bubble-pop {
@@ -276,6 +371,7 @@
     opacity: 0;
     transform: scale(0.85) translateX(-6px);
   }
+
 }
 
 @keyframes idle-bob {
@@ -286,6 +382,7 @@
   50% {
     transform: translateY(-3px);
   }
+
 }
 
 @keyframes shadow-breathe {
@@ -296,22 +393,7 @@
   50% {
     transform: scaleX(0.88);
   }
-}
 
-@keyframes flicker {
-  0%,
-  100% {
-    transform: scale(1, 1) rotate(0);
-  }
-  25% {
-    transform: scale(0.94, 1.08) rotate(-3deg);
-  }
-  50% {
-    transform: scale(1.04, 0.95) rotate(2deg);
-  }
-  75% {
-    transform: scale(0.97, 1.05) rotate(-1deg);
-  }
 }
 
 @keyframes blink {
@@ -323,6 +405,7 @@
   95% {
     transform: scaleY(0.1);
   }
+
 }
 
 @keyframes wave {
@@ -340,6 +423,7 @@
   90% {
     transform: rotate(-12deg);
   }
+
 }
 
 @keyframes thought-rise {
@@ -352,6 +436,7 @@
     opacity: 1;
     transform: translateY(-3px);
   }
+
 }
 
 @keyframes jump {
@@ -363,11 +448,12 @@
     transform: translateY(0) scale(1.06, 0.92);
   }
   40% {
-    transform: translateY(-12px) scale(0.96, 1.05);
+    transform: translateY(-7px) scale(0.98, 1.03);
   }
   65% {
     transform: translateY(0) scale(1.04, 0.95);
   }
+
 }
 
 @keyframes twinkle {
@@ -380,6 +466,7 @@
     opacity: 1;
     transform: scale(1);
   }
+
 }
 
 @keyframes tilt {
@@ -391,6 +478,7 @@
   60% {
     transform: rotate(-8deg);
   }
+
 }
 
 @keyframes float {
@@ -401,6 +489,7 @@
   50% {
     transform: translateY(-4px);
   }
+
 }
 
 @keyframes wobble {
@@ -417,6 +506,7 @@
   60% {
     transform: rotate(-2deg);
   }
+
 }
 
 @keyframes drip {
@@ -431,4 +521,5 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
 }

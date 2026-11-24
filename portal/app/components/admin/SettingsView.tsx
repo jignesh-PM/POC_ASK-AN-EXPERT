@@ -37,7 +37,7 @@ export function SettingsView() {
           />
           <Switch
             label={`Show portal guide (${mascotConfig.name})`}
-            description="The mascot on the home page, empty states and Morgan AI answers."
+            description="The mascot on the home page, empty states and Morgan AI answers. Off by default."
             checked={settings.mascotEnabled}
             onChange={(event) => update({ mascotEnabled: event.target.checked }, `Portal guide ${event.target.checked ? "shown" : "hidden"}`)}
           />

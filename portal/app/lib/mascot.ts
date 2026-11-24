@@ -7,7 +7,10 @@
 export type MascotMood = "idle" | "wave" | "think" | "happy" | "curious" | "oops";
 
 export const mascotConfig = {
-  /** Master switch for the whole portal. */
+  /**
+   * Code-level kill switch. Day to day, admins show or hide the guide in
+   * Admin › Settings › Show portal guide (off by default).
+   */
   enabled: true,
   name: "Ember",
   /** Short description used in accessible labels. */
